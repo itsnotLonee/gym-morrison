@@ -3,39 +3,88 @@
 {% block title %}Gym-Morrison · Register{% endblock %}
 
 {% block body %}
-
-    {% for message in app.flashes('exito') %}
-        <div class="alert alert-success">
-            {{ message }}
-        </div>
-    {% endfor %}
     <div class="container">
         <div class="card shadow-lg border-0 mx-auto mt-5 mb-5 p-5" style="width: 25rem">
             <div class="text-center">
-                <form class="form-signin">
-                    <h1 class="mt-4">Sign up</h1>
-                    {{ form_start(formulario) }}
-                    <div class="m-1 mt-5">
-                        <h5>Login info</h5>
-                        {{ form_errors(formulario.email) }}
-                        {{ form_label(formulario.email, 'Your email') }}
-                        {{ form_widget(formulario.email, {'attr': {'class': 'border-top-0 border-right-0 border-left-0 rounded-0'}}) }}
-                        {{ form_help(formulario.email) }}
-                        <p class="text-muted text-left" style="font-size: small">This will be the email to login</p>
+                <h1 class="mt-4">Sign up <i class="fas fa-user-plus"></i></h1>
+                <p class="mt-3">I already have an account! <a href="{{ path('app_login') }}">Log in</a></p>
+                {% for message in app.flashes('exito') %}
+                    <div class="alert alert-success">
+                        {{ message }}
                     </div>
+                {% endfor %}
+                {{ form_start(formulario) }}
 
+                <div class="m-1 mt-3">
+                    <h5 class="mb-2 text-secondary">Login info</h5>
+                    {{ form_errors(formulario.email) }}
+                    <i class="fas fa-envelope"></i> {{ form_label(formulario.email, 'Your email') }}
+                    {{ form_widget(formulario.email, {'attr': {'class': 'border-top-0 border-right-0 border-left-0 rounded-0'}}) }}
+                    {{ form_help(formulario.email) }}
+                    <p class="text-muted text-left" style="font-size: small">This will be the email to login</p>
 
                     {{ form_errors(formulario.password) }}
+                    <i class="fas fa-key"></i>
                     {{ form_widget(formulario.password, {'attr': {'class': 'border-top-0 border-right-0 border-left-0 rounded-0', 'placeholder': 'Password...', 'style': 'transition: 1s;'}}) }}
                     {{ form_help(formulario.password) }}
-                    {{ form_end(formulario) }}
-                    <p class="mt-5 mb-3 text-muted">&copy; 2017-2019</p>
-                </form>
+                    <input type="password" id="user_password2" class="form-control border-top-0 border-right-0 border-left-0 rounded-0 mt-1" placeholder="Confirm password..." required>
+                    <p class="border text-danger p-3 text-left mt-3" id="user_password2_error" style="font-size: small; display: none">
+                        <label><i class="fas fa-times" id="confirm_pass"></i> Passwords should match</label> <br>
+                        <label><i class="fas fa-times" id="length_pass"></i> 8-18 length</label> <br>
+                        <label><i class="fas fa-times" id="upper_pass"></i> One upper case at least</label> <br>
+                        <label><i class="fas fa-times" id="lower_pass"></i> One lower Case at least</label> <br>
+                        <label><i class="fas fa-times" id="number_pass"></i> One number at least</label> <br>
+                    </p>
+
+
+                </div>
+
+                <div class="m-1 mt-5">
+                    <h5 class="mb-2 text-secondary">Personal info</h5>
+                    {{ form_errors(formulario.dni) }}
+                    <i class="fas fa-id-card"></i> {{ form_label(formulario.dni, 'DNI') }}
+                    {{ form_widget(formulario.dni, {'attr': {'class': 'border-top-0 border-right-0 border-left-0 rounded-0 mb-5', 'placeholder': '12345678X', 'pattern': '[0-9]{8}[A-Za-z]{1}'}}) }}
+                    {{ form_help(formulario.dni) }}
+
+                    {{ form_errors(formulario.name) }}
+                    <i class="fas fa-user"></i> {{ form_label(formulario.name, 'Name') }}
+                    {{ form_widget(formulario.name, {'attr': {'class': 'border-top-0 border-right-0 border-left-0 rounded-0 mb-2', 'placeholder': 'Travis', 'pattern': '[A-Za-z\s-]{1,32}'}}) }}
+                    {{ form_help(formulario.name) }}
+
+                    {{ form_errors(formulario.surname) }}
+                    <i class="fas fa-user"></i> {{ form_label(formulario.surname, 'Surname') }}
+                    {{ form_widget(formulario.surname, {'attr': {'class': 'border-top-0 border-right-0 border-left-0 rounded-0 mb-5', 'placeholder': 'Scott', 'pattern': '[A-Za-z\s-]{1,32}'}}) }}
+                    {{ form_help(formulario.surname) }}
+
+                    {{ form_errors(formulario.birthdate) }}
+                    <i class="fas fa-birthday-cake"></i> <label>Birthdate</label>
+                    {{ form_widget(formulario.birthdate, {'attr': {'class': 'justify-content-center mb-5'}}) }}
+                    {{ form_help(formulario.birthdate) }}
+
+                    {{ form_errors(formulario.sex) }}
+                    <i class="fas fa-genderless"></i> <label>Sex</label>
+                    {{ form_widget(formulario.sex, {'attr': {'class': 'text-left mb-5'}}) }}
+                    {{ form_help(formulario.sex) }}
+
+                    {{ form_errors(formulario.address) }}
+                    <i class="fas fa-map-marker-alt"></i> {{ form_label(formulario.address, 'Address') }}
+                    {{ form_widget(formulario.address, {'attr': {'class': 'border-top-0 border-right-0 border-left-0 rounded-0 mb-2', 'placeholder': 'The Bronx, 5, 4C', 'pattern': '[A-Za-z\s,-]{1,32}'}}) }}
+                    {{ form_help(formulario.address) }}
+
+                    {{ form_errors(formulario.phone) }}
+                    <i class="fas fa-mobile-alt"></i> {{ form_label(formulario.phone, 'Phone') }}
+                    {{ form_widget(formulario.phone, {'attr': {'class': 'border-top-0 border-right-0 border-left-0 rounded-0 mb-5', 'placeholder': '012345678', 'pattern': '[0-9]{1,14}'}}) }}
+                    {{ form_help(formulario.phone) }}
+
+                </div>
+
+
+
+                {{ form_end(formulario) }}
+                <p class="mt-5 mb-3 text-muted">&copy; Gym-Morrison 2020</p>
             </div>
         </div>
     </div>
-    <!--
--->
 {% endblock %}
 
 {% block javascripts %}

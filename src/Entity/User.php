@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface
 {
 
-    const REGISTRO_EXITOSO= 'Se ha registrado con exito';
+    const REGISTRO_EXITOSO= 'User registered with success!';
 
     /**
      * @ORM\Id()
@@ -54,11 +54,6 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $birthdate;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     private $sex;
 
     /**
@@ -85,6 +80,11 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\UsersPayment", mappedBy="user")
      */
     private $payment;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $birthdate;
 
 
     public function getId(): ?int
@@ -195,16 +195,6 @@ class User implements UserInterface
         $this->surname = $surname;
     }
 
-    public function getBirthdate(): ?string
-    {
-        return $this->birthdate;
-    }
-
-    public function setBirthdate($birthdate): void
-    {
-        $this->birthdate = $birthdate;
-    }
-
     public function getSex(): ?string
     {
         return $this->sex;
@@ -233,6 +223,18 @@ class User implements UserInterface
     public function setPhone($phone): void
     {
         $this->phone = $phone;
+    }
+
+    public function getBirthdate(): ?\DateTimeInterface
+    {
+        return $this->birthdate;
+    }
+
+    public function setBirthdate(\DateTimeInterface $birthdate): self
+    {
+        $this->birthdate = $birthdate;
+
+        return $this;
     }
 
 }
