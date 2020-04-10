@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class RegistroController extends AbstractController
 {
     /**
-     * @Route("/registro", name="registro")
+     * @Route("/register", name="register")
      */
     public function index(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
@@ -29,10 +29,9 @@ class RegistroController extends AbstractController
             $em->persist($user);
             $em->flush();
             $this->addFlash('exito', User::REGISTRO_EXITOSO);
-            return $this->redirectToRoute('registro');
+            return $this->redirectToRoute('register');
         }
-        return $this->render('registro/index.html.twig', [
-            'controller_name' => 'RegistroController',
+        return $this->render('registro/index2.html.twig', [
             'formulario' => $form->createView()
         ]);
     }

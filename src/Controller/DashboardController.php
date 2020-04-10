@@ -15,19 +15,25 @@ class DashboardController extends AbstractController
      */
     public function index(PaginatorInterface $paginator, Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $query = $em->getRepository(Activities::class)->findAll();
-        // $query = $em->getRepository(Activities::class)->BuscarTodasActividades();
-        // $user = $this->getUser();
-        // $activity = $em->getRepository(Activities::class)->findBy(['user'=>$user]);
-        $pagination = $paginator->paginate(
-            $query, /* query NOT result */
-            $request->query->getInt('page', 1), /*page number*/
-            2 /*limit per page*/
-        );
-        return $this->render('dashboard/index.html.twig', [
-            'pagination' => $pagination
-        ]);
+        $user = $this->getUser();
+        if ($user){
+            $em = $this->getDoctrine()->getManager();
+            //$query = $em->getRepository(Activities::class)->findAll();
+            $query = $em->getRepository(Activities::class)->BuscarTodasActividades();
+
+            // $activity = $em->getRepository(Activities::class)->findBy(['user'=>$user]);
+            $pagination = $paginator->paginate(
+                $query, /* query NOT result */
+                $request->query->getInt('page', 1), /*page number*/
+                10 /*limit per page*/
+            );
+            return $this->render('dashboard/index.html.twig', [
+                'pagination' => $pagination
+            ]);
+        }else{
+            return $this->redirectToRoute('app_login');
+        }
+
     }
 
 

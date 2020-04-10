@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ActivitiesController!{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+    {{ dump(activity) }}
+
+    Has sido apuntado Correctamente a la actividad: {{ activity.title }}
+
+    <a href="{{ path('dashboard') }}">Volver al dashboard</a>
+
+{% endblock %}

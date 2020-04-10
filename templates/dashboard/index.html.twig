@@ -3,33 +3,26 @@
 {% block title %}Hello DashboardController!{% endblock %}
 
 {% block body %}
-    {# total items count #}
-    <div class="count">
-        {{ pagination.getTotalItemCount }}
+    {{ parent() }}
+    <h1 class="m-3">Dashboard</h1>
+    <div class="container">
+        <div class="row">
+            {% for article in pagination %}
+                <div class="card m-3 shadow" style="width: 20rem;">
+                    <img src="" class="card-img-top" alt="Photo">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ article.title }}</h5>
+                        <p class="card-text">{{ article.content }}</p>
+                        <p class="card-text">{{ article.start_time | date }}</p>
+                        <a href="/join-activity/{{ article.id }}" class="btn btn-primary">Apuntarme</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
-    <table>
-        <tr>
-            {# sorting of properties based on query components #}
-            <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
-            <th{% if pagination.isSorted('a.Title') %} class="sorted"{% endif %}>
-                {{ knp_pagination_sortable(pagination, 'Title', 'a.title') }}
-            </th>
-            <th{% if pagination.isSorted('a.Title') %} class="sorted"{% endif %}>
-                {{ knp_pagination_sortable(pagination, 'Content', 'a.content') }}
-            </th>
-        </tr>
 
-        {# table body #}
-        {% for article in pagination %}
-            <tr {% if loop.index is odd %}class="color"{% endif %}>
-                <td>{{ article.id }}</td>
-                <td>{{ article.title }}</td>
-                <td>{{ article.content }}</td>
-            </tr>
-        {% endfor %}
-    </table>
     {# display navigation #}
-    <div class="navigation">
+    <div class="navigation mx-auto mt-4" style="width: 200px;">
         {{ knp_pagination_render(pagination) }}
     </div>
 {% endblock %}

@@ -1,12 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello RegistroController!{% endblock %}
+{% block title %}Gym-Morrison · Register{% endblock %}
 
 {% block body %}
+
     {% for message in app.flashes('exito') %}
         <div class="alert alert-success">
             {{ message }}
         </div>
     {% endfor %}
-    {{ form(formulario) }}
+    <div class="container">
+        <div class="card shadow-lg border-0 mx-auto mt-5 mb-5 p-5" style="width: 25rem">
+            <div class="text-center">
+                <form class="form-signin">
+                    <h1 class="mt-4">Sign up</h1>
+                    {{ form_start(formulario) }}
+                    <div class="m-1 mt-5">
+                        <h5>Login info</h5>
+                        {{ form_errors(formulario.email) }}
+                        {{ form_label(formulario.email, 'Your email') }}
+                        {{ form_widget(formulario.email, {'attr': {'class': 'border-top-0 border-right-0 border-left-0 rounded-0'}}) }}
+                        {{ form_help(formulario.email) }}
+                        <p class="text-muted text-left" style="font-size: small">This will be the email to login</p>
+                    </div>
+
+
+                    {{ form_errors(formulario.password) }}
+                    {{ form_widget(formulario.password, {'attr': {'class': 'border-top-0 border-right-0 border-left-0 rounded-0', 'placeholder': 'Password...', 'style': 'transition: 1s;'}}) }}
+                    {{ form_help(formulario.password) }}
+                    {{ form_end(formulario) }}
+                    <p class="mt-5 mb-3 text-muted">&copy; 2017-2019</p>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--
+-->
+{% endblock %}
+
+{% block javascripts %}
+    <script src="js/forms.js"></script>
 {% endblock %}

@@ -22,8 +22,9 @@ class ActivitiesRepository extends ServiceEntityRepository
     public function BuscarTodasActividades(){
         return $this->getEntityManager()
             ->createQuery('
-                SELECT activities.title, activities.content
+                SELECT activities.id, activities.title, activities.content, activities.start_time, activities.end_time, activities.start_date, activities.end_date, user.email
                 From App:Activities activities
+                JOIN activities.user user
             ');
     }
 
