@@ -18,7 +18,7 @@
                         {% if app.user.roles[0] == 'ROLE_USER' %}
                             <a type="button" id="join-button-{{ article.id }}" class="btn btn-primary text-white" onclick="joinActivity({{ article.id }})">Join Activity</a>
                         {% endif %}
-                        <a type="button" id="joined-button-{{ article.id }}" class="btn btn-success text-white">Joined Activity</a>
+                        
                         <a type="button" id="more-info-button-{{ article.id }}" class="btn btn-outline-info" href="/activity/{{ article.id }}">More info</a>
                     </div>
                     <div class="text-light bg-info p-2">
