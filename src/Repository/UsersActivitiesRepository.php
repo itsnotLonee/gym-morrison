@@ -19,6 +19,15 @@ class UsersActivitiesRepository extends ServiceEntityRepository
         parent::__construct($registry, UsersActivities::class);
     }
 
+    public function BuscarApuntados() {
+        return $this->getEntityManager()
+            ->createQuery('
+                SELECT user_id, activity_id 
+                FROM users_activities 
+                WHERE user_id=5 && activity_id=1
+                ');
+    }
+
     // /**
     //  * @return UsersActivities[] Returns an array of UsersActivities objects
     //  */

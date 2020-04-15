@@ -16,6 +16,9 @@ class RegistroController extends AbstractController
      */
     public function index(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('dashboard');
+        }
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);

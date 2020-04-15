@@ -4,6 +4,37 @@
 
 {% block body %}
     {{ parent() }}
-    {{ dump(activities) }}
-
+    <div class="container rounded-bottom p-3">
+        <div class="row">
+            <div class="col">
+                <h1 class="mt-2">Activities created by you</h1>
+            </div>
+            <div class="col">
+                <div class="float-right mt-4">
+                    <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="list-group m-4 shadow rounded-lg" id="list_group">
+        {% for activity in activities %}
+            <button type="button" class="list-group-item list-group-item-action">
+                <div class="text-light float-right text-right bg-info rounded p-2">
+                    <div class="text-light text-left"><i class="fas fa-calendar-alt"></i> Timetable <br></div>
+                    {% if activity.startdate == activity.enddate %}
+                        On <b>{{ activity.startdate | date('F j, Y') }}</b> <br>
+                    {% else %}
+                        From <b>{{ activity.startdate | date('F j, Y') }} </b>To <b>{{ activity.enddate | date('F j, Y') }}</b> <br>
+                    {% endif %}
+                    <b>{{ activity.starttime | date('H:i')}}</b> - <b>{{ activity.endtime | date('H:i')}}</b>
+                </div>
+                <h5>{{ activity.title }}</h5>
+                <p>{{ activity.content }}</p>
+                <a type="button" class="btn btn-outline-info" href="/activity/{{ activity.id }}">More info</a>
+            </button>
+        {% endfor %}
+    </div>
 {% endblock %}

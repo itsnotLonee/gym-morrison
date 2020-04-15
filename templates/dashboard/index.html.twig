@@ -1,28 +1,55 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello DashboardController!{% endblock %}
+{% block title %}Gym-Morrison · Dashboard{% endblock %}
 
 {% block body %}
     {{ parent() }}
     <h1 class="m-3">Dashboard</h1>
     <div class="container">
+        <h5 class="mt-4">Activities</h5>
         <div class="row">
-            {% for article in pagination %}
-                <div class="card m-3 shadow" style="width: 18rem;">
-                    <img src="" class="card-img-top" alt="Photo">
+
+            {% for article in pag1 %}
+                {% if date(article.start_date | date("jmY")) <= date(date() | date("jmY")) %}
+                <div class="card m-3" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">{{ article.title }}</h5>
                         <p class="card-text">{{ article.content }}</p>
-                        <p class="card-text">{{ article.start_time | date }}</p>
-                        <a href="/join-activity/{{ article.id }}" class="btn btn-primary">Apuntarme</a>
+                        {% if app.user.roles[0] == 'ROLE_USER' %}
+                            <a type="button" id="join-button-{{ article.id }}" class="btn btn-primary text-white" onclick="joinActivity({{ article.id }})">Join Activity</a>
+                        {% endif %}
+                        <a type="button" id="joined-button-{{ article.id }}" class="btn btn-success text-white">Joined Activity</a>
+                        <a type="button" id="more-info-button-{{ article.id }}" class="btn btn-outline-info" href="/activity/{{ article.id }}">More info</a>
+                    </div>
+                    <div class="text-light bg-info p-2">
+                        <div class="text-light"><i class="fas fa-calendar-alt"></i> Timetable <br></div>
+                        <b> {{ article.start_time | date('H:i') }} - {{ article.end_time | date('H:i') }}</b> <br>
+                        {% if article.start_date == article.end_date %}
+                            <b>{{ article.start_date | date('d/m/Y') }}</b>
+                        {% else %}
+                            From <b>{{ article.start_date | date('d/m/Y') }} </b>To <b>{{ article.end_date | date('d/m/Y') }}</b>
+                        {% endif %}
+                    </div>
+                    <div class="card-footer text-muted">Teacher <br>
+                        <b>{{ article.name }} {{ article.surname }}</b>
                     </div>
                 </div>
+                    <script>
+                        document.getElementById('joined-button-'+{{ article.id }}).onload = () => {joinedToActivity({{ article.id }})}
+                    </script>
+                {% endif %}
             {% endfor %}
         </div>
+        {# display navigation #}
+        <div class="navigation mx-auto mt-4" style="width: 200px;">
+            {{ knp_pagination_render(pag1) }}
+        </div>
     </div>
-
-    {# display navigation #}
-    <div class="navigation mx-auto mt-4" style="width: 200px;">
-        {{ knp_pagination_render(pagination) }}
-    </div>
+    <script src="/js/ajax.js"></script>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+    <script src="{{ asset('js/ajax.js') }}"></script>
 {% endblock %}

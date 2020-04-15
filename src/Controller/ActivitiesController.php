@@ -6,6 +6,7 @@ use App\Entity\Activities;
 use App\Entity\UsersActivities;
 use App\Form\ActivitiesType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -38,7 +39,7 @@ class ActivitiesController extends AbstractController
     public function VerActividad($id){
         $em = $this->getDoctrine()->getManager();
         $activity = $em->getRepository( Activities::class)->find($id);
-        return $this->render('activities/verActividad.html.twig', ['activity' => $activity]);
+        return $this->render('activities/showActivity.html.twig', ['activity' => $activity]);
     }
 
     /**
@@ -52,26 +53,53 @@ class ActivitiesController extends AbstractController
     }
 
     /**
-     * @Route("/join-activity/{id}", name="join-activity")
+     * @Route("/join", options={"expose"=true}, name="join")
      */
-    public function Apuntarse($id){
-        // you can fetch the EntityManager via $this->getDoctrine()
-        // or you can add an argument to the action: createProduct(EntityManagerInterface $entityManager)
-        $em = $this->getDoctrine()->getManager();
+    public function Join(Request $request){
+        if ($request->isXmlHttpRequest()){
+            $em = $this->getDoctrine()->getManager();
+            $user = $this->getUser();
+            $id = $request->request->get('id');
 
-        $user = $this->getUser();
-        $activity = $em->getRepository( Activities::class)->find($id);
-        $u_activity = new UsersActivities();
-        $u_activity->setUser($user);
-        $u_activity->setActivity($activity);
+            $query = $em->getRepository(UsersActivities::class)->findBy(['user'=>$user]);
+            $query2 = $em->getRepository(UsersActivities::class)->findBy(['activity'=>$id]);
 
-        // tell Doctrine you want to (eventually) save the Product (no queries yet)
-        $em->persist($u_activity);
+            $activity = $em->getRepository( Activities::class)->find($id);
+            $u_activity = new UsersActivities();
+            if ($query == null || $query2 == null) {
 
-        // actually executes the queries (i.e. the INSERT query)
-        $em->flush();
+                $u_activity->setUser($user);
+                $u_activity->setActivity($activity);
 
-        return $this->render('activities/JoinedActivity.html.twig', ['activity' => $activity]);
+                // tell Doctrine you want to (eventually) save the Product (no queries yet)
+                $em->persist($u_activity);
+
+                // actually executes the queries (i.e. the INSERT query)
+                $em->flush();
+            }
+            return new JsonResponse(['test'=>$activity]);
+        } else {
+            throw new \Exception('Not allowed');
+        }
+    }
+
+    /**
+     * @Route("/joined", options={"expose"=true}, name="joined")
+     */
+    public function Joined(Request $request){
+        if ($request->isXmlHttpRequest()){
+            $em = $this->getDoctrine()->getManager();
+            $user = $this->getUser();
+            $id = $request->request->get('id');
+
+            $query = $em->getRepository(UsersActivities::class)->findBy(['user'=>$user]);
+            $query2 = $em->getRepository(UsersActivities::class)->findBy(['activity'=>$id]);
+
+            $activity = $em->getRepository( Activities::class)->find($id);
+            return new JsonResponse(['user'=>$query, 'activity' => $query2]);
+        } else {
+            throw new \Exception('Not allowed');
+        }
     }
 
 }

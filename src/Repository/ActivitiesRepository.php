@@ -20,11 +20,13 @@ class ActivitiesRepository extends ServiceEntityRepository
     }
 
     public function BuscarTodasActividades(){
+        // Esto nos da las actividades que vienen, no las antiguas que se han pasado de fecha
         return $this->getEntityManager()
             ->createQuery('
-                SELECT activities.id, activities.title, activities.content, activities.start_time, activities.end_time, activities.start_date, activities.end_date, user.email
+                SELECT activities.id, activities.title, activities.content, activities.start_time, activities.end_time, activities.start_date, activities.end_date, user.name, user.surname
                 From App:Activities activities
                 JOIN activities.user user
+                WHERE activities.start_date>=\'2020-04-15\'
             ');
     }
 

@@ -7,6 +7,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Twig\Extra\Intl\IntlExtension;
 
 class DashboardController extends AbstractController
 {
@@ -20,21 +21,22 @@ class DashboardController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             //$query = $em->getRepository(Activities::class)->findAll();
             $query = $em->getRepository(Activities::class)->BuscarTodasActividades();
-
             // $activity = $em->getRepository(Activities::class)->findBy(['user'=>$user]);
-            $pagination = $paginator->paginate(
+            $pag1 = $paginator->paginate(
                 $query, /* query NOT result */
                 $request->query->getInt('page', 1), /*page number*/
-                10 /*limit per page*/
+                6 /*limit per page*/
             );
             return $this->render('dashboard/index.html.twig', [
-                'pagination' => $pagination
+                'pag1' => $pag1,
+                'test' => $query
             ]);
         }else{
             return $this->redirectToRoute('app_login');
         }
 
     }
+
 
 
 }
