@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class ActivitiesController extends AbstractController
 {
@@ -23,6 +24,8 @@ class ActivitiesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()){
             $user = $this->getUser();
             $activity->setUser($user);
+            $datetime = new \DateTime();
+            $activity->setDateCreated($datetime);
             $em = $this->getDoctrine()->getManager();
             $em->persist($activity);
             $em->flush();
@@ -39,6 +42,7 @@ class ActivitiesController extends AbstractController
     public function VerActividad($id){
         $em = $this->getDoctrine()->getManager();
         $activity = $em->getRepository( Activities::class)->find($id);
+        //return new JsonResponse($activity);
         return $this->render('activities/showActivity.html.twig', ['activity' => $activity]);
     }
 

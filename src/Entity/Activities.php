@@ -57,6 +57,11 @@ class Activities
     private $activity;
 
     /**
+     * @ORM\Column(type="datetime")
+     */
+    private $date_created;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -198,6 +203,18 @@ class Activities
     public function setActivity($activity): void
     {
         $this->activity = $activity;
+    }
+
+    public function getDateCreated(): ?\DateTimeInterface
+    {
+        return $this->date_created;
+    }
+
+    public function setDateCreated(\DateTimeInterface $date_created): self
+    {
+        $this->date_created = $date_created;
+
+        return $this;
     }
 
 

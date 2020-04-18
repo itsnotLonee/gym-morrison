@@ -22,22 +22,19 @@ class DashboardController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             //$query = $em->getRepository(Activities::class)->findAll();
             $query = $em->getRepository(Activities::class)->BuscarTodasActividades();
-            $joined = $em->getRepository(UsersActivities::class)->findBy(['user'=>$user]);
-            $pag1 = $paginator->paginate(
+            $pag = $paginator->paginate(
                 $query, /* query NOT result */
                 $request->query->getInt('page', 1), /*page number*/
-                6 /*limit per page*/
+                8 /*limit per page*/
             );
             if ($user->getRoles()[0] == 'ROLE_STAFF') {
                 return $this->render('dashboard/admin.html.twig', [
-                    'pag1' => $pag1,
-                    'joined' => $joined,
+                    'pag' => $pag,
                     'usuario' => $user->getRoles()[0]
                 ]);
             } else {
                 return $this->render('dashboard/index.html.twig', [
-                    'pag1' => $pag1,
-                    'joined' => $joined,
+                    'pag' => $pag,
                     'usuario' => $user->getRoles()[0]
                 ]);
             }
