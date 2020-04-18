@@ -77,7 +77,29 @@ class ActivitiesController extends AbstractController
                 // actually executes the queries (i.e. the INSERT query)
                 $em->flush();
             }
-            return new JsonResponse(['test'=>$activity]);
+            return new JsonResponse(['user'=>$query, 'activity' => $query2]);
+        } else {
+            throw new \Exception('Not allowed');
+        }
+    }
+
+    /**
+     * @Route("/removeActivity", options={"expose"=true}, name="removeActivity")
+     */
+    public function RemoveActivity(Request $request){
+        if ($request->isXmlHttpRequest()){
+            $em = $this->getDoctrine()->getManager();
+            $user = $this->getUser();
+            $id = $request->request->get('id');
+
+            $activity = $em->getRepository(Activities::class)->findBy(['id'=>$id]);
+
+            $em -> remove($activity);
+            $em -> flush();
+            return new JsonResponse(
+                null,
+                JsonResponse::HTTP_NO_CONTENT
+            );
         } else {
             throw new \Exception('Not allowed');
         }

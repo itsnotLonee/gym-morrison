@@ -19,12 +19,17 @@ class UsersActivitiesRepository extends ServiceEntityRepository
         parent::__construct($registry, UsersActivities::class);
     }
 
-    public function BuscarApuntados() {
+    public function BorrarApuntados() {
         return $this->getEntityManager()
             ->createQuery('
-                SELECT user_id, activity_id 
-                FROM users_activities 
-                WHERE user_id=5 && activity_id=1
+                DELETE FROM App:UsersActivities users_activities WHERE users_activities.id=56
+                ');
+    }
+
+    public function Apuntado($user, $id) {
+        return $this->getEntityManager()
+            ->createQuery('
+                SELECT * FROM App:UsersActivities `users_activities` WHERE `activity_id`=7 && `user_id`=21
                 ');
     }
 

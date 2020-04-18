@@ -26,7 +26,7 @@ class ActivitiesRepository extends ServiceEntityRepository
                 SELECT activities.id, activities.title, activities.content, activities.start_time, activities.end_time, activities.start_date, activities.end_date, user.name, user.surname
                 From App:Activities activities
                 JOIN activities.user user
-                WHERE activities.start_date>=\'2020-04-15\'
+                WHERE activities.start_date>=CURRENT_DATE()
             ');
     }
 

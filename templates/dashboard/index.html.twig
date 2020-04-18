@@ -4,11 +4,10 @@
 
 {% block body %}
     {{ parent() }}
-    <h1 class="m-3">Dashboard</h1>
     <div class="container">
+        <h1 class="m-3">Dashboard</h1>
         <h5 class="mt-4">Activities</h5>
-        <div class="row">
-
+        <div class="row" id="cards">
             {% for article in pag1 %}
                 {% if date(article.start_date | date("jmY")) <= date(date() | date("jmY")) %}
                 <div class="card m-3" style="width: 18rem;">
@@ -16,9 +15,8 @@
                         <h5 class="card-title">{{ article.title }}</h5>
                         <p class="card-text">{{ article.content }}</p>
                         {% if app.user.roles[0] == 'ROLE_USER' %}
-                            <a type="button" id="join-button-{{ article.id }}" class="btn btn-primary text-white" onclick="joinActivity({{ article.id }})">Join Activity</a>
+                                <a type="button" id="join-button-{{ article.id }}" class="btn btn-primary text-white" onclick="check({{ article.id }})">Join Activity</a>
                         {% endif %}
-                        
                         <a type="button" id="more-info-button-{{ article.id }}" class="btn btn-outline-info" href="/activity/{{ article.id }}">More info</a>
                     </div>
                     <div class="text-light bg-info p-2">
@@ -34,9 +32,6 @@
                         <b>{{ article.name }} {{ article.surname }}</b>
                     </div>
                 </div>
-                    <script>
-                        document.getElementById('joined-button-'+{{ article.id }}).onload = () => {joinedToActivity({{ article.id }})}
-                    </script>
                 {% endif %}
             {% endfor %}
         </div>
@@ -51,5 +46,5 @@
     {{ parent() }}
     <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
-    <script src="{{ asset('js/ajax.js') }}"></script>
+    <script src="{{ asset('js-sb/ajax.js') }}"></script>
 {% endblock %}
