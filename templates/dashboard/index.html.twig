@@ -8,7 +8,7 @@
         <h1 class="m-3">Dashboard</h1>
         <h5 class="mt-4">Activities</h5>
         <div class="row" id="cards">
-            {% for article in pag1 %}
+            {% for article in pag %}
                 {% if date(article.start_date | date("jmY")) <= date(date() | date("jmY")) %}
                 <div class="card m-3" style="width: 18rem;">
                     <div class="card-body">
@@ -37,7 +37,7 @@
         </div>
         {# display navigation #}
         <div class="navigation mx-auto mt-4" style="width: 200px;">
-            {{ knp_pagination_render(pag1) }}
+            {{ knp_pagination_render(pag) }}
         </div>
     </div>
     <script src="/js/ajax.js"></script>

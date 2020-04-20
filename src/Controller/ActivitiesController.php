@@ -42,7 +42,7 @@ class ActivitiesController extends AbstractController
     public function VerActividad($id){
         $em = $this->getDoctrine()->getManager();
         $activity = $em->getRepository( Activities::class)->find($id);
-        //return new JsonResponse($activity);
+        // return new JsonResponse($activity);
         return $this->render('activities/showActivity.html.twig', ['activity' => $activity]);
     }
 
