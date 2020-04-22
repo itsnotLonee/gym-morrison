@@ -30,6 +30,12 @@ class ActivitiesRepository extends ServiceEntityRepository
             ');
     }
 
+    public function removeActivity(Activities $activity) {
+        //$this->getRepository( Activities::class)->remove($activity);
+        $this->getEntityManager()->remove($activity);
+        $this->getEntityManager()->flush();
+    }
+
     // /**
     //  * @return Activities[] Returns an array of Activities objects
     //  */

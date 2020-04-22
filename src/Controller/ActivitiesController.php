@@ -3,11 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Activities;
+use App\Entity\User;
 use App\Entity\UsersActivities;
 use App\Form\ActivitiesType;
+use App\Repository\ActivitiesRepository;
+use App\Repository\UsersActivitiesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\DateTime;
 
@@ -36,15 +40,35 @@ class ActivitiesController extends AbstractController
         ]);
     }
 
+//    /**
+//     * @Route("/activity/{id}", name="ActivityId")
+//     */
+//    public function VerActividad($id){
+//        $em = $this->getDoctrine()->getManager();
+//        $activity = $em->getRepository( Activities::class)->find($id);
+//        // return new JsonResponse($activity);
+//        return $this->render('activities/showActivity.html.twig', ['activity' => $activity]);
+//    }
+
     /**
-     * @Route("/activity/{id}", name="ActivityId")
+     * @Route("/activity/{id}", name="ActivityId", methods={"GET"})
      */
-    public function VerActividad($id){
+    public function getActivity($id): JsonResponse
+    {
         $em = $this->getDoctrine()->getManager();
-        $activity = $em->getRepository( Activities::class)->find($id);
-        // return new JsonResponse($activity);
-        return $this->render('activities/showActivity.html.twig', ['activity' => $activity]);
+        $activity = $em->getRepository( Activities::class)->findOneBy(['id' => $id]);
+
+        $data = [
+            'id'=> $activity->getId(),
+            'name' => $activity->getTitle(),
+            'type' => $activity->getContent(),
+        ];
+
+        return new JsonResponse($data, Response::HTTP_OK);
+
     }
+
+
 
     /**
      * @Route("/my-activities", name="MyActivities")
@@ -87,26 +111,40 @@ class ActivitiesController extends AbstractController
         }
     }
 
+//    /**
+//     * @Route("/removeActivity", options={"expose"=true}, name="removeActivity")
+//     */
+//    public function RemoveActivity(Request $request){
+//        if ($request->isXmlHttpRequest()){
+//            $em = $this->getDoctrine()->getManager();
+//            $user = $this->getUser();
+//            $id = $request->request->get('id');
+//
+//            $activity = $em->getRepository(Activities::class)->find(intval($id));
+//            $u_act = $em->getRepository(UsersActivitiesRepository::class)->Apuntado($user);
+//
+//
+//            //$table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade')
+//            //$em -> remove($u_act);
+//            //$em -> flush();
+//            return new JsonResponse(['user'=>$activity, 'u_act' => $u_act]);
+//        } else {
+//            throw new \Exception('Not allowed');
+//        }
+//    }
+
     /**
-     * @Route("/removeActivity", options={"expose"=true}, name="removeActivity")
+     * @Route("/activity/{id}", name="deleteActivity", methods={"DELETE"})
      */
-    public function RemoveActivity(Request $request){
-        if ($request->isXmlHttpRequest()){
-            $em = $this->getDoctrine()->getManager();
-            $user = $this->getUser();
-            $id = $request->request->get('id');
+    public function deleteActivity($id): JsonResponse
+    {
+        $em = $this->getDoctrine()->getManager();
+        $activity = $em->getRepository( Activities::class)->findOneBy(['id' => $id]);
 
-            $activity = $em->getRepository(Activities::class)->findBy(['id'=>$id]);
+        $em->getRepository( Activities::class)->removeActivity($activity);
 
-            $em -> remove($activity);
-            $em -> flush();
-            return new JsonResponse(
-                null,
-                JsonResponse::HTTP_NO_CONTENT
-            );
-        } else {
-            throw new \Exception('Not allowed');
-        }
+        return new JsonResponse(['status' => 'Activity deleted'], Response::HTTP_OK);
+
     }
 
     /**

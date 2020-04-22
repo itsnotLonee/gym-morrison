@@ -4,8 +4,6 @@
 
 {% block body %}
     {{ parent() }}
-    {{ dump(activity) }}
-    {{ dump(app.user.id) }}
     <div class="card m-4">
         <h5 class="card-header">{{ activity.title }}</h5>
         <div class="card-body">
@@ -13,10 +11,34 @@
             <p>
                 <label>{{ activity.startdate | date }}</label>
             </p>
-            <button class="btn btn-danger" onclick="removeActivity({{ app.user.id }})">Remove activity</button>
+            {# <button class="btn btn-danger" onclick="removeActivity({{ activity.id }})">Remove activity</button> #}
+            {% if app.user.id == activity.user.id %}
+                <span class="btn btn-danger" data-toggle="modal" data-target="#removeActModal">Remove</span>
+            {% endif %}
         </div>
     </div>
 
+    <!-- Remove Activity Modal-->
+    <div class="modal fade" id="removeActModal" tabindex="-1" role="dialog" aria-labelledby="removeActModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Select "Confirm Remove" below if you are ready to remove this activity.<br>
+                    <div class="text-danger text-center"><b>This action is irreversible</b></div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="button" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-secondary" onclick="removeActivity({{ activity.id }})">Confirm Remove</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
 {% block javascripts %}

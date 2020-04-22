@@ -26,11 +26,17 @@ class UsersActivitiesRepository extends ServiceEntityRepository
                 ');
     }
 
-    public function Apuntado($user, $id) {
-        return $this->getEntityManager()
-            ->createQuery('
-                SELECT * FROM App:UsersActivities `users_activities` WHERE `activity_id`=7 && `user_id`=21
-                ');
+    public function Apuntado($user) {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.id = :val')
+            ->setParameter('val', 65)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+//        return $this->getEntityManager()
+//            ->createQuery('
+//                SELECT * FROM App:UsersActivities `users_activities` WHERE `activity_id`=7 && `user_id`=21
+//                ');
     }
 
     // /**

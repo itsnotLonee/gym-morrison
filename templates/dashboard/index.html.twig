@@ -15,7 +15,8 @@
                         <h5 class="card-title">{{ article.title }}</h5>
                         <p class="card-text">{{ article.content }}</p>
                         {% if app.user.roles[0] == 'ROLE_USER' %}
-                                <a type="button" id="join-button-{{ article.id }}" class="btn btn-primary text-white" onclick="check({{ article.id }})">Join Activity</a>
+                            <a type="button" id="join-button-{{ article.id }}" class="btn btn-primary text-white" onclick="joinActivity({{ article.id }})">Join Activity</a>
+                            <a type="button" id="join-button-{{ article.id }}" class="btn btn-primary text-white" onclick="joinActivity({{ article.id }})">Join Activity</a>
                         {% endif %}
                         <a type="button" id="more-info-button-{{ article.id }}" class="btn btn-outline-info" href="/activity/{{ article.id }}">More info</a>
                     </div>
