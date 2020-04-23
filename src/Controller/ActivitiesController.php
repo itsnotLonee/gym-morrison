@@ -8,12 +8,17 @@ use App\Entity\UsersActivities;
 use App\Form\ActivitiesType;
 use App\Repository\ActivitiesRepository;
 use App\Repository\UsersActivitiesRepository;
+use Seld\JsonLint\JsonParser;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\DateTime;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+
 
 class ActivitiesController extends AbstractController
 {
@@ -71,13 +76,30 @@ class ActivitiesController extends AbstractController
 
 
     /**
-     * @Route("/my-activities", name="MyActivities")
+     * @Route("/my-activities", options={"expose"=true}, name="MyActivities", methods={"GET"})
      */
     public function MisActividades(){
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $activities = $em->getRepository(Activities::class)->findBy(['user'=>$user]);
-        return $this->render('activities/MyActivities.html.twig', ['activities' => $activities]);
+
+        for ($i=0; $i < count($activities); $i++){
+            $data[$i] = [
+                'id'=> $activities[$i]->getId(),
+                'title' => $activities[$i]->getTitle(),
+                'content' => $activities[$i]->getContent(),
+                'start_time' => $activities[$i]->getStartTime(),
+                'end_time' => $activities[$i]->getEndTime(),
+                'start_date' => $activities[$i]->getStartDate(),
+                'end_date' => $activities[$i]->getEndDate(),
+                'owner' => $activities[$i]->getUser(),
+                'date_created' => $activities[$i]->getDateCreated(),
+            ];
+        }
+
+        return new JsonResponse($data, Response::HTTP_OK);
+        // return ($jsonfile);
+        // return $this->render('activities/MyActivities.html.twig', ['activities' => $activities]);
     }
 
     /**

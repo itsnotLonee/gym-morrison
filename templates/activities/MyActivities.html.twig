@@ -4,7 +4,22 @@
 
 {% block body %}
     {{ parent() }}
-    <div class="container rounded-bottom p-3">
+    <!--**********************************
+        Content body start
+    ***********************************-->
+    <div class="content-body">
+        <div id="app">
+            <Dashboard />
+        </div>
+        {{ encore_entry_script_tags('app') }}
+    </div>
+    <!--**********************************
+        Content body end
+    ***********************************-->
+
+{% endblock %}
+
+{# <div class="container rounded-bottom p-3">
         <div class="row">
             <div class="col">
                 <h1 class="mt-2">Activities created by you</h1>
@@ -38,5 +53,4 @@
                 </a>
             </button>
         {% endfor %}
-    </div>
-{% endblock %}
+    </div>#}
