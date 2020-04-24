@@ -78,10 +78,36 @@ class ActivitiesController extends AbstractController
     /**
      * @Route("/my-activities", options={"expose"=true}, name="MyActivities", methods={"GET"})
      */
-    public function MisActividades(){
+    public function MisActividades(Request $request){
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $activities = $em->getRepository(Activities::class)->findBy(['user'=>$user]);
+
+        for ($i=0; $i < count($activities); $i++){
+            $data[$i] = [
+                'id'=> $activities[$i]->getId(),
+                'title' => $activities[$i]->getTitle(),
+                'content' => $activities[$i]->getContent(),
+                'start_time' => $activities[$i]->getStartTime(),
+                'end_time' => $activities[$i]->getEndTime(),
+                'start_date' => $activities[$i]->getStartDate(),
+                'end_date' => $activities[$i]->getEndDate(),
+                'owner' => $activities[$i]->getUser(),
+                'date_created' => $activities[$i]->getDateCreated(),
+            ];
+        }
+
+        return new JsonResponse($data, Response::HTTP_OK);
+        // return ($jsonfile);
+        // return $this->render('activities/MyActivities.html.twig', ['activities' => $activities]);
+    }
+
+    /**
+     * @Route("/all-activities", options={"expose"=true}, name="AllActivities", methods={"GET"})
+     */
+    public function TodasActividades(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $activities = $em->getRepository(Activities::class)->findAll();
 
         for ($i=0; $i < count($activities); $i++){
             $data[$i] = [

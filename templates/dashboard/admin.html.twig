@@ -18,6 +18,15 @@
         Content body end
     ***********************************-->
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="/plugins/chart.js/Chart.bundle.min.js"></script>
+    <script src="/js/plugins-init/chartjs-init.js"></script>
+    <script src="/plugins/sweetalert/js/sweetalert.min.js"></script>
+    <script src="/js/plugins-init/sweetalert.init.js"></script>
+{% endblock %}
+
 {#
 
 {% for article in pag %}

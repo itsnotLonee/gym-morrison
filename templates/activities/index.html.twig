@@ -2,8 +2,63 @@
 
 {% block title %}Hello ActivitiesController!{% endblock %}
 
+{% block stylesheets %}
+    <!-- Custom Stylesheet -->
+    <link href="./plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet">
+    <!-- Page plugins css -->
+    <link href="./plugins/clockpicker/dist/jquery-clockpicker.min.css" rel="stylesheet">
+    <!-- Color picker plugins css -->
+    <link href="./plugins/jquery-asColorPicker-master/css/asColorPicker.css" rel="stylesheet">
+    <!-- Date picker plugins css -->
+    <link href="./plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet">
+    <!-- Daterange picker plugins css -->
+    <link href="./plugins/timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
+    <link href="./plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+
+    {{ parent() }}
+{% endblock %}
+
 {% block body %}
     {{ parent() }}
-    {{ form(form) }}
+    <!--**********************************
+        Content body start
+    ***********************************-->
+    <div class="content-body">
+        {{ form(form) }}
 
+        <input type="text" class="form-control" placeholder="set min date" id="min-date">
+
+
+    </div>
+    <!--**********************************
+        Content body end
+    ***********************************-->
+
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        console.log(document.getElementById('min-date').value)
+
+        document.getElementById('min-date').onchange = () => {
+            console.log(document.getElementById('min-date').value)
+        }
+    </script>
+    <script src="./plugins/moment/moment.js"></script>
+    <script src="./plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+    <!-- Clock Plugin JavaScript -->
+    <script src="./plugins/clockpicker/dist/jquery-clockpicker.min.js"></script>
+    <!-- Color Picker Plugin JavaScript -->
+    <script src="./plugins/jquery-asColorPicker-master/libs/jquery-asColor.js"></script>
+    <script src="./plugins/jquery-asColorPicker-master/libs/jquery-asGradient.js"></script>
+    <script src="./plugins/jquery-asColorPicker-master/dist/jquery-asColorPicker.min.js"></script>
+    <!-- Date Picker Plugin JavaScript -->
+    <script src="./plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <!-- Date range Plugin JavaScript -->
+    <script src="./plugins/timepicker/bootstrap-timepicker.min.js"></script>
+    <script src="./plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+    <script src="./js/plugins-init/form-pickers-init.js"></script>
 {% endblock %}

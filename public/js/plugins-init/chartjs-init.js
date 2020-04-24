@@ -1,88 +1,97 @@
 (function ($) {
     "use strict";
 
-    //Team chart
-    var ctx = document.getElementById("team-chart");
-    ctx.height = 150;
-    var myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ["2010", "2011", "2012", "2013", "2014", "2015", "2016"],
-            type: 'line',
-            defaultFontFamily: 'Montserrat',
-            datasets: [{
-                data: [0, 15, 7, 12, 85, 10, 50],
-                label: "Saiful",
-                backgroundColor: '#4d7cff',
-                borderColor: '#4d7cff',
-                borderWidth: 0.5,
-                pointStyle: 'circle',
-                pointRadius: 5,
-                pointBorderColor: 'transparent',
-                pointBackgroundColor: '#4d7cff',
-            }, {
-                label: "Saikot",
-                data: [0, 30, 5, 3, 15, 5, 0],
-                backgroundColor: '#7571F9',
-                borderColor: '#7571F9',
-                borderWidth: 0.5,
-                pointStyle: 'circle',
-                pointRadius: 5,
-                pointBorderColor: 'transparent',
-                pointBackgroundColor: '#7571F9',
-            }]
-        },
-        options: {
-            responsive: true,
-            tooltips: {
-                mode: 'index',
-                titleFontSize: 12,
-                titleFontColor: '#000',
-                bodyFontColor: '#000',
-                backgroundColor: '#fff',
-                titleFontFamily: 'Montserrat',
-                bodyFontFamily: 'Montserrat',
-                cornerRadius: 3,
-                intersect: false,
-            },
-            legend: {
-                position: 'top',
-                labels: {
-                    usePointStyle: true,
-                    fontFamily: 'Montserrat',
-                },
-
-
-            },
-            scales: {
-                xAxes: [{
-                    display: true,
-                    gridLines: {
-                        display: false,
-                        drawBorder: false
-                    },
-                    scaleLabel: {
-                        display: false,
-                        labelString: 'Month'
-                    }
-                }],
-                yAxes: [{
-                    display: true,
-                    gridLines: {
-                        display: false,
-                        drawBorder: false
-                    },
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Value'
-                    }
-                }]
-            },
-            title: {
-                display: false,
+    $.get( "/my-activities", function( data ) {
+        //Team chart
+        var ctx = document.getElementById("team-chart");
+        var datos = {
+            1: 0,
+            2: 0,
+            3: 0,
+            4: 0,
+            5: 0,
+            6: 0,
+            7: 0,
+            8: 0,
+            9: 0,
+            10: 0,
+            11: 0,
+            12: 0,
+        }
+        var d = new Date();
+        var year = d.getFullYear();
+        for (let i=0; i < data.length; i++){
+            if (data[i].date_created.date.slice(0,4) === year.toString()) {
+                datos[data[i].date_created.date.slice(6,7)]++
             }
         }
-    });
+        ctx.height = 150;
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                type: 'line',
+                defaultFontFamily: 'Montserrat',
+                datasets: [{
+                    data: Object.values(datos),
+                    backgroundColor: '#4d7cff',
+                    borderColor: '#4d7cff',
+                    borderWidth: 0.5,
+                    pointStyle: 'circle',
+                    pointRadius: 5,
+                    pointBorderColor: 'transparent',
+                    pointBackgroundColor: '#4d7cff',
+                }]
+            },
+            options: {
+                responsive: true,
+                tooltips: {
+                    mode: 'index',
+                    titleFontSize: 12,
+                    titleFontColor: '#000',
+                    bodyFontColor: '#000',
+                    backgroundColor: '#fff',
+                    titleFontFamily: 'Montserrat',
+                    bodyFontFamily: 'Montserrat',
+                    cornerRadius: 3,
+                    intersect: false,
+                },
+                legend: {
+                    position: 'top',
+                    labels: false,
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        gridLines: {
+                            display: false,
+                            drawBorder: false
+                        },
+                        scaleLabel: {
+                            display: false,
+                            labelString: 'Month'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        gridLines: {
+                            display: false,
+                            drawBorder: false
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Value'
+                        }
+                    }]
+                },
+                title: {
+                    display: false,
+                }
+            }
+        });
+        console.log(Object.values(datos))
+    })
+
 
 
     //Sales chart
