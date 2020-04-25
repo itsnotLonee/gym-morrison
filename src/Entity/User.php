@@ -86,6 +86,11 @@ class User implements UserInterface
      */
     private $birthdate;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $profile_photo;
+
 
     public function getId(): ?int
     {
@@ -233,6 +238,18 @@ class User implements UserInterface
     public function setBirthdate(\DateTimeInterface $birthdate): self
     {
         $this->birthdate = $birthdate;
+
+        return $this;
+    }
+
+    public function getProfilePhoto(): ?string
+    {
+        return $this->profile_photo;
+    }
+
+    public function setProfilePhoto(string $profile_photo): self
+    {
+        $this->profile_photo = $profile_photo;
 
         return $this;
     }

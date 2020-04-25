@@ -55,18 +55,20 @@
         var t = new Date,
             n = (t.getDate(), t.getMonth(), t.getFullYear(), new Date(e.now())),
             a = [{
-                title: "Hey!",
-                start: new Date(e.now() + 158e6),
-                className: "bg-dark"
+                title: "Hello!",
+                start: n,
+                end: n,
+                className: "bg-dark text-white"
             }, {
                 title: "See John Deo",
                 start: n,
                 end: n,
-                className: "bg-danger"
+                className: "bg-danger text-white"
             }, {
                 title: "Buy a Theme",
-                start: new Date(e.now() + 338e6),
-                className: "bg-primary"
+                start: n,
+                end: (t.setDate(t.getDate() + 3), t.getMonth(), t.getFullYear(), new Date(e.now())),
+                className: "bg-primary text-white"
             }],
             o = this;
         o.$calendarObj = o.$calendar.fullCalendar({

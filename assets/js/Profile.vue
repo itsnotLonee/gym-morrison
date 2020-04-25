@@ -5,7 +5,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="media align-items-center mb-4">
-                        <img class="mr-3" src="" width="80" height="80" alt="">
+                        <img class="mr-3 rounded-circle p-1 shadow" v-bind:src="'/uploads/photos/' + user.photo" height="80" width="80">
                         <div class="media-body">
                             <h3 class="mb-0">{{ user.name }} {{ user.surname }}</h3>
                             <p class="text-muted mb-0">{{ user.rol[0].slice(5,10) }}</p>

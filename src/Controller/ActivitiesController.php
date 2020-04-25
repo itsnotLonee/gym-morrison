@@ -76,7 +76,7 @@ class ActivitiesController extends AbstractController
 
 
     /**
-     * @Route("/my-activities", options={"expose"=true}, name="MyActivities", methods={"GET"})
+     * @Route("/get-my-activities", options={"expose"=true}, name="MyActivities", methods={"GET"})
      */
     public function MisActividades(Request $request){
         $em = $this->getDoctrine()->getManager();
@@ -103,7 +103,7 @@ class ActivitiesController extends AbstractController
     }
 
     /**
-     * @Route("/all-activities", options={"expose"=true}, name="AllActivities", methods={"GET"})
+     * @Route("/get-all-activities", options={"expose"=true}, name="AllActivities", methods={"GET"})
      */
     public function TodasActividades(Request $request){
         $em = $this->getDoctrine()->getManager();

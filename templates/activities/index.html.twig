@@ -4,17 +4,13 @@
 
 {% block stylesheets %}
     <!-- Custom Stylesheet -->
-    <link href="./plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet">
-    <!-- Page plugins css -->
-    <link href="./plugins/clockpicker/dist/jquery-clockpicker.min.css" rel="stylesheet">
-    <!-- Color picker plugins css -->
-    <link href="./plugins/jquery-asColorPicker-master/css/asColorPicker.css" rel="stylesheet">
-    <!-- Date picker plugins css -->
-    <link href="./plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet">
-    <!-- Daterange picker plugins css -->
-    <link href="./plugins/timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
-    <link href="./plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="./plugins/nouislider/nouislider.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <!-- Custom Stylesheet -->
+    <link href="./plugins/fullcalendar/css/fullcalendar.min.css" rel="stylesheet">
     {{ parent() }}
 {% endblock %}
 
@@ -24,11 +20,145 @@
         Content body start
     ***********************************-->
     <div class="content-body">
-        {{ form(form) }}
 
-        <input type="text" class="form-control" placeholder="set min date" id="min-date">
+        <div class="col-lg-6 mt-3">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Create new activity</h4>
+                    <div class="basic-form">
+                        {{ form_start(form) }}
+
+                        {{ form_widget(form.start_time, {'attr': {'class': 'd-none'}}) }}
+                        {{ form_widget(form.end_time, {'attr': {'class': 'd-none'}}) }}
+                        {{ form_widget(form.start_date, {'attr': {'class': 'd-none'}}) }}
+                        {{ form_widget(form.end_date, {'attr': {'class': 'd-none'}}) }}
+
+                        <div class="form-group">
+                            <label>Title</label>
+                            {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+
+                        <div class="form-group">
+                            <label>Description</label>
+                            {{ form_widget(form.content, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+
+                        <div class="form-group">
+                            <label>Choose date & time</label> <br>
+                            <input id="rango" type="text" name="datetimes" class="form-control" />
+                        </div>
+
+                        {{ form_row(form.submit, { 'attr': {'class': 'btn btn-dark', 'type': 'submit'}}) }}
+
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">
+                        <h4>Calendar</h4>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 mt-5">
+                            <a href="#" data-toggle="modal" data-target="#add-category" class="btn btn-primary btn-block"><i class="ti-plus f-s-12 m-r-5"></i> Create New</a>
+                            <div id="external-events" class="m-t-20">
+                                <p>Drag and drop your event or click in the calendar</p>
+                                <div class="external-event bg-primary text-white" data-class="bg-primary"><i class="fa fa-move"></i>New Theme Release</div>
+                                <div class="external-event bg-success text-white" data-class="bg-success"><i class="fa fa-move"></i>My Event</div>
+                                <div class="external-event bg-warning text-white" data-class="bg-warning"><i class="fa fa-move"></i>Meet manager</div>
+                                <div class="external-event bg-dark text-white" data-class="bg-dark"><i class="fa fa-move"></i>Create New theme</div>
+                            </div>
+                            <!-- checkbox -->
+                            <div class="checkbox m-t-40">
+                                <input id="drop-remove" type="checkbox">
+                                <label for="drop-remove">Remove after drop</label>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-box m-b-50">
+                                <div id="calendar"></div>
+                            </div>
+                        </div>
+
+                        <!-- end col -->
+                        <!-- BEGIN MODAL -->
+                        <div class="modal fade none-border" id="event-modal">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title"><strong>Add New Event</strong></h4>
+                                    </div>
+                                    <div class="modal-body"></div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-success save-event waves-effect waves-light">Create event</button>
+                                        <button type="button" class="btn btn-danger delete-event waves-effect waves-light" data-dismiss="modal">Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Modal Add Category -->
+                        <div class="modal fade none-border" id="add-category">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title"><strong>Add a category</strong></h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label class="control-label">Category Name</label>
+                                                    <input class="form-control form-white" placeholder="Enter name" type="text" name="category-name">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="control-label">Choose Category Color</label>
+                                                    <select class="form-control form-white" data-placeholder="Choose a color..." name="category-color">
+                                                        <option value="success">Success</option>
+                                                        <option value="danger">Danger</option>
+                                                        <option value="info">Info</option>
+                                                        <option value="pink">Pink</option>
+                                                        <option value="primary">Primary</option>
+                                                        <option value="warning">Warning</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-danger waves-effect waves-light save-category" data-dismiss="modal">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END MODAL -->
+                    </div>
+                </div>
+            </div>
+            <!-- /# card -->
+        </div>
+        <!-- /# column -->
 
 
+
+        <script>
+            $(function() {
+                $('input[name="datetimes"]').daterangepicker({
+                    timePicker: true,
+                    startDate: moment().startOf('hour'),
+                    endDate: moment().startOf('hour').add(32, 'hour'),
+                    timePicker24Hour: true,
+                    locale: {
+                        format: 'DD/MM/YYYY HH:mm'
+                    }
+                });
+            });
+        </script>
     </div>
     <!--**********************************
         Content body end
@@ -40,25 +170,37 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        console.log(document.getElementById('min-date').value)
+        console.log(document.getElementById('rango').value)
 
-        document.getElementById('min-date').onchange = () => {
-            console.log(document.getElementById('min-date').value)
+        document.getElementById('rango').onchange = () => {
+            console.log(document.getElementById('rango').value)
+
+            // start_date
+            document.getElementById('activities_start_date_day').selectedIndex = document.getElementById('rango').value.slice(0,2) - 1
+            document.getElementById('activities_start_date_month').selectedIndex = document.getElementById('rango').value.slice(3,5) - 1
+            document.getElementById('activities_start_date_year').value = document.getElementById('rango').value.slice(6,10)
+
+            // start_time
+            document.getElementById('activities_start_time_hour').selectedIndex = document.getElementById('rango').value.slice(11,13)
+            document.getElementById('activities_start_time_minute').selectedIndex = document.getElementById('rango').value.slice(14,16)
+
+            // end_date
+            document.getElementById('activities_end_date_day').selectedIndex = document.getElementById('rango').value.slice(19,21) - 1
+            document.getElementById('activities_end_date_month').selectedIndex = document.getElementById('rango').value.slice(22,24) - 1
+            document.getElementById('activities_end_date_year').value = document.getElementById('rango').value.slice(25,29)
+
+            // end_time
+            document.getElementById('activities_end_time_hour').selectedIndex = document.getElementById('rango').value.slice(30,32)
+            document.getElementById('activities_end_time_minute').selectedIndex = document.getElementById('rango').value.slice(33,35)
+
         }
     </script>
-    <script src="./plugins/moment/moment.js"></script>
-    <script src="./plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
-    <!-- Clock Plugin JavaScript -->
-    <script src="./plugins/clockpicker/dist/jquery-clockpicker.min.js"></script>
-    <!-- Color Picker Plugin JavaScript -->
-    <script src="./plugins/jquery-asColorPicker-master/libs/jquery-asColor.js"></script>
-    <script src="./plugins/jquery-asColorPicker-master/libs/jquery-asGradient.js"></script>
-    <script src="./plugins/jquery-asColorPicker-master/dist/jquery-asColorPicker.min.js"></script>
-    <!-- Date Picker Plugin JavaScript -->
-    <script src="./plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
-    <!-- Date range Plugin JavaScript -->
-    <script src="./plugins/timepicker/bootstrap-timepicker.min.js"></script>
     <script src="./plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
 
-    <script src="./js/plugins-init/form-pickers-init.js"></script>
+
+    <script src="./plugins/jqueryui/js/jquery-ui.min.js"></script>
+    <script src="./plugins/moment/moment.min.js"></script>
+    <script src="./plugins/fullcalendar/js/fullcalendar.min.js"></script>
+    <script src="./js/plugins-init/fullcalendar-init.js"></script>
+
 {% endblock %}

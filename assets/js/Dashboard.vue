@@ -71,7 +71,7 @@
                             <h4 class="card-title">Last activities you created</h4>
                             <hr>
                             <div id="MyActivities">
-                                <div class="media border-bottom-1 pt-3 pb-3" v-for="item in myActivities.slice(0, 3)">
+                                <div class="media border-bottom-1 pt-3 pb-3" v-for="item in sorted_myActivities">
                                     <img width="35" src="" class="mr-3 rounded-circle">
                                     <div class="media-body">
                                         <h5>{{ item.title }}</h5>
@@ -97,14 +97,14 @@
                             <h4 class="card-title">Last public activities</h4>
                             <div id="PublicActivities">
                                 <hr>
-                                <div class="media border-bottom-1 pt-3 pb-3" v-for="item in allActivities.slice(0, 10)">
+                                <div class="media border-bottom-1 pt-3 pb-3" v-for="item in sorted_allActivities">
                                     <img width="35" src="" class="mr-3 rounded-circle">
                                     <div class="media-body">
                                         <h5>{{ item.title }}</h5>
                                         <p class="mb-0">{{ item.content.substring(0,100)+"... " }} <b><a v-bind:href="'/activity/'+ item.id">show more</a></b> </p>
                                     </div>
                                     <span class="text-white text-right gradient-7 p-1 ml-1 rounded">
-                                        <div><b>{{ item.start_date.date.substring(0,10) }}</b></div>
+                                        <div><i class="fas fa-calendar-alt"></i> <b>{{ item.start_date.date.substring(0,10) }}</b></div>
                                     </span>
                                 </div>
                             </div>
@@ -124,20 +124,29 @@
         data: () => ({
             actCreated: 0,
             myActivities: [],
+            array: [],
             allActivities: []
         }),
         mounted () {
             axios
-                .get('/my-activities')
+                .get('/get-my-activities')
                 .then(response => (
                     this.actCreated = response.data.length,
                     this.myActivities = response.data
                 ))
             axios
-                .get('/all-activities')
+                .get('/get-all-activities')
                 .then(response => (
                     this.allActivities = response.data
                 ))
+        },
+        computed : {
+            sorted_myActivities() {
+                return this.myActivities.sort((a, b) => { return a.date_created.date - b.date_created.date;}).reverse().slice(0,3);
+            },
+            sorted_allActivities() {
+                return this.allActivities.sort((a, b) => { return a.date_created.date - b.date_created.date;}).reverse().slice(0,5);
+            }
         }
     }
 </script>

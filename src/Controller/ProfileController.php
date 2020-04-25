@@ -45,6 +45,7 @@ class ProfileController extends AbstractController
                 'phone' => $user->getPhone(),
                 'address' => $user->getAddress(),
                 'birth' => $user->getBirthdate(),
+                'photo' => $user->getProfilePhoto(),
             ];
 
         return new JsonResponse($data, Response::HTTP_OK);

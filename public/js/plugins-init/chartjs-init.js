@@ -1,7 +1,7 @@
 (function ($) {
     "use strict";
 
-    $.get( "/my-activities", function( data ) {
+    $.get( "/get-my-activities", function( data ) {
         //Team chart
         var ctx = document.getElementById("team-chart");
         var datos = {

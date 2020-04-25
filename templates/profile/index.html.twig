@@ -2,6 +2,12 @@
 
 {% block title %}My Profile{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- Custom Stylesheet -->
+    <link href="./plugins/fullcalendar/css/fullcalendar.min.css" rel="stylesheet">
+{% endblock %}
+
 {% block body %}
     {{ parent() }}
 
@@ -19,6 +25,15 @@
     ***********************************-->
 
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="./plugins/jqueryui/js/jquery-ui.min.js"></script>
+    <script src="./plugins/moment/moment.min.js"></script>
+    <script src="./plugins/fullcalendar/js/fullcalendar.min.js"></script>
+    <script src="./js/plugins-init/fullcalendar-init.js"></script>
+{% endblock %}
+
 {#<div class="container rounded-bottom p-3">
         <div class="row">
             <div class="col">
