@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ActivitiesController!{% endblock %}
+{% block title %}My Activities · Gym-Morrison{% endblock %}
 
 {% block body %}
     {{ parent() }}
@@ -9,12 +9,23 @@
     ***********************************-->
     <div class="content-body">
         <div id="app">
-            <Dashboard />
+            <my-activities />
         </div>
         {{ encore_entry_script_tags('app') }}
     </div>
     <!--**********************************
         Content body end
+    ***********************************-->
+    <!--**********************************
+            Footer start
+        ***********************************-->
+    <div class="footer">
+        <div class="copyright">
+            <p>Copyright &copy; Designed & Developed by <span class="text-primary">Gym-Morrison</span> 2020</p>
+        </div>
+    </div>
+    <!--**********************************
+        Footer end
     ***********************************-->
 
 {% endblock %}

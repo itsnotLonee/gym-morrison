@@ -4,13 +4,13 @@
 
 {% block stylesheets %}
     <!-- Custom Stylesheet -->
-    <link rel="stylesheet" href="./plugins/nouislider/nouislider.min.css">
+    <link rel="stylesheet" href="/plugins/nouislider/nouislider.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <!-- Custom Stylesheet -->
-    <link href="./plugins/fullcalendar/css/fullcalendar.min.css" rel="stylesheet">
+    <link href="/plugins/fullcalendar/css/fullcalendar.min.css" rel="stylesheet">
     {{ parent() }}
 {% endblock %}
 
@@ -173,7 +173,7 @@
         console.log(document.getElementById('rango').value)
 
         document.getElementById('rango').onchange = () => {
-            console.log(document.getElementById('rango').value)
+            // console.log(document.getElementById('rango').value)
 
             // start_date
             document.getElementById('activities_start_date_day').selectedIndex = document.getElementById('rango').value.slice(0,2) - 1
@@ -195,12 +195,12 @@
 
         }
     </script>
-    <script src="./plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
 
 
-    <script src="./plugins/jqueryui/js/jquery-ui.min.js"></script>
-    <script src="./plugins/moment/moment.min.js"></script>
-    <script src="./plugins/fullcalendar/js/fullcalendar.min.js"></script>
-    <script src="./js/plugins-init/fullcalendar-init.js"></script>
+    <script src="/plugins/jqueryui/js/jquery-ui.min.js"></script>
+    <script src="/plugins/moment/moment.min.js"></script>
+    <script src="/plugins/fullcalendar/js/fullcalendar.min.js"></script>
+    <script src="/js/plugins-init/fullcalendar-init.js"></script>
 
 {% endblock %}

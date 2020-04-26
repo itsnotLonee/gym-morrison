@@ -4,46 +4,108 @@
 
 {% block body %}
     {{ parent() }}
-    <div class="card m-4">
-        <h5 class="card-header">{{ activity.title }}</h5>
-        <div class="card-body">
-            <p class="card-text">{{ activity.content }}</p>
-            <p>
-                <label>{{ activity.startdate | date }}</label>
-            </p>
-            {# <button class="btn btn-danger" onclick="removeActivity({{ activity.id }})">Remove activity</button> #}
-            {% if app.user.id == activity.user.id %}
-                <span class="btn btn-danger" data-toggle="modal" data-target="#removeActModal">Remove</span>
-            {% endif %}
-        </div>
-    </div>
+    <!--**********************************
+        Content body start
+    ***********************************-->
+    <div class="content-body">
 
-    <!-- Remove Activity Modal-->
-    <div class="modal fade" id="removeActModal" tabindex="-1" role="dialog" aria-labelledby="removeActModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
+        <div class="card m-4">
+            <h3 class="card-header mt-2">{{ activity.title }}</h3>
+            <h5 class="card-subtitle gradient-1 text-center p-2 text-white">
+                <div class="mb-2 text-white"><b><i class="fas fa-calendar-alt"></i> Timetable</b></div>
+                From <b>{{ activity.startdate | date("d/M/Y") }}</b> to <b>{{ activity.enddate | date("d/M/Y") }}</b> <br>
+                <b>{{ activity.starttime | date("H:i") }}</b> - <b>{{ activity.endtime | date("H:i") }}</b>
+
+            </h5>
+            <div class="card-body">
+
+                <p class="card-text">{{ activity.content }}</p>
+                <br>
+                {# <button class="btn btn-danger" onclick="removeActivity({{ activity.id }})">Remove activity</button> #}
+                {% if app.user.id == activity.user.id %}
+                    <span class="btn btn-danger" data-toggle="modal" data-target="#removeActModal">Remove</span>
+                {% endif %}
+            </div>
+        </div>
+
+        {#<!-- Remove Activity Modal-->
+        <div class="modal fade" id="removeActModal" tabindex="-1" role="dialog" aria-labelledby="removeActModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Select "Confirm Remove" below if you are ready to remove this activity.<br>
+                        <div class="text-danger text-center"><b>This action is irreversible</b></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="button" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-" onclick="removeActivity({{ activity.id }})">Confirm Remove</button>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    Select "Confirm Remove" below if you are ready to remove this activity.<br>
-                    <div class="text-danger text-center"><b>This action is irreversible</b></div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" type="button" data-dismiss="modal">Cancel</button>
-                    <button class="btn btn-secondary" onclick="removeActivity({{ activity.id }})">Confirm Remove</button>
+            </div>
+        </div>#}
+
+        <div class="modal fade" id="removeActModal" tabindex="-1" role="dialog" aria-labelledby="removeActModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Remove Activity</h5>
+                        <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        You are about to delete: <b>{{ activity.title }}</b>
+                        <p class="text-danger text-center mt-3">This action can't be undone</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success text-white" data-dismiss="modal">Close</button>
+                        <a type="button" class="btn btn-danger text-white" data-dismiss="modal" id="confirm-remove">Confirm remove</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <!--**********************************
+        Content body end
+    ***********************************-->
+
+    <!--**********************************
+            Footer start
+        ***********************************-->
+    <div class="footer">
+        <div class="copyright">
+            <p>Copyright &copy; Designed & Developed by <span class="text-primary">Gym-Morrison</span> 2020</p>
+        </div>
+    </div>
+    <!--**********************************
+        Footer end
+    ***********************************-->
 
 {% endblock %}
 {% block javascripts %}
+    <script>
+        document.getElementById('confirm-remove').onclick = () => {
+            $.ajax({
+                type: 'POST',
+                url: '/removeActivity',
+                data: ({id: {{ activity.id }}}),
+                async: true,
+                datatype: 'json',
+                success: function (data) {
+                    console.log(data)
+                    window.location.replace("/my-activities")
+
+                }
+            })
+        }
+    </script>
+
     {{ parent() }}
     <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
-    <script src="{{ asset('js/ajax.js') }}"></script>
 {% endblock %}

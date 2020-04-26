@@ -56,8 +56,7 @@
             n = (t.getDate(), t.getMonth(), t.getFullYear(), new Date(e.now())),
             a = [{
                 title: "Hello!",
-                start: n,
-                end: n,
+                start: new Date(2020,3,29,16,24),
                 className: "bg-dark text-white"
             }, {
                 title: "See John Deo",
@@ -66,11 +65,11 @@
                 className: "bg-danger text-white"
             }, {
                 title: "Buy a Theme",
-                start: n,
-                end: (t.setDate(t.getDate() + 3), t.getMonth(), t.getFullYear(), new Date(e.now())),
+                start: new Date(e.now() + 338e6),
                 className: "bg-primary text-white"
             }],
             o = this;
+        console.log(a)
         o.$calendarObj = o.$calendar.fullCalendar({
             slotDuration: "00:15:00",
             minTime: "08:00:00",

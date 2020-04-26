@@ -38,52 +38,58 @@ class ActivitiesController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($activity);
             $em->flush();
-            return $this->redirectToRoute('dashboard');
+            return $this->redirectToRoute('MyActivities');
         }
         return $this->render('activities/index.html.twig', [
             'form' => $form->createView(),
         ]);
     }
 
+    /**
+     * @Route("/activity/{id}", name="ActivityId")
+     */
+    public function VerActividad($id){
+        $em = $this->getDoctrine()->getManager();
+        $activity = $em->getRepository( Activities::class)->find($id);
+        // return new JsonResponse($activity);
+        return $this->render('activities/showActivity.html.twig', ['activity' => $activity]);
+    }
+
 //    /**
-//     * @Route("/activity/{id}", name="ActivityId")
+//     * @Route("/activity/{id}", name="ActivityId", methods={"GET"})
 //     */
-//    public function VerActividad($id){
+//    public function getActivity($id): JsonResponse
+//    {
 //        $em = $this->getDoctrine()->getManager();
-//        $activity = $em->getRepository( Activities::class)->find($id);
-//        // return new JsonResponse($activity);
-//        return $this->render('activities/showActivity.html.twig', ['activity' => $activity]);
+//        $activity = $em->getRepository( Activities::class)->findOneBy(['id' => $id]);
+//
+//        $data = [
+//            'id'=> $activity->getId(),
+//            'name' => $activity->getTitle(),
+//            'type' => $activity->getContent(),
+//        ];
+//
+//        return new JsonResponse($data, Response::HTTP_OK);
+//
 //    }
 
     /**
-     * @Route("/activity/{id}", name="ActivityId", methods={"GET"})
-     */
-    public function getActivity($id): JsonResponse
-    {
-        $em = $this->getDoctrine()->getManager();
-        $activity = $em->getRepository( Activities::class)->findOneBy(['id' => $id]);
-
-        $data = [
-            'id'=> $activity->getId(),
-            'name' => $activity->getTitle(),
-            'type' => $activity->getContent(),
-        ];
-
-        return new JsonResponse($data, Response::HTTP_OK);
-
-    }
-
-
-
-    /**
-     * @Route("/get-my-activities", options={"expose"=true}, name="MyActivities", methods={"GET"})
+     * @Route("/my-activities", name="MyActivities")
      */
     public function MisActividades(Request $request){
+         return $this->render('activities/MyActivities.html.twig');
+    }
+
+    /**
+     * @Route("/get-my-activities", options={"expose"=true}, name="GetMyActivities", methods={"GET"})
+     */
+    public function GetMisActividades(Request $request){
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $activities = $em->getRepository(Activities::class)->findBy(['user'=>$user]);
 
         for ($i=0; $i < count($activities); $i++){
+            $owner = $activities[$i]->getUser()->getName()." ".$activities[$i]->getUser()->getSurname();
             $data[$i] = [
                 'id'=> $activities[$i]->getId(),
                 'title' => $activities[$i]->getTitle(),
@@ -92,7 +98,7 @@ class ActivitiesController extends AbstractController
                 'end_time' => $activities[$i]->getEndTime(),
                 'start_date' => $activities[$i]->getStartDate(),
                 'end_date' => $activities[$i]->getEndDate(),
-                'owner' => $activities[$i]->getUser(),
+                'owner' => $owner,
                 'date_created' => $activities[$i]->getDateCreated(),
             ];
         }
@@ -103,13 +109,22 @@ class ActivitiesController extends AbstractController
     }
 
     /**
-     * @Route("/get-all-activities", options={"expose"=true}, name="AllActivities", methods={"GET"})
+     * @Route("/all-activities", name="AllActivities")
      */
     public function TodasActividades(Request $request){
+        return $this->render('activities/AllActivities.html.twig');
+    }
+
+
+    /**
+     * @Route("/get-all-activities", options={"expose"=true}, name="GetAllActivities", methods={"GET"})
+     */
+    public function GetTodasActividades(Request $request){
         $em = $this->getDoctrine()->getManager();
         $activities = $em->getRepository(Activities::class)->findAll();
 
         for ($i=0; $i < count($activities); $i++){
+            $owner = $activities[$i]->getUser()->getName()." ".$activities[$i]->getUser()->getSurname();
             $data[$i] = [
                 'id'=> $activities[$i]->getId(),
                 'title' => $activities[$i]->getTitle(),
@@ -118,7 +133,7 @@ class ActivitiesController extends AbstractController
                 'end_time' => $activities[$i]->getEndTime(),
                 'start_date' => $activities[$i]->getStartDate(),
                 'end_date' => $activities[$i]->getEndDate(),
-                'owner' => $activities[$i]->getUser(),
+                'owner' => $owner,
                 'date_created' => $activities[$i]->getDateCreated(),
             ];
         }
@@ -159,41 +174,43 @@ class ActivitiesController extends AbstractController
         }
     }
 
-//    /**
-//     * @Route("/removeActivity", options={"expose"=true}, name="removeActivity")
-//     */
-//    public function RemoveActivity(Request $request){
-//        if ($request->isXmlHttpRequest()){
-//            $em = $this->getDoctrine()->getManager();
-//            $user = $this->getUser();
-//            $id = $request->request->get('id');
-//
-//            $activity = $em->getRepository(Activities::class)->find(intval($id));
-//            $u_act = $em->getRepository(UsersActivitiesRepository::class)->Apuntado($user);
-//
-//
-//            //$table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade')
-//            //$em -> remove($u_act);
-//            //$em -> flush();
-//            return new JsonResponse(['user'=>$activity, 'u_act' => $u_act]);
-//        } else {
-//            throw new \Exception('Not allowed');
-//        }
-//    }
-
     /**
-     * @Route("/activity/{id}", name="deleteActivity", methods={"DELETE"})
+     * @Route("/removeActivity", options={"expose"=true}, name="removeActivity")
      */
-    public function deleteActivity($id): JsonResponse
-    {
-        $em = $this->getDoctrine()->getManager();
-        $activity = $em->getRepository( Activities::class)->findOneBy(['id' => $id]);
+    public function RemoveActivity(Request $request){
+        if ($request->isXmlHttpRequest()){
+            $em = $this->getDoctrine()->getManager();
+            $user = $this->getUser();
+            $id = $request->request->get('id');
 
-        $em->getRepository( Activities::class)->removeActivity($activity);
+            $activity = $em->getRepository(Activities::class)->find($id);
 
-        return new JsonResponse(['status' => 'Activity deleted'], Response::HTTP_OK);
+            if ($user == $activity->getUser()) {
+                $em -> remove($activity);
+                $em -> flush();
+                return new JsonResponse('Activity deleted succesfully', Response::HTTP_OK);
+            } else {
+                return new JsonResponse('You are not the owner', Response::HTTP_FORBIDDEN);
+            }
 
+        } else {
+            throw new \Exception('Not allowed');
+        }
     }
+
+//    /**
+//     * @Route("/remove-activity/{id}", name="deleteActivity", methods={"DELETE"})
+//     */
+//    public function deleteActivity($id): JsonResponse
+//    {
+//        $em = $this->getDoctrine()->getManager();
+//        $activity = $em->getRepository( Activities::class)->findOneBy(['id' => $id]);
+//
+//        $em->getRepository( Activities::class)->removeActivity($activity);
+//
+//        return new JsonResponse(['status' => 'Activity deleted'], Response::HTTP_OK);
+//
+//    }
 
     /**
      * @Route("/joined", options={"expose"=true}, name="joined")

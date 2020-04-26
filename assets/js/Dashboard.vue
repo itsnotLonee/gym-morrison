@@ -91,7 +91,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-4 col-lg-6 col-sm-6 col-xxl-6">
+                <div class="col-lg-6 col-xxl-6 col-sm-12">
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Last public activities</h4>
@@ -134,11 +134,33 @@
                     this.actCreated = response.data.length,
                     this.myActivities = response.data
                 ))
+            setInterval(() => {
+                axios
+                    .get('/get-my-activities')
+                    .then(response => {
+                        var aux = response.data
+                        if (aux < this.myActivities ? -1 : +(aux > this.myActivities)){
+                            this.myActivities = aux
+                        }
+                    })
+            }, 1e3)
+
             axios
                 .get('/get-all-activities')
                 .then(response => (
                     this.allActivities = response.data
                 ))
+            setInterval(() => {
+                axios
+                    .get('/get-all-activities')
+                    .then(response => {
+                        var aux = response.data
+                        if (aux < this.allActivities ? -1 : +(aux > this.allActivities)){
+                            this.allActivities = aux
+                        }
+                    })
+            }, 1e3)
+
         },
         computed : {
             sorted_myActivities() {
