@@ -10,6 +10,8 @@ use App\Repository\ActivitiesRepository;
 use App\Repository\UsersActivitiesRepository;
 use Seld\JsonLint\JsonParser;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,7 +32,7 @@ class ActivitiesController extends AbstractController
         $activity = new Activities();
         $form = $this->createForm(ActivitiesType::class, $activity);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $user = $this->getUser();
             $activity->setUser($user);
             $datetime = new \DateTime();
@@ -48,9 +50,10 @@ class ActivitiesController extends AbstractController
     /**
      * @Route("/activity/{id}", name="ActivityId")
      */
-    public function VerActividad($id){
+    public function VerActividad($id)
+    {
         $em = $this->getDoctrine()->getManager();
-        $activity = $em->getRepository( Activities::class)->find($id);
+        $activity = $em->getRepository(Activities::class)->find($id);
         // return new JsonResponse($activity);
         return $this->render('activities/showActivity.html.twig', ['activity' => $activity]);
     }
@@ -76,22 +79,54 @@ class ActivitiesController extends AbstractController
     /**
      * @Route("/my-activities", name="MyActivities")
      */
-    public function MisActividades(Request $request){
-         return $this->render('activities/MyActivities.html.twig');
+    public function MisActividades(Request $request)
+    {
+        return $this->render('activities/MyActivities.html.twig');
     }
 
     /**
      * @Route("/get-my-activities", options={"expose"=true}, name="GetMyActivities", methods={"GET"})
      */
-    public function GetMisActividades(Request $request){
+    public function GetMisActividades(Request $request)
+    {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        $activities = $em->getRepository(Activities::class)->findBy(['user'=>$user]);
+        $activities = $em->getRepository(Activities::class)->findBy(['user' => $user]);
 
-        for ($i=0; $i < count($activities); $i++){
-            $owner = $activities[$i]->getUser()->getName()." ".$activities[$i]->getUser()->getSurname();
+        for ($i = 0; $i < count($activities); $i++) {
+            $owner = $activities[$i]->getUser()->getName() . " " . $activities[$i]->getUser()->getSurname();
             $data[$i] = [
-                'id'=> $activities[$i]->getId(),
+                'id' => $activities[$i]->getId(),
+                'title' => $activities[$i]->getTitle(),
+                'content' => $activities[$i]->getContent(),
+                'start_time' => $activities[$i]->getStartTime(),
+                'end_time' => $activities[$i]->getEndTime(),
+                'start_date' => $activities[$i]->getStartDate(),
+                'end_date' => $activities[$i]->getEndDate(),
+                'owner' => $owner,
+                'date_created' => $activities[$i]->getDateCreated(),
+            ];
+        }
+
+        return new JsonResponse($data, Response::HTTP_OK);
+        // return ($jsonfile);
+        // return $this->render('activities/MyActivities.html.twig', ['activities' => $activities]);
+    }
+
+    /**
+     * @Route("/get-today-myactivities", options={"expose"=true}, name="GetTodayMyActivities", methods={"GET"})
+     */
+    public function GetTodayMisActividades(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        // $activities = $em->getRepository(Activities::class)->findBy(['user' => $user]);
+        $activities = $em->getRepository(Activities::class)->findTodayActivities();
+
+        for ($i = 0; $i < count($activities); $i++) {
+            $owner = $activities[$i]->getUser()->getName() . " " . $activities[$i]->getUser()->getSurname();
+            $data[$i] = [
+                'id' => $activities[$i]->getId(),
                 'title' => $activities[$i]->getTitle(),
                 'content' => $activities[$i]->getContent(),
                 'start_time' => $activities[$i]->getStartTime(),
@@ -111,7 +146,8 @@ class ActivitiesController extends AbstractController
     /**
      * @Route("/all-activities", name="AllActivities")
      */
-    public function TodasActividades(Request $request){
+    public function TodasActividades(Request $request)
+    {
         return $this->render('activities/AllActivities.html.twig');
     }
 
@@ -119,14 +155,15 @@ class ActivitiesController extends AbstractController
     /**
      * @Route("/get-all-activities", options={"expose"=true}, name="GetAllActivities", methods={"GET"})
      */
-    public function GetTodasActividades(Request $request){
+    public function GetTodasActividades(Request $request)
+    {
         $em = $this->getDoctrine()->getManager();
-        $activities = $em->getRepository(Activities::class)->findAll();
+        $activities = $em->getRepository(Activities::class)->findAllActivities();
 
-        for ($i=0; $i < count($activities); $i++){
-            $owner = $activities[$i]->getUser()->getName()." ".$activities[$i]->getUser()->getSurname();
+        for ($i = 0; $i < count($activities); $i++) {
+            $owner = $activities[$i]->getUser()->getName() . " " . $activities[$i]->getUser()->getSurname();
             $data[$i] = [
-                'id'=> $activities[$i]->getId(),
+                'id' => $activities[$i]->getId(),
                 'title' => $activities[$i]->getTitle(),
                 'content' => $activities[$i]->getContent(),
                 'start_time' => $activities[$i]->getStartTime(),
@@ -146,16 +183,17 @@ class ActivitiesController extends AbstractController
     /**
      * @Route("/join", options={"expose"=true}, name="join")
      */
-    public function Join(Request $request){
-        if ($request->isXmlHttpRequest()){
+    public function Join(Request $request)
+    {
+        if ($request->isXmlHttpRequest()) {
             $em = $this->getDoctrine()->getManager();
             $user = $this->getUser();
             $id = $request->request->get('id');
 
-            $query = $em->getRepository(UsersActivities::class)->findBy(['user'=>$user]);
-            $query2 = $em->getRepository(UsersActivities::class)->findBy(['activity'=>$id]);
+            $query = $em->getRepository(UsersActivities::class)->findBy(['user' => $user]);
+            $query2 = $em->getRepository(UsersActivities::class)->findBy(['activity' => $id]);
 
-            $activity = $em->getRepository( Activities::class)->find($id);
+            $activity = $em->getRepository(Activities::class)->find($id);
             $u_activity = new UsersActivities();
             if ($query == null || $query2 == null) {
 
@@ -168,7 +206,7 @@ class ActivitiesController extends AbstractController
                 // actually executes the queries (i.e. the INSERT query)
                 $em->flush();
             }
-            return new JsonResponse(['user'=>$query, 'activity' => $query2]);
+            return new JsonResponse(['user' => $query, 'activity' => $query2]);
         } else {
             throw new \Exception('Not allowed');
         }
@@ -177,8 +215,9 @@ class ActivitiesController extends AbstractController
     /**
      * @Route("/removeActivity", options={"expose"=true}, name="removeActivity")
      */
-    public function RemoveActivity(Request $request){
-        if ($request->isXmlHttpRequest()){
+    public function RemoveActivity(Request $request)
+    {
+        if ($request->isXmlHttpRequest()) {
             $em = $this->getDoctrine()->getManager();
             $user = $this->getUser();
             $id = $request->request->get('id');
@@ -186,8 +225,8 @@ class ActivitiesController extends AbstractController
             $activity = $em->getRepository(Activities::class)->find($id);
 
             if ($user == $activity->getUser()) {
-                $em -> remove($activity);
-                $em -> flush();
+                $em->remove($activity);
+                $em->flush();
                 return new JsonResponse('Activity deleted succesfully', Response::HTTP_OK);
             } else {
                 return new JsonResponse('You are not the owner', Response::HTTP_FORBIDDEN);
@@ -198,37 +237,49 @@ class ActivitiesController extends AbstractController
         }
     }
 
-//    /**
-//     * @Route("/remove-activity/{id}", name="deleteActivity", methods={"DELETE"})
-//     */
-//    public function deleteActivity($id): JsonResponse
-//    {
-//        $em = $this->getDoctrine()->getManager();
-//        $activity = $em->getRepository( Activities::class)->findOneBy(['id' => $id]);
-//
-//        $em->getRepository( Activities::class)->removeActivity($activity);
-//
-//        return new JsonResponse(['status' => 'Activity deleted'], Response::HTTP_OK);
-//
-//    }
-
     /**
      * @Route("/joined", options={"expose"=true}, name="joined")
      */
-    public function Joined(Request $request){
-        if ($request->isXmlHttpRequest()){
+    public function Joined(Request $request)
+    {
+        if ($request->isXmlHttpRequest()) {
             $em = $this->getDoctrine()->getManager();
             $user = $this->getUser();
             $id = $request->request->get('id');
 
-            $query = $em->getRepository(UsersActivities::class)->findBy(['user'=>$user]);
-            $query2 = $em->getRepository(UsersActivities::class)->findBy(['activity'=>$id]);
+            $query = $em->getRepository(UsersActivities::class)->findBy(['user' => $user]);
+            $query2 = $em->getRepository(UsersActivities::class)->findBy(['activity' => $id]);
 
-            $activity = $em->getRepository( Activities::class)->find($id);
-            return new JsonResponse(['user'=>$query, 'activity' => $query2]);
+            $activity = $em->getRepository(Activities::class)->find($id);
+            return new JsonResponse(['user' => $query, 'activity' => $query2]);
         } else {
             throw new \Exception('Not allowed');
         }
+    }
+
+    /**
+     * @Route("/edit-activity/{id}", name="editActivity")
+     */
+    public function edit(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $activity = $em->getRepository(Activities::class)->find($id);
+
+        $form = $this->createForm(ActivitiesType::class, $activity);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $this->getUser();
+            $activity->setUser($user);
+            $datetime = new \DateTime();
+            $activity->setDateCreated($datetime);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($activity);
+            $em->flush();
+            return $this->redirectToRoute('MyActivities');
+        }
+        return $this->render('activities/editActivity.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
 }

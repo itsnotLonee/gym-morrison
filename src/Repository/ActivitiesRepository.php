@@ -19,6 +19,42 @@ class ActivitiesRepository extends ServiceEntityRepository
         parent::__construct($registry, Activities::class);
     }
 
+    /**
+     * @return Activity[]
+     */
+    public function findAllActivities(): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT a
+            FROM App\Entity\Activities a
+            WHERE a.start_date >= CURRENT_DATE()
+            ORDER BY a.start_date ASC'
+        );
+
+        // returns an array of Product objects
+        return $query->getResult();
+    }
+
+    /**
+     * @return Activity[]
+     */
+    public function findTodayActivities(): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT a
+            FROM App\Entity\Activities a
+            WHERE a.start_date = CURRENT_DATE()
+            ORDER BY a.start_date ASC'
+        );
+
+        // returns an array of Product objects
+        return $query->getResult();
+    }
+
     public function BuscarTodasActividades(){
         // Esto nos da las actividades que vienen, no las antiguas que se han pasado de fecha
         return $this->getEntityManager()
@@ -27,6 +63,17 @@ class ActivitiesRepository extends ServiceEntityRepository
                 From App:Activities activities
                 JOIN activities.user user
                 WHERE activities.start_date>=CURRENT_DATE()
+            ');
+    }
+
+    public function BuscarTodayActividades(){
+        // Esto nos da las actividades que vienen, no las antiguas que se han pasado de fecha
+        return $this->getEntityManager()
+            ->createQuery('
+                SELECT activities.id, activities.title, activities.content, activities.start_time, activities.end_time, activities.start_date, activities.end_date, user.name, user.surname
+                From App:Activities activities
+                JOIN activities.user user
+                WHERE activities.start_date==CURRENT_DATE()
             ');
     }
 

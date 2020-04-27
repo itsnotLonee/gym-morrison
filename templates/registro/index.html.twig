@@ -2,6 +2,21 @@
 
 {% block title %}Gym-Morrison · Register{% endblock %}
 
+{% block stylesheets %}
+    <!-- Custom fonts for this template-->
+    {#<link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">#}
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/vue.resource/1.3.1/vue-resource.min.js"></script>
+
+    <!-- Custom Stylesheet -->
+    <link href="/css/style.css" rel="stylesheet">
+
+    <script src="https://kit.fontawesome.com/21b5751b50.js" crossorigin="anonymous"></script>
+
+{% endblock %}
+
 {% block body %}
     <div class="container">
         <div class="card border-0 shadow rounded-lg mx-auto mt-3 mb-5 p-5" style="width: 30em">
@@ -93,5 +108,16 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <script src="/plugins/common/common.min.js"></script>
+    <script src="/js/custom.min.js"></script>
+    <script src="/js/settings.js"></script>
+    <script src="/js/gleek.js"></script>
+    <script src="/js/styleSwitcher.js"></script>
 {% endblock %}
 

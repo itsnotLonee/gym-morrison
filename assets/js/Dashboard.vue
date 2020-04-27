@@ -26,27 +26,25 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="card gradient-3">
+                <div class="col-xl-3 col-lg-6 col-sm-6 col-xxl-6">
+                    <div class="card gradient-7">
                         <div class="card-body">
-                            <h3 class="card-title text-white">Example2</h3>
-                            <div class="d-inline-block">
-                                <!--<button @click="activitiesCreated">Click</button>-->
-                                <h2 class="text-white">{{ actCreated }}</h2>
-                                <p class="text-white mb-0">text</p>
+                            <h4 class="card-title text-white">Activities for <b>Today</b></h4>
+                            <div id="TodayActivities" style="height: 19em; overflow: auto; padding-right: 1em;">
+                                <div class="media border-bottom-1 pt-3 pb-3 bg-white p-3 rounded mb-1" v-for="item in sorted_todayActivities">
+
+                                    <div class="media-body">
+                                        <h5>{{ item.title }}</h5>
+                                        <a v-bind:href="'/activity/'+ item.id">Show more</a>
+                                    </div>
+                                    <span class="text-white text-right bg-info ml-1 p-1 rounded">
+                                        <div class="text-left">
+                                            <i class="fas fa-clock"></i>
+                                            <b>{{ item.start_time.date.substring(10,16) }}</b>  - <b>{{ item.end_time.date.substring(10,16) }}</b>
+                                        </div>
+                                    </span>
+                                </div>
                             </div>
-                            <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span>
-                        </div>
-                    </div>
-                    <div class="card gradient-4">
-                        <div class="card-body">
-                            <h3 class="card-title text-white">Example3</h3>
-                            <div class="d-inline-block">
-                                <!--<button @click="activitiesCreated">Click</button>-->
-                                <h2 class="text-white">{{ actCreated }}</h2>
-                                <p class="text-white mb-0">text</p>
-                            </div>
-                            <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span>
                         </div>
                     </div>
                 </div>
@@ -62,6 +60,7 @@
                     </div>
                     <!-- /# card -->
                 </div>
+
             </div>
 
             <div class="row">
@@ -125,7 +124,8 @@
             actCreated: 0,
             myActivities: [],
             array: [],
-            allActivities: []
+            allActivities: [],
+            todayActivities: []
         }),
         mounted () {
             axios
@@ -161,6 +161,12 @@
                     })
             }, 1e3)
 
+            axios
+                .get('/get-today-myactivities')
+                .then(response => (
+                    this.todayActivities = response.data
+                ))
+
         },
         computed : {
             sorted_myActivities() {
@@ -168,11 +174,16 @@
             },
             sorted_allActivities() {
                 return this.allActivities.sort((a, b) => { return a.date_created.date - b.date_created.date;}).reverse().slice(0,5);
+            },
+            sorted_todayActivities() {
+                return this.todayActivities.sort((a, b) => { return a.date_created.date - b.date_created.date;}).reverse();
             }
         }
     }
 </script>
 
-<style scoped>
+<style>
+
+
 
 </style>

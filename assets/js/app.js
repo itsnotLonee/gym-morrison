@@ -20,7 +20,7 @@ Vue.filter('formatDate', function(value) {
 
 Vue.filter('formatTime', function(value) {
         if (value) {
-            return moment(String(value)).format('hh:mm')
+            return moment(String(value)).format('HH:mm')
         }
     }
 )

@@ -1,0 +1,148 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Activity · Gym-Morrison{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="/plugins/nouislider/nouislider.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+    <!--**********************************
+        Content body start
+    ***********************************-->
+    <div class="content-body">
+        <div class="col-lg-6 mt-3">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Edit activity</h4>
+                    <div class="basic-form">
+                        {{ form_start(form) }}
+
+                        {{ form_widget(form.start_time, {'attr': {'class': 'd-none'}}) }}
+                        {{ form_widget(form.end_time, {'attr': {'class': 'd-none'}}) }}
+                        {{ form_widget(form.start_date, {'attr': {'class': 'd-none'}}) }}
+                        {{ form_widget(form.end_date, {'attr': {'class': 'd-none'}}) }}
+
+                        <div class="form-group">
+                            <label>Title</label>
+                            {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+
+                        <div class="form-group">
+                            <label>Description</label>
+                            {{ form_widget(form.content, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+
+                        <div class="form-group">
+                            <label>Choose date & time</label> <br>
+                            <input id="rango" type="text" name="datetimes" class="form-control" />
+                        </div>
+
+                        {{ form_row(form.submit, { 'attr': {'class': 'btn btn-dark', 'type': 'submit'}}) }}
+
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--**********************************
+        Content body end
+    ***********************************-->
+    <!--**********************************
+            Footer start
+        ***********************************-->
+    <div class="footer">
+        <div class="copyright">
+            <p>Copyright &copy; Designed & Developed by <span class="text-primary">Gym-Morrison</span> 2020</p>
+        </div>
+    </div>
+    <!--**********************************
+        Footer end
+    ***********************************-->
+
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        // start_date
+        var startDate = document.getElementById('activities_start_date_day').value
+        startDate += '/' + ((document.getElementById('activities_start_date_month').value < 10 ) ? '0'+document.getElementById('activities_start_date_month').value : document.getElementById('activities_start_date_month').value)
+        startDate += '/' + document.getElementById('activities_start_date_year').value
+
+        // start_time
+        startDate += ' ' + ((document.getElementById('activities_start_time_hour').value < 10 ) ? '0'+document.getElementById('activities_start_time_hour').value : document.getElementById('activities_start_time_hour').value)
+        startDate += ':' + ((document.getElementById('activities_start_time_minute').value < 10 ) ? '0'+document.getElementById('activities_start_time_minute').value : document.getElementById('activities_start_time_minute').value)
+
+        // end_date
+        var endDate = ' - ' + document.getElementById('activities_end_date_day').value
+        endDate += '/' + ((document.getElementById('activities_end_date_month').value < 10 ) ? '0'+document.getElementById('activities_end_date_month').value : document.getElementById('activities_end_date_month').value)
+        endDate += '/' + document.getElementById('activities_start_date_year').value
+
+        // end_time
+        endDate += ' ' + ((document.getElementById('activities_end_time_hour').value < 10 ) ? '0'+document.getElementById('activities_end_time_hour').value : document.getElementById('activities_end_time_hour').value)
+        endDate += ':' + ((document.getElementById('activities_end_time_minute').value < 10 ) ? '0'+document.getElementById('activities_end_time_minute').value : document.getElementById('activities_end_time_minute').value)
+
+        // document.getElementById('rango').value = date
+        console.log(document.getElementById('rango').value)
+
+        $(function() {
+            $('input[name="datetimes"]').daterangepicker({
+                timePicker: true,
+                startDate: startDate,
+                endDate: endDate,
+                timePicker24Hour: true,
+                locale: {
+                    format: 'DD/MM/YYYY HH:mm'
+                }
+            });
+        });
+
+        //console.log(document.getElementById('rango').value)
+
+        document.getElementById('rango').onchange = () => {
+             //console.log(document.getElementById('rango').value)
+
+            // start_date
+            document.getElementById('activities_start_date_day').selectedIndex = document.getElementById('rango').value.slice(0,2) - 1
+            document.getElementById('activities_start_date_month').selectedIndex = document.getElementById('rango').value.slice(3,5) - 1
+            document.getElementById('activities_start_date_year').value = document.getElementById('rango').value.slice(6,10)
+
+            // start_time
+            document.getElementById('activities_start_time_hour').selectedIndex = document.getElementById('rango').value.slice(11,13)
+            document.getElementById('activities_start_time_minute').selectedIndex = document.getElementById('rango').value.slice(14,16)
+
+            // end_date
+            document.getElementById('activities_end_date_day').selectedIndex = document.getElementById('rango').value.slice(19,21) - 1
+            document.getElementById('activities_end_date_month').selectedIndex = document.getElementById('rango').value.slice(22,24) - 1
+            document.getElementById('activities_end_date_year').value = document.getElementById('rango').value.slice(25,29)
+
+            // end_time
+            document.getElementById('activities_end_time_hour').selectedIndex = document.getElementById('rango').value.slice(30,32)
+            document.getElementById('activities_end_time_minute').selectedIndex = document.getElementById('rango').value.slice(33,35)
+
+
+        }
+        // 7/04/2020 01:00 - 28/04/2020 09:00
+        // console.log(document.getElementById('activities_start_date_day').value)
+
+
+
+        // console.log(date)
+
+
+    </script>
+
+    <script src="/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+{% endblock %}

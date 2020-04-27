@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
             <!-- Custom fonts for this template-->
@@ -83,8 +85,9 @@
                 ***********************************-->
                 <div class="nav-header text-center">
                     <div class="brand-logo">
-                        <h1 class="logo-abbr text-white text-center pt-3"><i class="fas fa-dumbbell"></i></h1>
                         <a class="text-white" style="font-family: 'Poppins', sans-serif;" href="{{ path('dashboard') }}">
+                            <b class="logo-abbr text-white text-center"><i class="fas fa-dumbbell"></i></b>
+                            <span class="logo-compact"><i class="fas fa-dumbbell"></i></span>
                             <span class="brand-title">
                                 <i class="fas fa-dumbbell"></i> Gym-Morrison
                             </span>
@@ -142,12 +145,14 @@
                 <div class="nk-sidebar">
                     <div class="nk-nav-scroll">
                         <ul class="metismenu" id="menu">
-                            <a class="nav-label text-primary" href="{{ path('dashboard') }}">
-                                <i class="icon-speedometer menu-icon"></i>
-                                <b>Dashboard</b>
-                            </a>
                             <li>
-                                <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                                <a href="{{ path('dashboard') }}" aria-expanded="false">
+                                    <i class="icon-speedometer menu-icon"></i>
+                                    <span class="nav-text">Dashboard</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="has-arrow" aria-expanded="false">
                                     <i class="icon-fire menu-icon"></i> <span class="nav-text">Activities</span>
                                 </a>
                                 <ul aria-expanded="false">
@@ -157,7 +162,7 @@
                                 </ul>
                             </li>
                             <li>
-                                <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                                <a class="has-arrow" aria-expanded="false">
                                     <i class="icon-user menu-icon"></i><span class="nav-text">Users</span>
                                 </a>
                                 <ul aria-expanded="false">
@@ -183,7 +188,7 @@
                             </div>
                             <div class="modal-body">Your session will be closed.</div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-secondary text-white" data-dismiss="modal">Close</button>
                                 <a type="button" class="btn btn-danger" href="{{ path('app_logout') }}">Logout</a>
                             </div>
                         </div>
