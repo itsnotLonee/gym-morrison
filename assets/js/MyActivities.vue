@@ -46,7 +46,7 @@
                                 <b>{{ item.start_time.date | formatTime }} - {{ item.end_time.date | formatTime }}</b>
                             </td>
                             <td>
-                                <span class="label gradient-4 btn-rounded"><i class="fas fa-users"></i> &nbsp; 0</span>
+                                <span class="label gradient-4 btn-rounded d-flex"><i class="fas fa-users"></i> &nbsp; 0</span>
                             </td>
                             <td>
                                 <span>
@@ -56,22 +56,22 @@
                                             <!-- Button trigger modal -->
                                         <span class="btn btn-outline-danger" data-toggle="modal" v-bind:data-target="'#basico'+item.id" title="Remove"><i class="fa fa-close color-danger"></i></span>
                                             <!-- Modal -->
-                                        <div class="modal fade" v-bind:id="'basico'+item.id">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">Remove Activity</h5>
-                                                        <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        You are about to delete: <b>{{ item.title }}</b>
-                                                        <p class="text-danger text-center mt-3">This action can't be undone</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-success text-white" data-dismiss="modal">Close</button>
-                                                        <a type="button" class="btn btn-danger text-white" data-dismiss="modal" @click="removeActivity(item.id)">Confirm remove</a>
-                                                    </div>
+                                    </div>
+                                    <div class="modal fade" v-bind:id="'basico'+item.id">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Remove Activity</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    You are about to delete: <b>{{ item.title }}</b>
+                                                    <p class="text-danger text-center mt-3">This action can't be undone</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-success text-white" data-dismiss="modal">Close</button>
+                                                    <a type="button" class="btn btn-danger text-white" data-dismiss="modal" @click="removeActivity(item.id)">Confirm remove</a>
                                                 </div>
                                             </div>
                                         </div>

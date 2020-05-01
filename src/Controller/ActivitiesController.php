@@ -121,7 +121,8 @@ class ActivitiesController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         // $activities = $em->getRepository(Activities::class)->findBy(['user' => $user]);
-        $activities = $em->getRepository(Activities::class)->findTodayActivities();
+        $activities = $em->getRepository(Activities::class)->findTodayActivities($this->getUser());
+
 
         for ($i = 0; $i < count($activities); $i++) {
             $owner = $activities[$i]->getUser()->getName() . " " . $activities[$i]->getUser()->getSurname();
@@ -136,6 +137,7 @@ class ActivitiesController extends AbstractController
                 'owner' => $owner,
                 'date_created' => $activities[$i]->getDateCreated(),
             ];
+
         }
 
         return new JsonResponse($data, Response::HTTP_OK);
@@ -281,5 +283,7 @@ class ActivitiesController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+
 
 }

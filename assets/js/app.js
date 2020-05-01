@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Dashboard from './Dashboard.vue'
+import userDashboard from './userDashboard.vue'
 import Profile from './Profile.vue'
 import MyActivities from './MyActivities.vue'
 import AllActivities from './AllActivities.vue'
@@ -7,9 +8,8 @@ import JwPagination from 'jw-vue-pagination';
 
 Vue.component('jw-pagination', JwPagination);
 
-Vue.use(require('vue-moment'))
-
 import moment from 'moment';
+Vue.use(require('vue-moment'))
 
 Vue.filter('formatDate', function(value) {
         if (value) {
@@ -27,5 +27,5 @@ Vue.filter('formatTime', function(value) {
 
 new Vue({
     el: "#app",
-    components: {Dashboard, Profile, MyActivities, AllActivities}
+    components: {Dashboard, userDashboard, Profile, MyActivities, AllActivities}
 })

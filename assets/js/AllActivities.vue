@@ -45,7 +45,9 @@
                                 <b>{{ item.start_time.date | formatTime }} - {{ item.end_time.date | formatTime }}</b>
                             </td>
                             <td>
-                                <span class="label gradient-4 btn-rounded"><i class="fas fa-users"></i> &nbsp; 0</span>
+                                <span class="label gradient-4 btn-rounded d-flex align-items-start">
+                                    <i class="fas fa-users"></i> &nbsp; 0
+                                </span>
                             </td>
                             <td>
                                 {{ item.owner }}

@@ -29,7 +29,7 @@ class ActivitiesRepository extends ServiceEntityRepository
         $query = $entityManager->createQuery(
             'SELECT a
             FROM App\Entity\Activities a
-            WHERE a.start_date >= CURRENT_DATE()
+            WHERE a.start_date <= CURRENT_DATE()
             ORDER BY a.start_date ASC'
         );
 
@@ -40,19 +40,19 @@ class ActivitiesRepository extends ServiceEntityRepository
     /**
      * @return Activity[]
      */
-    public function findTodayActivities(): array
+    public function findTodayActivities($user): array
     {
-        $entityManager = $this->getEntityManager();
+        $query = $this->createQueryBuilder('a')
+            ->where('a.user = :usuario', 'a.start_date = CURRENT_DATE()')
+            ->setParameter('usuario', $user)
+            ->orderBy('a.id', 'ASC');
 
-        $query = $entityManager->createQuery(
-            'SELECT a
-            FROM App\Entity\Activities a
-            WHERE a.start_date = CURRENT_DATE()
-            ORDER BY a.start_date ASC'
-        );
+        $q = $query->getQuery();
 
         // returns an array of Product objects
-        return $query->getResult();
+        //return $query->getResult();
+        return $q->execute();
+
     }
 
     public function BuscarTodasActividades(){
