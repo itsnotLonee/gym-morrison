@@ -1,0 +1,35 @@
+.component-fade-enter-active, .component-fade-leave-active {
+    transition: .5s;
+}
+
+.component-fade-enter, .component-fade-leave-to
+    /* .component-fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+}
+
+.slide-leave-active,
+.slide-enter-active {
+    transition: 1s;
+}
+.slide-enter {
+    transform: translate(100%, 0);
+}
+.slide-leave-to {
+    transform: translate(-100%, 0);
+}
+
+
+.list-complete-item {
+    transition: 1s;
+}
+.list-complete-leave-to {
+    transform: translateY(-120%);
+}
+
+.list-complete-leave-active {
+    position: absolute;
+}
+
+.list-complete-enter {
+    transform: translateY(300%);
+}

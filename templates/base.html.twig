@@ -17,7 +17,6 @@
             <link href="/css/style.css" rel="stylesheet">
 
             <script src="https://kit.fontawesome.com/21b5751b50.js" crossorigin="anonymous"></script>
-
         {% endblock %}
     </head>
         {% block body %}
@@ -36,82 +35,13 @@
             ********************-->
 
             {% if app.user.roles[0] == 'ROLE_USER' %}
-                    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top pt-3 mb-3" id="navbar-head">
-                                <div class="col-4">
-                                    <button class="navbar-toggler mb-3" type="button" data-toggle="collapse" data-target=".navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                                        <span class="navbar-toggler-icon"></span>
-                                    </button>
-                                    <div class="collapse navbar-collapse navbarSupportedContent float-right mr-5">
-                                        <form>
-                                            <input class="form-control input-rounded border-0 shadow-sm" type="search" placeholder="Search" aria-label="Search">
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="d-flex justify-content-center">
-                                        <a href="{{ path('dashboard') }}">
-                                            <h3 class="text-primary"><i class="fas fa-dumbbell"></i>
-                                            Gym-Morrison</h3>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="header-right float-left ml-5">
-                                        <ul class="clearfix">
-                                            <li class="icons dropdown">
-                                                <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
-                                                    <span class="activity active"></span>
-                                                    <img src="{{ asset('/uploads/photos/' ~ app.user.getProfilePhoto) }}" height="40" width="40" >
-                                                </div>
-                                                <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
-                                                    <div class="dropdown-content-body" style="z-index: 99">
-                                                        <ul>
-                                                            <li>
-                                                                <a href="/profile/{{ app.user.id }}"><i class="icon-user"></i> <span>Profile</span></a>
-                                                            </li>
-                                                            <hr class="my-2">
-                                                            <li>
-                                                                <a class="text-danger" data-toggle="modal" data-target="#basicModal"><i class="icon-key"></i>Logout</a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                        </div>
 
-                    </nav>
 
                     <div id="app">
-                        <user-dashboard />
+                        <user-index />
                     </div>
                     {{ encore_entry_script_tags('app') }}
 
-
-                    <nav class="navbar fixed-bottom navbar-light bg-light pt-3 mt-5" id="navbar-bottom">
-                        <div class="col">
-                            <a href="">
-                                <div class="float-right text-center" style="font-size: 1.2em">
-                                    <i class="fas fa-clipboard-list"></i> <br> <small>Joined</small>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col">
-                            <a href="">
-                                <div class="text-center" style="font-size: 1.2em">
-                                    <i class="fas fa-home"></i> <br> <small>Home</small>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col text-left">
-                            <div class="float-left text-center" style="font-size: 1.2em">
-                                <a href="">
-                                    <i class="fas fa-calendar-alt"></i> <br> <small>Activities</small>
-                                </a>
-                            </div>
-                        </div>
-                    </nav>
             {% else %}
 
             <!--**********************************

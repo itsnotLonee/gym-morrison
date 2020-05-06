@@ -40,11 +40,28 @@ class ActivitiesRepository extends ServiceEntityRepository
     /**
      * @return Activity[]
      */
-    public function findTodayActivities($user): array
+    public function findTodayMyActivities($user): array
     {
         $query = $this->createQueryBuilder('a')
             ->where('a.user = :usuario', 'a.start_date = CURRENT_DATE()')
             ->setParameter('usuario', $user)
+            ->orderBy('a.id', 'ASC');
+
+        $q = $query->getQuery();
+
+        // returns an array of Product objects
+        //return $query->getResult();
+        return $q->execute();
+
+    }
+
+    /**
+     * @return Activity[]
+     */
+    public function findTodayActivities(): array
+    {
+        $query = $this->createQueryBuilder('a')
+            ->where('a.start_date = CURRENT_DATE()')
             ->orderBy('a.id', 'ASC');
 
         $q = $query->getQuery();

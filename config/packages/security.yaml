@@ -44,5 +44,3 @@ security:
     access_control:
           - { path: ^/register-activity, roles: ROLE_STAFF }
           - { path: ^/my-activities, roles: ROLE_STAFF }
-          - { path: ^/join-activity, roles: ROLE_USER }
-          - { path: ^/profile, roles: ROLE_USER}

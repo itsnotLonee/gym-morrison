@@ -1,23 +1,38 @@
 import Vue from 'vue'
 import Dashboard from './Dashboard.vue'
+import userIndex from './userIndex.vue'
 import userDashboard from './userDashboard.vue'
+import userActivities from './userActivities.vue'
 import Profile from './Profile.vue'
 import MyActivities from './MyActivities.vue'
 import AllActivities from './AllActivities.vue'
 import JwPagination from 'jw-vue-pagination';
+import moment from 'moment';
+import VueRouter from 'vue-router';
 
 Vue.component('jw-pagination', JwPagination);
 
-import moment from 'moment';
-Vue.use(require('vue-moment'))
+Vue.component('user-dashboard', userDashboard)
 
+Vue.use(VueRouter)
+
+const routes = [
+    { path: '/dashboard', name: 'dashboard', component: userDashboard },
+    { path: '/activities', name: 'activities', component: userActivities },
+    { path: '/', redirect: '/dashboard'}
+]
+
+const router = new VueRouter({
+    routes // short for `routes: routes`
+})
+
+Vue.use(require('vue-moment'))
 Vue.filter('formatDate', function(value) {
         if (value) {
             return moment(String(value)).format('MM/DD/YYYY')
         }
     }
 )
-
 Vue.filter('formatTime', function(value) {
         if (value) {
             return moment(String(value)).format('HH:mm')
@@ -27,5 +42,6 @@ Vue.filter('formatTime', function(value) {
 
 new Vue({
     el: "#app",
-    components: {Dashboard, userDashboard, Profile, MyActivities, AllActivities}
+    components: {Dashboard, userIndex, userDashboard, userActivities, Profile, MyActivities, AllActivities},
+    router
 })

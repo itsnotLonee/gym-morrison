@@ -2,6 +2,11 @@
 
 {% block title %}Gym-Morrison · Dashboard{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="/css/personalized.css" rel="stylesheet">
+{% endblock %}
+
 {% block body %}
     {{ parent() }}
 

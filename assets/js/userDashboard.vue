@@ -1,62 +1,135 @@
 <template>
     <div>
-        <div class="row">
-            <div class="col-xl-1"></div>
-            <div class="col-xl-3 col-lg-3">
-                <div class="card sticky-top" style="z-index: 0; top: 6.5em">
-                    <div class="card-header">
-                        Profile
-                        <button id="switch-mode" type="button" class="btn btn-outline-secondary float-right border-0" data-toggle="tooltip" data-placement="top" data-original-title="Dark Mode" @click="darkmode"><i class="fas fa-moon"></i></button>
+        <div class="card">
+            <div class="card-header">
+                Dashboard
+            </div>
+            <div class="card-body">
+                <div>
+                    <h4 v-if="todayUserActivities" class="head3r gradient-1 rounded p-2"><strong>YOUR ACTIVITIES FOR TODAY</strong></h4>
+                    <div v-else>
+                        <h4 class="head3r gradient-1 rounded p-2"><strong>NO ACTIVITIES TODAY</strong></h4>
+                        <p>You can see down here the scheduled today.</p>
                     </div>
-                    <div class="card-body">
-                        <div class="media align-items-center mb-4">
-                            <img class="mr-3 rounded-circle p-1 shadow" v-bind:src="'/uploads/photos/' + myProfile.photo" width="80" height="80" alt="">
-                            <div class="media-body">
-                                <h3 class="mb-0 head3r">{{ myProfile.name }} {{ myProfile.surname }}</h3>
+                    <div class="media border-bottom-1 pt-3 pb-3" v-for="item in todayUserActivities">
+                        <img width="35" class="mr-3 rounded-circle">
+                        <div class="media-body">
+                            <h5>{{ item.activity_title }}</h5>
+                            <p class="m-1">{{ item.activity_content.slice(0, 50) + '...' }}</p>
+                            <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalRemove" >Remove me</button>
+                            <!-- @click="remove(item.activity_id), updateToday()" -->
+                            {{ item.activity_id }}
+                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalInfo" @click="modalInfo(item.activity_id)">
+                                Info
+                            </button>
+                            <div class="float-right">
+                                <span class="text-muted"><i class="far fa-clock"></i> {{ item.activity_starttime.date.slice(11, 16) }}</span> &nbsp; &nbsp;
+                                <span class="text-muted"><i class="fas fa-user"></i> {{ item.activity_teacher }}</span>
                             </div>
                         </div>
-                        <ul class="card-profile__info">
-                            <li class="mb-1"><strong class="text-dark mr-4">Phone</strong> <span>01793931609</span></li>
-                            <li><strong class="text-dark mr-4">Email</strong> <span>name@domain.com</span></li>
-                        </ul>
-                    </div>
-                    <div class="card-footer bg-transparent">
-                        <p class="card-text d-inline"><small class="text-muted">Private profile</small>
-                        </p><a href="" class="card-link float-right"><small>Edit Profile</small></a>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-4 col-lg-9">
-                <div class="card">
-                    <div class="card-header">
-                        Dashboard
+            <hr>
+            <div class="card-body">
+                <div>
+                    <h4 v-if="todayActivities" class="head3r gradient-3 rounded p-2"><strong>PUBLIC ACTIVITIES TODAY</strong></h4>
+                    <div v-else>
+                        <h4 class="head3r gradient-3 rounded p-2"><strong>NO PUBLIC ACTIVITIES TODAY</strong></h4>
+                        <p>No public activities scheduled today.</p>
                     </div>
-                    <div class="card-body">
-                        <h4 class="head3r">Your activities today</h4>
-                        This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.This is some text within a card body.
-                    </div>
-                    <div class="card-footer bg-transparent">
-                        <p class="card-text d-inline"><small class="text-muted">Last updated 3 mins ago</small>
-                        </p><a href="#" class="card-link float-right"><small>Card link</small></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-lg-12">
-                <div class="card sticky-top" style="z-index: 0; top: 6.5em">
-                    <div class="card-header">
-                        Suscription
-                    </div>
-                    <div class="card-body">
-                        <h4 class="head3r text-center">Days left</h4>
-                        <div class="text-primary text-center" ><b style="font-size: 10em">35</b></div>
-                    </div>
-                    <div class="card-footer bg-transparent">
-                        <p class="card-text d-inline"><small class="text-muted">One month sub</small>
-                        </p><a href="#" class="card-link float-right"><small>Check sub</small></a>
+                    <div class="media border-bottom-1 pt-3 pb-3" v-for="item in todayActivities">
+                        <img width="35" class="mr-3 rounded-circle">
+                        <div class="media-body">
+                            <h5> {{ item.title }} </h5>
+                            <p class="m-1">{{ item.content.slice(0, 100) + '...'  }} </p>
+                            <button class="btn btn-success btn-sm" @click="join(item.id), updateToday()">Join</button>
+                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalInfo" @click="modalInfo(item.id)">
+                                Info
+                            </button>
+                        </div>
+                        <span class="text-muted "><i class="fas fa-user"></i> {{ item.owner }}</span>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-1"></div>
+            <hr>
+            <div class="card-body">
+                <div>
+                    <h4 v-if="upcomingActivities" class="head3r gradient-7 rounded p-2"><strong>PUBLIC ACTIVITIES UPCOMING</strong></h4>
+                    <div v-else>
+                        <h4 class="head3r gradient-7 rounded p-2"><strong>NO UPCOMING ACTIVITIES</strong></h4>
+                        <p>No public activities scheduled.</p>
+                    </div>
+                    <div class="media border-bottom-1 pt-3 pb-3" v-for="item in upcomingActivities">
+                        <img width="35" class="mr-3 rounded-circle">
+                        <div class="media-body">
+                            <h5> {{ item.title }} </h5>
+                            <p class="m-1">{{ item.content.slice(0, 200) + '...'  }} </p>
+                            <button class="btn btn-success btn-sm" @click="join(item.id), updateToday()">Join</button>
+                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalInfo" @click="modalInfo(item.id)">
+                                Info
+                            </button>
+                            <div class="float-right">
+                                <span class="text-muted"><i class="fas fa-clock"></i> {{ item.start_time.date.slice(11, 16) }}</span> &nbsp;
+                                <span class="text-muted"><i class="fas fa-calendar"></i> {{ item.start_date.date.slice(0, 10) }}</span> &nbsp;
+                                <span class="text-muted "><i class="fas fa-user"></i> {{ item.owner }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-transparent">
+                <p class="card-text d-inline"><small class="text-muted">Last updated 3 mins ago</small>
+                </p><a href="#" class="card-link float-right"><small>Card link</small></a>
+            </div>
+        </div>
+
+        <!-- ModalInfo -->
+        <div class="modal fade" id="modalInfo" tabindex="-1" role="dialog" aria-labelledby="infoModalScrollableTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="infoModalScrollableTitle">{{ infoModal.title }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>{{ infoModal.content }}</p>
+                        <p>
+                            <i class="fas fa-clock"></i> <b>{{ infoModal.start_date }}</b>
+                        </p>
+                        <p>
+                            <i class="fas fa-calendar"></i> <b></b>
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ModalDelete -->
+        <div class="modal fade" id="modalRemove" tabindex="-1" role="dialog" aria-labelledby="removeModalScrollableTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="removeModalScrollableTitle">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Remove
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -66,37 +139,112 @@
 
     export default {
         data: () => ({
-            myProfile: []
+            todayActivities: null,
+            upcomingActivities: null,
+            todayUserActivities: null,
+            infoModal: [{
+                start_date: null,
+                end_date: null,
+                start_time: null,
+                end_time: null
+            }],
+            infoModalHora: '',
+            infoModalFecha: ''
         }),
         mounted () {
-
             axios
-                .get('/my-profile')
-                .then(response => (
-                    this.myProfile = response.data,
-                    console.log(this.myProfile)
-                ))
+                .get('/get-today-activities')
+                .then(response => {
+                    this.todayActivities = response.data
+                })
+            axios
+                .get('/get-all-activities')
+                .then(response => {
+                    this.upcomingActivities = response.data
+                })
+            axios
+                .get('/get-user-today-activities')
+                .then(response => {
+                    console.log(response)
+                    var today = new Date()
+                    var aux = []
+                    var c = 0
+                    for (var i = 0; i < response.data.length; i++) {
+                        var fechaStart = new Date(response.data[i].activity_startdate.date)
+                        var fechaEnd = new Date(response.data[i].activity_enddate.date)
+                        if (today >= fechaStart && today <= fechaEnd) {
+                            aux[c] = response.data[i]
+                            c++
+                        }
+                    }
+                    if (aux.length !== 0) {
+                        this.todayUserActivities = aux
+                    }
+                    console.log(this.todayUserActivities)
+                })
 
         },
         methods: {
-            darkmode () {
-                if ($('body').hasClass('bg-dark')) {
-                    console.log('negro')
-                    $('#switch-mode').html('<i class="fas fa-moon"></i>').attr('data-original-title', 'Dark Mode');
-                    $(".navbar").addClass('bg-light');
-                    $("body").removeClass('bg-dark');
-                    $('.card').addClass('bg-light');
-                    $('.card').children().addClass('text-dark').removeClass('text-white');
-                } else {
-                    console.log('blanco')
-                    $('#switch-mode').html('<i class="fas fa-sun"></i>').attr('data-original-title', 'Turn dark mode off');
-                    $(".navbar").css('background-color', 'rgb(66, 66, 66)').removeClass('bg-light');
-                    $("body").addClass('bg-dark text-dark').removeClass('bg-light');
-                    $('.card').removeClass('bg-light').css('background-color', 'rgb(80, 80, 80)');
-                     $('.card').children().removeClass('text-dark').addClass('text-white');
-                    // $('h4').removeClass('text-dark').addClass('text-white');
-                    // $('h3').removeClass('text-dark').addClass('text-white');
-                }
+            join (actID) {
+                var ruta = '/join'
+                $.ajax({
+                    type: 'POST',
+                    url: ruta,
+                    data: ({id: actID}),
+                    async: true,
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log('unido')
+                    }
+                })
+            },
+            remove (actID) {
+                var ruta = '/removeFromActivity'
+                $.ajax({
+                    type: 'POST',
+                    url: ruta,
+                    data: ({id: actID}),
+                    async: true,
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log(data)
+                        console.log('Eliminado')
+                    }
+                })
+            },
+            updateToday () {
+                axios
+                    .get('/get-user-today-activities')
+                    .then(response => {
+                        var today = new Date()
+                        var aux = []
+                        var c = 0
+                        for (var i = 0; i < response.data.length; i++) {
+                            var fechaStart = new Date(response.data[i].activity_startdate.date)
+                            var fechaEnd = new Date(response.data[i].activity_enddate.date)
+                            if (today >= fechaStart && today <= fechaEnd) {
+                                aux[c] = response.data[i]
+                                c++
+                            }
+                        }
+                        this.todayUserActivities = aux
+                        console.log(this.todayUserActivities)
+                    })
+            },
+            modalInfo (actID) {
+                var ruta = '/get-activity'
+                $.ajax({
+                    type: 'POST',
+                    url: ruta,
+                    data: ({id: actID}),
+                    async: true,
+                    dataType: 'json',
+                    success: (data) => {
+                        var aux = data
+                        this.infoModal = aux
+                        console.log(this.infoModal)
+                    }
+                })
             }
         }
     }
