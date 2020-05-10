@@ -61,7 +61,7 @@ class ActivitiesRepository extends ServiceEntityRepository
     public function findTodayActivities(): array
     {
         $query = $this->createQueryBuilder('a')
-            ->where('a.start_date = CURRENT_DATE()')
+            ->where('a.start_date <= CURRENT_DATE()', 'a.end_date >= CURRENT_DATE()')
             ->orderBy('a.id', 'ASC');
 
         $q = $query->getQuery();

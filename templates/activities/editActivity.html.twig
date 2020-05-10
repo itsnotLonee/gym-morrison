@@ -37,6 +37,11 @@
                         </div>
 
                         <div class="form-group">
+                            <label>Photo</label>
+                            {{ form_widget(form.photo) }}
+                        </div>
+
+                        <div class="form-group">
                             <label>Description</label>
                             {{ form_widget(form.content, {'attr': {'class': 'form-control'}}) }}
                         </div>
@@ -75,6 +80,9 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
+        $('.custom-file').children('label').remove()
+        $('#activities_photo').removeClass('custom-file-input').addClass('form-control p-2 w-100')
+
         // start_date
         var startDate = document.getElementById('activities_start_date_day').value
         startDate += '/' + ((document.getElementById('activities_start_date_month').value < 10 ) ? '0'+document.getElementById('activities_start_date_month').value : document.getElementById('activities_start_date_month').value)

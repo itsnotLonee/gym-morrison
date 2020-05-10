@@ -30,15 +30,17 @@
                         {{ message }}
                     </div>
                 {% endfor %}
+
                 {{ form_start(formulario) }}
 
-                <div class="m-1 mt-3">
-                    <h5 class="mb-2 text-secondary">Login info</h5>
+                <fieldset class="mt-5 border rounded p-3">
+                    <legend class="text-primary">Login info</legend>
 
                     {{ form_errors(formulario.profile_photo) }}
                     <i class="fas fa-id-card"></i> {{ form_label(formulario.profile_photo, 'Profile Photo') }}
-                    {{ form_widget(formulario.profile_photo, {'attr': {'class': 'form-control-file'}})}}
+                    {{ form_widget(formulario.profile_photo,{'attr': {'class': 'form-control-file'}} )}}
                     {{ form_help(formulario.profile_photo) }}
+
                     <br> <br>
                     {{ form_errors(formulario.email) }}
                     <i class="fas fa-envelope"></i> {{ form_label(formulario.email, 'Your email') }}
@@ -51,7 +53,7 @@
                     {{ form_widget(formulario.password, {'attr': {'class': 'border-top-0 border-right-0 border-left-0 rounded-0', 'placeholder': 'Password...', 'style': 'transition: 1s;'}}) }}
                     {{ form_help(formulario.password) }}
                     <input type="password" id="user_password2" class="form-control border-top-0 border-right-0 border-left-0 rounded-0 mt-1" placeholder="Confirm password..." required>
-                    <p class="border text-danger p-3 text-left mt-3" id="user_password2_error" style="font-size: small; display: none">
+                    <p class="border text-danger p-3 text-left mt-3" id="user_password2_error" style="font-size: small;">
                         <label><i class="fas fa-times" id="confirm_pass"></i> Passwords should match</label> <br>
                         <label><i class="fas fa-times" id="length_pass"></i> 8-18 length</label> <br>
                         <label><i class="fas fa-times" id="upper_pass"></i> One upper case at least</label> <br>
@@ -60,10 +62,10 @@
                     </p>
 
 
-                </div>
+                </fieldset>
 
-                <div class="m-1 mt-5">
-                    <h5 class="mb-2 text-secondary">Personal info</h5>
+                <fieldset class="mt-5 mb-3 p-3 border rounded">
+                    <legend class="text-primary">Personal info</legend>
                     {{ form_errors(formulario.dni) }}
                     <i class="fas fa-id-card"></i> {{ form_label(formulario.dni, 'DNI') }}
                     {{ form_widget(formulario.dni, {'attr': {'class': 'border-top-0 border-right-0 border-left-0 rounded-0 mb-5', 'placeholder': '12345678X', 'pattern': '[0-9]{8}[A-Za-z]{1}'}}) }}
@@ -71,12 +73,12 @@
 
                     {{ form_errors(formulario.name) }}
                     <i class="fas fa-user"></i> {{ form_label(formulario.name, 'Name') }}
-                    {{ form_widget(formulario.name, {'attr': {'class': 'border-top-0 border-right-0 border-left-0 rounded-0 mb-2', 'placeholder': 'Travis', 'pattern': '[A-Za-z\s-]{1,32}'}}) }}
+                    {{ form_widget(formulario.name, {'attr': {'class': 'border-top-0 border-right-0 border-left-0 rounded-0 mb-2', 'placeholder': 'Travis'}}) }}
                     {{ form_help(formulario.name) }}
 
                     {{ form_errors(formulario.surname) }}
                     <i class="fas fa-user"></i> {{ form_label(formulario.surname, 'Surname') }}
-                    {{ form_widget(formulario.surname, {'attr': {'class': 'border-top-0 border-right-0 border-left-0 rounded-0 mb-5', 'placeholder': 'Scott', 'pattern': '[A-Za-z\s-]{1,32}'}}) }}
+                    {{ form_widget(formulario.surname, {'attr': {'class': 'border-top-0 border-right-0 border-left-0 rounded-0 mb-5', 'placeholder': 'Scott'}}) }}
                     {{ form_help(formulario.surname) }}
 
                     {{ form_errors(formulario.birthdate) }}
@@ -91,7 +93,7 @@
 
                     {{ form_errors(formulario.address) }}
                     <i class="fas fa-map-marker-alt"></i> {{ form_label(formulario.address, 'Address') }}
-                    {{ form_widget(formulario.address, {'attr': {'class': 'border-top-0 border-right-0 border-left-0 rounded-0 mb-2', 'placeholder': 'The Bronx, 5, 4C', 'pattern': '[A-Za-z\s,-]{1,32}'}}) }}
+                    {{ form_widget(formulario.address, {'attr': {'class': 'border-top-0 border-right-0 border-left-0 rounded-0 mb-2', 'placeholder': 'The Bronx, 5, 4C'}}) }}
                     {{ form_help(formulario.address) }}
 
                     {{ form_errors(formulario.phone) }}
@@ -99,9 +101,10 @@
                     {{ form_widget(formulario.phone, {'attr': {'class': 'border-top-0 border-right-0 border-left-0 rounded-0 mb-5', 'placeholder': '012345678', 'pattern': '[0-9]{1,14}'}}) }}
                     {{ form_help(formulario.phone) }}
 
+                </fieldset>
+                <div id="fill-all" class="text-warning m-3">
+                    You must fill all fields
                 </div>
-
-
 
                 {{ form_end(formulario) }}
                 <p class="mt-5 mb-3 text-muted">&copy; Gym-Morrison 2020</p>
@@ -119,5 +122,82 @@
     <script src="/js/settings.js"></script>
     <script src="/js/gleek.js"></script>
     <script src="/js/styleSwitcher.js"></script>
+    <script>
+        $('.custom-file').children('label').remove()
+        $('#user_profile_photo').removeClass('custom-file-input').addClass('form-control p-2 w-100')
+
+        var pass = document.getElementById('user_password')
+        var pass2 = document.getElementById('user_password2')
+        var submit = document.getElementById('user_submit')
+        var fillall = document.getElementById('fill-all')
+        var done = false
+
+        pass.onkeyup = () => {
+            check()
+        }
+        pass2.onkeyup = () => {
+            check()
+        }
+
+        function check () {
+
+            // length
+            if (pass.value.length >= 8 && pass.value.length <= 18) {
+                $('#length_pass').addClass('fa-check').removeClass('fa-times').parent().addClass('text-success')
+                done = true
+            } else {
+                $('#length_pass').removeClass('fa-check').addClass('fa-check').parent().removeClass('text-success')
+                done = false
+            }
+
+            // one upper case
+            if (pass.value.toUpperCase() != pass.value) {
+                $('#upper_pass').addClass('fa-check').removeClass('fa-times').parent().addClass('text-success')
+                done = true
+            } else {
+                $('#upper_pass').removeClass('fa-check').addClass('fa-check').parent().removeClass('text-success')
+                done = false
+            }
+
+            // one lower case
+            if (pass.value.toLowerCase() != pass.value) {
+                $('#lower_pass').addClass('fa-check').removeClass('fa-times').parent().addClass('text-success')
+                done = true
+            } else {
+                $('#lower_pass').removeClass('fa-check').addClass('fa-check').parent().removeClass('text-success')
+                done = false
+            }
+
+            // one number
+            if (/\d/.test(pass.value)) {
+                $('#number_pass').addClass('fa-check').removeClass('fa-times').parent().addClass('text-success')
+                done = true
+            } else {
+                $('#number_pass').removeClass('fa-check').addClass('fa-check').parent().removeClass('text-success')
+                done = false
+            }
+
+            // pass match
+            if (pass.value === pass2.value && pass.value != '') {
+                $('#confirm_pass').addClass('fa-check').removeClass('fa-times').parent().addClass('text-success')
+                done = true
+            } else {
+                $('#confirm_pass').removeClass('fa-check').addClass('fa-check').parent().removeClass('text-success')
+                done = false
+            }
+
+            if (done === true) {
+                fillall.style.display = 'none'
+                submit.disabled = false
+                console.log(done)
+            } else {
+                fillall.style.display = 'block'
+                submit.disabled = true
+                console.log(done)
+            }
+
+        }
+
+    </script>
 {% endblock %}
 

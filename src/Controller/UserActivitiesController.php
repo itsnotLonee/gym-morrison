@@ -44,6 +44,7 @@ class UserActivitiesController extends AbstractController
                 'id' => $activities[$i]->getId(),
                 'user_joined' => $userJoined,
                 'activity_id' => $activities[$i]->getActivity()->getID(),
+                'activity_photo' => $activities[$i]->getActivity()->getPhoto(),
                 'activity_teacher' => $teacher,
                 'activity_title' => $activities[$i]->getActivity()->getTitle(),
                 'activity_content' => $activities[$i]->getActivity()->getContent(),
@@ -78,6 +79,7 @@ class UserActivitiesController extends AbstractController
                 'id' => $activities[$i]->getId(),
                 'user_joined' => $userJoined,
                 'activity_id' => $activities[$i]->getActivity()->getID(),
+                'activity_photo' => $activities[$i]->getActivity()->getPhoto(),
                 'activity_teacher' => $teacher,
                 'activity_title' => $activities[$i]->getActivity()->getTitle(),
                 'activity_content' => $activities[$i]->getActivity()->getContent(),
@@ -103,13 +105,12 @@ class UserActivitiesController extends AbstractController
             $user = $this->getUser();
             $id = $request->request->get('id');
 
-            $query = $em->getRepository(UsersActivities::class)->findBy(['user' => $user]);
-            $query2 = $em->getRepository(UsersActivities::class)->findBy(['activity' => $id]);
+            $query = $em->getRepository(UsersActivities::class)->findOneBy(['user' => $user, 'activity' => $id]);
 
-            $activity = $em->getRepository(Activities::class)->find($id);
-            $u_activity = new UsersActivities();
-            if ($query == null || $query2 == null) {
+            if ($query == null) {
 
+                $activity = $em->getRepository(Activities::class)->find($id);
+                $u_activity = new UsersActivities();
                 $u_activity->setUser($user);
                 $u_activity->setActivity($activity);
 
@@ -118,8 +119,9 @@ class UserActivitiesController extends AbstractController
 
                 // actually executes the queries (i.e. the INSERT query)
                 $em->flush();
+                return new JsonResponse('Joined');
             }
-            return new JsonResponse('Joined');
+            return new JsonResponse('Already joined');
         } else {
             throw new \Exception('Not allowed');
         }

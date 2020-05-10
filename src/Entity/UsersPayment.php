@@ -17,16 +17,6 @@ class UsersPayment
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $user_id;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $payment_id;
-
-    /**
      * @ORM\Column(type="date")
      */
     private $date_purchase;
@@ -46,39 +36,51 @@ class UsersPayment
         return $this->id;
     }
 
-    public function getUserId(): ?int
+    /**
+     * @return mixed
+     */
+    public function getPayment()
     {
-        return $this->user_id;
+        return $this->payment;
     }
 
-    public function setUserId(int $user_id): self
+    /**
+     * @param mixed $payment
+     */
+    public function setPayment($payment): void
     {
-        $this->user_id = $user_id;
-
-        return $this;
+        $this->payment = $payment;
     }
 
-    public function getPaymentId(): ?int
+    /**
+     * @return mixed
+     */
+    public function getUser()
     {
-        return $this->payment_id;
+        return $this->user;
     }
 
-    public function setPaymentId(int $payment_id): self
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user): void
     {
-        $this->payment_id = $payment_id;
-
-        return $this;
+        $this->user = $user;
     }
 
-    public function getDatePurchase(): ?\DateTimeInterface
+    /**
+     * @return mixed
+     */
+    public function getDatePurchase()
     {
         return $this->date_purchase;
     }
 
-    public function setDatePurchase(\DateTimeInterface $date_purchase): self
+    /**
+     * @param mixed $date_purchase
+     */
+    public function setDatePurchase($date_purchase): void
     {
         $this->date_purchase = $date_purchase;
-
-        return $this;
     }
 }

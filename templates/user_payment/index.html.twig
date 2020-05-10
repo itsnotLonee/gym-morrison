@@ -1,0 +1,130 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gym-Morrison · Payment{% endblock %}
+
+{% block stylesheets %}
+    <!-- Custom fonts for this template-->
+    {#<link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">#}
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/vue.resource/1.3.1/vue-resource.min.js"></script>
+
+    <!-- Custom Stylesheet -->
+    <link href="/css/style.css" rel="stylesheet">
+
+    <script src="https://kit.fontawesome.com/21b5751b50.js" crossorigin="anonymous"></script>
+
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="card border-0 shadow rounded-lg mx-auto mt-3 mb-5 p-5" style="width: 100%">
+            <div class="text-center">
+                <h1><i class="fas fa-dumbbell text-primary"></i></h1>
+                <h1 class="text-primary" style="font-family: 'Poppins', sans-serif;">Gym-Morrison</h1>
+
+                {% for message in app.flashes('exito') %}
+                    <div class="alert alert-success">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+
+                <h2 class="m-5">Select your subscription <i class="fas fa-cart-plus"></i></h2>
+
+                <div class="card-deck mb-3 text-center">
+                    <div class="card mb-4 shadow">
+                        <div class="card-header">
+                            <h2 class="my-0 mb-2">1 Month</h2>
+                            <h3 class="gradient-1 rounded p-3 text-white">20€</h3>
+                        </div>
+                        <div class="card-body">
+                            <h1 class="card-title pricing-card-title">20€ <small class="text-muted">/ mo</small></h1>
+                            <ul class="list-unstyled mt-3 mb-4">
+                                <li><b>30</b> Days of subscription</li>
+                                <li>Access to web</li>
+                                <li>Join activities</li>
+                                <li>Manage subscription</li>
+                            </ul>
+                            <button id="one" type="button" class="btn btn-lg btn-block btn-primary">Select</button>
+                        </div>
+                    </div>
+                    <div class="card mb-4 shadow">
+                        <div class="card-header">
+                            <h2 class="my-0 mb-2">2 Months</h2>
+                            <h3 class="gradient-8 rounded p-3 text-white">35€</h3>
+                        </div>
+                        <div class="card-body">
+                            <h1 class="card-title pricing-card-title">17,5€ <small class="text-muted">/ mo</small></h1>
+                            <ul class="list-unstyled mt-3 mb-4">
+                                <li><b>60</b> Days of subscription</li>
+                                <li>Access to web</li>
+                                <li>Join activities</li>
+                                <li>Manage subscription</li>
+                            </ul>
+                            <button id="two" type="button" class="btn btn-lg btn-block btn-primary">Select</button>
+                        </div>
+                    </div>
+                    <div class="card mb-4 shadow">
+                        <div class="card-header">
+                            <h2 class="my-0 mb-2">6 Months</h2>
+                            <h3 class="gradient-7 rounded p-3 text-white">95€</h3>
+                        </div>
+                        <div class="card-body">
+                            <h1 class="card-title pricing-card-title">15,5€ <small class="text-muted">/ mo</small></h1>
+                            <ul class="list-unstyled mt-3 mb-4">
+                                <li><b>180</b> Days of subscription</li>
+                                <li>Access to web</li>
+                                <li>Join activities</li>
+                                <li>Manage subscription</li>
+                            </ul>
+                            <button id="six" type="button" class="btn btn-lg btn-block btn-primary">Select</button>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="mt-5 mb-3 text-muted">&copy; Gym-Morrison 2020</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <script src="/plugins/common/common.min.js"></script>
+    <script src="/js/custom.min.js"></script>
+    <script src="/js/settings.js"></script>
+    <script src="/js/gleek.js"></script>
+    <script src="/js/styleSwitcher.js"></script>
+    <script>
+
+        document.getElementById('one').onclick = () => {
+            newSub(1)
+        }
+
+        document.getElementById('two').onclick = () => {
+            newSub(2)
+        }
+
+        document.getElementById('six').onclick = () => {
+            newSub(3)
+        }
+
+        newSub = (payID) => {
+            var ruta = '/newSub'
+            $.ajax({
+                type: 'POST',
+                url: ruta,
+                data: ({id: payID}),
+                async: true,
+                dataType: 'json',
+                success: function (data) {
+                    console.log('done')
+                    window.location.href = "/";
+                }
+            })
+        }
+    </script>
+{% endblock %}

@@ -39,6 +39,11 @@
                         </div>
 
                         <div class="form-group">
+                            <label>Photo</label>
+                            {{ form_widget(form.photo) }}
+                        </div>
+
+                        <div class="form-group">
                             <label>Description</label>
                             {{ form_widget(form.content, {'attr': {'class': 'form-control'}}) }}
                         </div>
@@ -168,6 +173,7 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
+
         console.log(document.getElementById('rango').value)
 
         document.getElementById('rango').onchange = () => {
@@ -191,6 +197,7 @@
             document.getElementById('activities_end_time_hour').selectedIndex = document.getElementById('rango').value.slice(30,32)
             document.getElementById('activities_end_time_minute').selectedIndex = document.getElementById('rango').value.slice(33,35)
 
+            document.getElementsByClassName()
         }
     </script>
     <script src="/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>

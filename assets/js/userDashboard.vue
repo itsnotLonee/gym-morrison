@@ -6,19 +6,20 @@
             </div>
             <div class="card-body">
                 <div>
-                    <h4 v-if="todayUserActivities" class="head3r gradient-1 rounded p-2"><strong>YOUR ACTIVITIES FOR TODAY</strong></h4>
+                    <div v-if="todayUserActivities">
+                        <h4  class="head3r gradient-1 rounded p-2"><strong>YOUR ACTIVITIES TODAY</strong></h4>
+                        <div class="text-muted">Activities you joined for today</div>
+                    </div>
                     <div v-else>
                         <h4 class="head3r gradient-1 rounded p-2"><strong>NO ACTIVITIES TODAY</strong></h4>
                         <p>You can see down here the scheduled today.</p>
                     </div>
                     <div class="media border-bottom-1 pt-3 pb-3" v-for="item in todayUserActivities">
-                        <img width="35" class="mr-3 rounded-circle">
+                        <img width="50" height="50" class="mr-3 rounded-circle" v-bind:src="'/uploads/photos/' + item.activity_photo">
                         <div class="media-body">
                             <h5>{{ item.activity_title }}</h5>
                             <p class="m-1">{{ item.activity_content.slice(0, 50) + '...' }}</p>
-                            <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalRemove" >Remove me</button>
-                            <!-- @click="remove(item.activity_id), updateToday()" -->
-                            {{ item.activity_id }}
+                            <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalRemove" @click="removeModalID = item.activity_id">Remove me</button>
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalInfo" @click="modalInfo(item.activity_id)">
                                 Info
                             </button>
@@ -39,7 +40,7 @@
                         <p>No public activities scheduled today.</p>
                     </div>
                     <div class="media border-bottom-1 pt-3 pb-3" v-for="item in todayActivities">
-                        <img width="35" class="mr-3 rounded-circle">
+                        <img width="50" height="50" class="mr-3 rounded-circle" v-bind:src="'/uploads/photos/' + item.photo">
                         <div class="media-body">
                             <h5> {{ item.title }} </h5>
                             <p class="m-1">{{ item.content.slice(0, 100) + '...'  }} </p>
@@ -61,7 +62,7 @@
                         <p>No public activities scheduled.</p>
                     </div>
                     <div class="media border-bottom-1 pt-3 pb-3" v-for="item in upcomingActivities">
-                        <img width="35" class="mr-3 rounded-circle">
+                        <img width="50" height="50" class="mr-3 rounded-circle" v-bind:src="'/uploads/photos/' + item.photo">
                         <div class="media-body">
                             <h5> {{ item.title }} </h5>
                             <p class="m-1">{{ item.content.slice(0, 200) + '...'  }} </p>
@@ -116,17 +117,17 @@
             <div class="modal-dialog modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="removeModalScrollableTitle">Modal title</h5>
+                        <h5 class="modal-title" id="removeModalScrollableTitle">Are you sure?</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        Remove
+                        Confirm you aren't coming to the activity.
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" @click="remove(removeModalID), updateToday()">Remove me</button>
                     </div>
                 </div>
             </div>
@@ -149,7 +150,8 @@
                 end_time: null
             }],
             infoModalHora: '',
-            infoModalFecha: ''
+            infoModalFecha: '',
+            removeModalID: -1
         }),
         mounted () {
             axios
@@ -165,14 +167,14 @@
             axios
                 .get('/get-user-today-activities')
                 .then(response => {
-                    console.log(response)
+                    // console.log(response)
                     var today = new Date()
                     var aux = []
                     var c = 0
                     for (var i = 0; i < response.data.length; i++) {
                         var fechaStart = new Date(response.data[i].activity_startdate.date)
                         var fechaEnd = new Date(response.data[i].activity_enddate.date)
-                        if (today >= fechaStart && today <= fechaEnd) {
+                        if (fechaStart <= today && fechaEnd >= today) {
                             aux[c] = response.data[i]
                             c++
                         }
@@ -180,7 +182,7 @@
                     if (aux.length !== 0) {
                         this.todayUserActivities = aux
                     }
-                    console.log(this.todayUserActivities)
+                    // console.log(this.todayUserActivities)
                 })
 
         },
@@ -194,7 +196,7 @@
                     async: true,
                     dataType: 'json',
                     success: function (data) {
-                        console.log('unido')
+                        console.log(data)
                     }
                 })
             },

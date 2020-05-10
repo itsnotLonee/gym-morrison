@@ -3,6 +3,7 @@
         "@symfony/webpack-encore": "^0.29.0",
         "core-js": "^3.0.0",
         "regenerator-runtime": "^0.13.2",
+        "webpack-dev-server": "^3.11.0",
         "webpack-notifier": "^1.6.0"
     },
     "license": "UNLICENSED",
@@ -11,7 +12,8 @@
         "dev-server": "encore dev-server",
         "dev": "encore dev",
         "watch": "encore dev --watch",
-        "build": "encore production --progress"
+        "build": "encore production --progress",
+        "start:dev": "webpack-dev-server"
     },
     "dependencies": {
         "@fullcalendar/core": "^4.4.0",
@@ -20,6 +22,7 @@
         "axios": "^0.19.2",
         "bootstrap": "^4.4.1",
         "bootstrap-vue": "^2.12.0",
+        "jquery": "^1.9.1",
         "jw-vue-pagination": "^1.0.3",
         "vue": "^2.6.11",
         "vue-blink-css": "^1.0.1",

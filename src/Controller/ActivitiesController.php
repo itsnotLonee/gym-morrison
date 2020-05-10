@@ -12,6 +12,7 @@ use Seld\JsonLint\JsonParser;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,6 +21,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 
 class ActivitiesController extends AbstractController
@@ -27,12 +29,35 @@ class ActivitiesController extends AbstractController
     /**
      * @Route("/register-activity", name="RegisterActivity")
      */
-    public function index(Request $request)
+    public function index(Request $request, SluggerInterface $slugger)
     {
         $activity = new Activities();
         $form = $this->createForm(ActivitiesType::class, $activity);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $brochureFile = $form->get('photo')->getData();
+            if ($brochureFile) {
+                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $brochureFile->move(
+                        $this->getParameter('photos_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    throw new \Exception('Error in upload');
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $activity->setPhoto($newFilename);
+            }
+
             $user = $this->getUser();
             $activity->setUser($user);
             $datetime = new \DateTime();
@@ -126,6 +151,7 @@ class ActivitiesController extends AbstractController
             $data[$i] = [
                 'id' => $activities[$i]->getId(),
                 'title' => $activities[$i]->getTitle(),
+                'photo' => $activities[$i]->getPhoto(),
                 'content' => $activities[$i]->getContent(),
                 'start_time' => $activities[$i]->getStartTime(),
                 'end_time' => $activities[$i]->getEndTime(),
@@ -157,6 +183,7 @@ class ActivitiesController extends AbstractController
             $data[$i] = [
                 'id' => $activities[$i]->getId(),
                 'title' => $activities[$i]->getTitle(),
+                'photo' => $activities[$i]->getPhoto(),
                 'content' => $activities[$i]->getContent(),
                 'start_time' => $activities[$i]->getStartTime(),
                 'end_time' => $activities[$i]->getEndTime(),
@@ -189,6 +216,7 @@ class ActivitiesController extends AbstractController
             $data[$i] = [
                 'id' => $activities[$i]->getId(),
                 'title' => $activities[$i]->getTitle(),
+                'photo' => $activities[$i]->getPhoto(),
                 'content' => $activities[$i]->getContent(),
                 'start_time' => $activities[$i]->getStartTime(),
                 'end_time' => $activities[$i]->getEndTime(),
@@ -227,6 +255,7 @@ class ActivitiesController extends AbstractController
             $data[$i] = [
                 'id' => $activities[$i]->getId(),
                 'title' => $activities[$i]->getTitle(),
+                'photo' => $activities[$i]->getPhoto(),
                 'content' => $activities[$i]->getContent(),
                 'start_time' => $activities[$i]->getStartTime(),
                 'end_time' => $activities[$i]->getEndTime(),
@@ -270,7 +299,7 @@ class ActivitiesController extends AbstractController
     /**
      * @Route("/edit-activity/{id}", name="editActivity")
      */
-    public function edit(Request $request, $id)
+    public function edit(Request $request, $id, SluggerInterface $slugger)
     {
         $em = $this->getDoctrine()->getManager();
         $activity = $em->getRepository(Activities::class)->find($id);
@@ -278,6 +307,29 @@ class ActivitiesController extends AbstractController
         $form = $this->createForm(ActivitiesType::class, $activity);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $brochureFile = $form->get('photo')->getData();
+            if ($brochureFile) {
+                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $brochureFile->move(
+                        $this->getParameter('photos_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    throw new \Exception('Error in upload');
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $activity->setPhoto($newFilename);
+            }
+
             $user = $this->getUser();
             $activity->setUser($user);
             $datetime = new \DateTime();

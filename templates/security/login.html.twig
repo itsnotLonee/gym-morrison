@@ -28,6 +28,13 @@
                                 <h1><i class="fas fa-dumbbell text-primary"></i></h1>
                                 <h1 class="text-primary" style="font-family: 'Poppins', sans-serif;">Gym-Morrison</h1>
                                 <h2 class="mt-4 mb-4 text-secondary">Log in <i class="fas fa-user"></i></h2>
+
+                                {% for message in app.flashes('exito') %}
+                                    <div class="alert alert-success">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+
                                 {% if error %}
                                     <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                                 {% endif %}

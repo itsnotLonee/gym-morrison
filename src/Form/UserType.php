@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -11,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
 
 class UserType extends AbstractType
 {
@@ -23,7 +25,7 @@ class UserType extends AbstractType
             ->add('dni')
             ->add('name')
             ->add('surname')
-            ->add('birthdate')
+            ->add('birthdate', BirthdayType::class)
             ->add('sex',ChoiceType::class,
                 array('choices' => array(
                     'Male' => 'Male',

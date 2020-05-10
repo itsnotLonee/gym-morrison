@@ -11,6 +11,7 @@
                         <tr>
                             <th scope="col"></th>
                             <th scope="col">ID</th>
+                            <th scope="col">Photo</th>
                             <th scope="col">Title</th>
                             <th scope="col">Content</th>
                             <th scope="col">Date</th>
@@ -27,6 +28,9 @@
                             </td>
                             <td>
                                 {{ item.id }}
+                            </td>
+                            <td>
+                                <img class="p-1 rounded-circle shadow" v-bind:src="'/uploads/photos/' + item.photo" width="50" height="50" alt="No-Photo"/>
                             </td>
                             <td>
                                 {{ item.title }}

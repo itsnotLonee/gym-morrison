@@ -90,7 +90,7 @@
                     </div>
                     <div class="card-body">
                         <h4 class="head3r text-center">Days left</h4>
-                        <div class="text-primary text-center" ><b style="font-size: 10em">35</b></div>
+                        <div class="text-primary text-center" ><b style="font-size: 10em">{{ daysLeft }}</b></div>
                     </div>
                     <div class="card-footer bg-transparent">
                         <p class="card-text d-inline"><small class="text-muted">One month sub</small>
@@ -134,6 +134,7 @@
     export default {
         data: () => ({
             myProfile: [],
+            daysLeft: 0
         }),
         mounted () {
             axios
@@ -141,6 +142,12 @@
                 .then(response => (
                     this.myProfile = response.data
                 ))
+            axios
+                .get('/daysLeft')
+                .then(response => {
+                    console.log(response.data)
+                    this.daysLeft = response.data.days_left.days
+                })
         },
         methods: {
             darkmode () {
@@ -161,6 +168,13 @@
                     // $('h4').removeClass('text-dark').addClass('text-white');
                     // $('h3').removeClass('text-dark').addClass('text-white');
                 }
+            },
+            days () {
+                axios
+                    .get('/daysLeft')
+                    .then(response => (
+                        console.log(response.data)
+                    ))
             }
         }
     }
