@@ -22,7 +22,7 @@
         "axios": "^0.19.2",
         "bootstrap": "^4.4.1",
         "bootstrap-vue": "^2.12.0",
-        "jquery": "^1.9.1",
+        "jquery": "^3.5.0",
         "jw-vue-pagination": "^1.0.3",
         "vue": "^2.6.11",
         "vue-blink-css": "^1.0.1",
