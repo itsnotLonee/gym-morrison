@@ -87,10 +87,43 @@ class UserPaymentController extends AbstractController
 
             $data = [
                 'user' => $user,
-                'days_left' => $dayPurchase->diff($today)
+                'days_left' => $dayPurchase->diff($today),
+                'description' => $query->getPayment()->getDescription()
             ];
 
             return new JsonResponse($data, Response::HTTP_OK);
+    }
+
+    /**
+     * @Route("/modSub", options={"expose"=true}, name="modSub")
+     */
+    public function Modify(Request $request)
+    {
+        if ($request->isXmlHttpRequest()) {
+            $em = $this->getDoctrine()->getManager();
+            $user = $this->getUser();
+            $id = $request->request->get('id');
+
+            $query = $em->getRepository(UsersPayment::class)->findOneBy(['user' => $user]);
+            $em->remove($query);
+
+            $pay = $em->getRepository(Payment::class)->find($id);
+            $payment = new UsersPayment();
+
+            $payment->setUser($user);
+            $payment->setPayment($pay);
+            $datetime = new \DateTime();
+            $payment->setDatePurchase($datetime);
+
+            // tell Doctrine you want to (eventually) save the Product (no queries yet)
+            $em->persist($payment);
+
+            // actually executes the queries (i.e. the INSERT query)
+            $em->flush();
+            return new JsonResponse( 'Payment approved');
+        } else {
+            throw new \Exception('Not allowed');
+        }
     }
 
 }

@@ -72,11 +72,11 @@
                     </div>
                     <div class="card-body">
                         <h4 class="head3r text-center">Days left</h4>
-                        <div class="text-primary text-center" ><b style="font-size: 10em">{{ daysLeft }}</b></div>
+                        <div class="text-primary text-center" ><b style="font-size: 10em">{{ daysLeft.days_left.days }}</b></div>
                     </div>
                     <div class="card-footer bg-transparent">
-                        <p class="card-text d-inline"><small class="text-muted">One month sub</small>
-                        </p><a href="#" class="card-link float-right"><small>Check sub</small></a>
+                        <p class="card-text d-inline"><small class="text-muted">{{ daysLeft.description }}</small>
+                        </p><router-link to="/payment" class="card-link float-right"><small>Check sub</small></router-link>
                     </div>
                 </div>
             </div>
@@ -86,11 +86,11 @@
 
         <nav class="navbar fixed-bottom navbar-light bg-light pt-3 mt-5" id="navbar-bottom">
             <div class="col">
-                <a>
+                <router-link to="/payment">
                     <div class="float-right text-center" style="font-size: 1.2em">
-                        <i class="fas fa-clipboard-list"></i> <br> <small>Joined</small>
+                        <i class="fas fa-money-check-alt"></i> <br> <small>Payment</small>
                     </div>
-                </a>
+                </router-link>
             </div>
             <div class="col">
                 <router-link to="/dashboard">
@@ -102,7 +102,7 @@
             <div class="col">
                 <router-link to="/activities">
                     <div class="float-left text-center" style="font-size: 1.2em">
-                        <i class="fas fa-calendar-alt"></i> <br> <small>Activities</small>
+                        <i class="fas fa-clipboard-list"></i> <br> <small>Activities</small>
                     </div>
                 </router-link>
             </div>
@@ -116,7 +116,7 @@
     export default {
         data: () => ({
             myProfile: [],
-            daysLeft: 0
+            daysLeft: []
         }),
         mounted () {
             axios
@@ -128,7 +128,7 @@
                 .get('/daysLeft')
                 .then(response => {
                     console.log(response.data)
-                    this.daysLeft = response.data.days_left.days
+                    this.daysLeft = response.data
                 })
         },
         methods: {

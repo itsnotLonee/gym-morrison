@@ -103,6 +103,7 @@ class ActivitiesController extends AbstractController
             'end_date' => $activity->getEndDate(),
             'teacher' => $owner,
             'date_created' => $activity->getDateCreated(),
+            'photo' => $activity->getPhoto(),
         ];
 
 
