@@ -7,7 +7,8 @@
             <div class="card-body">
                 <div>
                     <h4 class="head3r gradient-1 rounded p-2"><strong>Your Activities History</strong></h4>
-                    <div class="media border-bottom-1 pt-3 pb-3" v-for="item in activitiesHistory">
+                    <p class="text-muted">Ordered by latest joined</p>
+                    <div class="media border-bottom-1 pt-3 pb-3" v-for="item in activitiesHistory.reverse()">
                         <img width="50" height="50" class="mr-3 rounded-circle" v-bind:src="'/uploads/photos/' + item.activity_photo">
                         <div class="media-body">
                             <div>

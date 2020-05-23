@@ -61,7 +61,7 @@
                         <h4 class="head3r gradient-7 rounded p-2"><strong>NO UPCOMING ACTIVITIES</strong></h4>
                         <p>No public activities scheduled.</p>
                     </div>
-                    <div class="media border-bottom-1 pt-3 pb-3" v-for="item in upcomingActivities">
+                    <div class="media border-bottom-1 pt-3 pb-3" v-for="item in upcomingActivities.reverse()">
                         <img width="50" height="50" class="mr-3 rounded-circle" v-bind:src="'/uploads/photos/' + item.photo">
                         <div class="media-body">
                             <h5> {{ item.title }} </h5>
@@ -95,18 +95,26 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
+                    <img class="w-100" v-bind:src="'/uploads/photos/' + infoModal.photo" style="max-height: 400px" alt="Photo">
                     <div class="modal-body">
-                        <p>{{ infoModal.content }}</p>
                         <p>
-                            <i class="fas fa-clock"></i> <b>{{ infoModal.start_date }}</b>
+                            {{ infoModal.content }}
                         </p>
-                        <p>
-                            <i class="fas fa-calendar"></i> <b></b>
+                        <p class="text-secondary">
+                            <i class="fas fa-chalkboard-teacher"></i> <b>{{ infoModal.teacher }}</b>
                         </p>
+                        <p class="text-info">
+                            <i class="fas fa-clock"></i> <b>{{ infoModal.start_time.date.toString().slice(11, 16) }}</b> - <b>{{ infoModal.end_time.date.toString().slice(11, 16) }}</b>
+                        </p>
+                        <div class="text-info" v-if="infoModal.start_date.date.toString().slice(0, 10) === infoModal.end_date.date.toString().slice(0, 10)">
+                            <i class="fas fa-calendar"></i> <b>{{ infoModal.start_date.date.toString().slice(0, 10) }}</b>
+                        </div>
+                        <div class="text-info" v-else>
+                            <i class="fas fa-calendar"></i> From <b>{{ infoModal.start_date.date.toString().slice(0, 10) }}</b> to <b>{{ infoModal.end_date.date.toString().slice(0, 10) }}</b>
+                        </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -143,12 +151,20 @@
             todayActivities: null,
             upcomingActivities: null,
             todayUserActivities: null,
-            infoModal: [{
-                start_date: null,
-                end_date: null,
-                start_time: null,
-                end_time: null
-            }],
+            infoModal: {
+                start_date: {
+                    date: new Date()
+                },
+                end_date: {
+                    date: new Date()
+                },
+                start_time: {
+                    date: new Date()
+                },
+                end_time: {
+                    date: new Date()
+                }
+            },
             infoModalHora: '',
             infoModalFecha: '',
             removeModalID: -1
