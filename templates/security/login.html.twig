@@ -1,6 +1,4 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Gym-Morrison · Log in!{% endblock %}
+{% extends 'index.html.twig' %}
 
 {% block stylesheets %}
     <!-- Custom fonts for this template-->
@@ -14,16 +12,16 @@
     <link href="/css/style.css" rel="stylesheet">
 
     <script src="https://kit.fontawesome.com/21b5751b50.js" crossorigin="anonymous"></script>
-
 {% endblock %}
 
 {% block body %}
+{{ parent() }}
     <div class="login-form-bg h-100 mt-5">
         <div class="container h-100">
-            <div class="row justify-content-center h-100">
+            <div class="row justify-content-center h-100" >
                 <div class="col-xl-6">
                     <div class="form-input-content">
-                        <div class="card login-form mb-0 mx-auto" style="width: 30em">
+                        <div class="card login-form mb-0 mx-auto" style="width: 30em;">
                             <div class="card-body pt-5 text-center">
                                 <h1><i class="fas fa-dumbbell text-primary"></i></h1>
                                 <h1 class="text-primary" style="font-family: 'Poppins', sans-serif;">Gym-Morrison</h1>

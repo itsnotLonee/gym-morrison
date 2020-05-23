@@ -23,25 +23,7 @@
             <div class="col-4">
                 <div class="header-right float-left ml-5">
                     <ul class="clearfix">
-                        <li class="icons dropdown">
-                            <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
-                                <span class="activity active"></span>
-                                <img v-bind:src="'/uploads/photos/' + myProfile.photo" height="40" width="40" >
-                            </div>
-                            <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
-                                <div class="dropdown-content-body" style="z-index: 99">
-                                    <ul>
-                                        <li>
-                                            <a><i class="icon-user"></i> <span>Profile</span></a>
-                                        </li>
-                                        <hr class="my-2">
-                                        <li>
-                                            <a class="text-danger" data-toggle="modal" data-target="#basicModal"><i class="icon-key"></i>Logout</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
+                        <a class="text-danger font-small" data-toggle="modal" data-target="#basicModal"><i class="fas fa-sign-out-alt"></i></a>
                     </ul>
                 </div>
             </div>

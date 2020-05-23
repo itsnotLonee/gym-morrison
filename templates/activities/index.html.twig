@@ -173,6 +173,8 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
+        $('.custom-file').children('label').remove()
+        $('#activities_photo').removeClass('custom-file-input').addClass('form-control p-2 w-100')
 
         console.log(document.getElementById('rango').value)
 
@@ -197,7 +199,6 @@
             document.getElementById('activities_end_time_hour').selectedIndex = document.getElementById('rango').value.slice(30,32)
             document.getElementById('activities_end_time_minute').selectedIndex = document.getElementById('rango').value.slice(33,35)
 
-            document.getElementsByClassName()
         }
     </script>
     <script src="/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>

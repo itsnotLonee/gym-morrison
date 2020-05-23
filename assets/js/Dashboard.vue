@@ -2,7 +2,7 @@
     <div>
         <div class="container-fluid">
             <div class="row">
-                <div class="col-xl-3 col-lg-6 col-sm-12 col-xxl-3 d-flex align-content-stretch flex-wrap">
+                <div class="col-xl-3 col-lg-6 col-sm-12 col-xxl-3">
                     <div class="card gradient-1 w-100">
                         <div class="card-body">
                             <h3 class="card-title text-white">Activities Created</h3>
@@ -13,6 +13,8 @@
                             <span class="float-right display-5 opacity-5"><i class="fa fa-calendar-plus"></i></span>
                         </div>
                     </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 col-sm-12 col-xxl-3 ">
                     <div class="card gradient-2 w-100">
                         <div class="card-body">
                             <h3 class="card-title text-white">Example1</h3>
@@ -25,7 +27,36 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-lg-6 col-sm-12 d-flex align-content-stretch flex-wrap">
+                <div class="col-xl-3 col-lg-6 col-sm-12 col-xxl-3 ">
+                    <div class="card gradient-3 w-100">
+                        <div class="card-body">
+                            <h3 class="card-title text-white">Example1</h3>
+                            <div class="d-inline-block">
+                                <!--<button @click="activitiesCreated">Click</button>-->
+                                <h2 class="text-white">{{ actCreated }}</h2>
+                                <p class="text-white mb-0">text</p>
+                            </div>
+                            <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 col-sm-12 col-xxl-3 ">
+                    <div class="card gradient-4 w-100">
+                        <div class="card-body">
+                            <h3 class="card-title text-white">Example1</h3>
+                            <div class="d-inline-block">
+                                <!--<button @click="activitiesCreated">Click</button>-->
+                                <h2 class="text-white">{{ actCreated }}</h2>
+                                <p class="text-white mb-0">text</p>
+                            </div>
+                            <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xl-6 col-lg-12 col-sm-12 d-flex align-content-stretch flex-wrap">
                     <div class="card gradient-7 w-100 pb-4">
                         <div class="card-body" style="height: 20rem">
                             <h4 class="card-title text-white"><b>Your</b> activities for <b>Today</b></h4>
@@ -64,9 +95,6 @@
                     <!-- /# card -->
                 </div>
 
-            </div>
-
-            <div class="row">
                 <div class="col-xl-6 col-lg-12 col-sm-12 col-xxl-6">
                     <div class="card">
                         <div class="card-body">
@@ -160,17 +188,6 @@
                 .then(response => (
                     this.todayActivities = response.data
                 ))
-
-            setInterval(() => {
-                axios
-                    .get('/get-today-myactivities')
-                    .then(response => {
-                        var aux = response.data
-                        if (aux < this.todayActivities ? -1 : +(aux > this.todayActivities)){
-                            this.todayActivities = aux
-                        }
-                    })
-            }, 1e3)
 
         },
         computed : {

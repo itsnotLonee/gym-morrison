@@ -81,7 +81,6 @@ class UserPaymentController extends AbstractController
 
             $dayPurchase = $query->getDatePurchase();
             $addDays = $query->getPayment()->getDays() + 1;
-            $hola = 'hola';
 
             $dayPurchase->modify('+'.$addDays.' day');
             $today = new DateTime();

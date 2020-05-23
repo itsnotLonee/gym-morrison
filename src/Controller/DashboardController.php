@@ -27,7 +27,7 @@ class DashboardController extends AbstractController
                 $request->query->getInt('page', 1), /*page number*/
                 8 /*limit per page*/
             );
-            if ($user->getRoles()[0] == 'ROLE_STAFF') {
+            if ($user->getRoles()[0] == 'ROLE_STAFF' || $user->getRoles()[0] == 'ROLE_ADMIN') {
                 return $this->render('dashboard/admin.html.twig', [
                     'pag' => $pag,
                     'usuario' => $user->getRoles()[0]
@@ -39,7 +39,7 @@ class DashboardController extends AbstractController
                 ]);
             }
         }else{
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('app_home');
         }
     }
 }

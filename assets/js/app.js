@@ -16,6 +16,7 @@ Vue.component('user-dashboard', userDashboard)
 
 Vue.use(VueRouter)
 
+
 const routes = [
     { path: '/dashboard', name: 'dashboard', component: userDashboard },
     { path: '/activities', name: 'activities', component: userActivities },

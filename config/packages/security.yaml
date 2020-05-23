@@ -42,5 +42,5 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-          - { path: ^/register-activity, roles: ROLE_STAFF }
-          - { path: ^/my-activities, roles: ROLE_STAFF }
+#          - { path: ^/register-activity, roles: ROLE_STAFF }
+#          - { path: ^/my-activities, roles: ROLE_STAFF }

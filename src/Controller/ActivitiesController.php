@@ -304,44 +304,49 @@ class ActivitiesController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $activity = $em->getRepository(Activities::class)->find($id);
 
-        $form = $this->createForm(ActivitiesType::class, $activity);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
 
-            $brochureFile = $form->get('photo')->getData();
-            if ($brochureFile) {
-                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
+        if ($activity->getUser() == $this->getUser()) {
+            $form = $this->createForm(ActivitiesType::class, $activity);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
 
-                // Move the file to the directory where brochures are stored
-                try {
-                    $brochureFile->move(
-                        $this->getParameter('photos_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    throw new \Exception('Error in upload');
+                $brochureFile = $form->get('photo')->getData();
+                if ($brochureFile) {
+                    $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                    // this is needed to safely include the file name as part of the URL
+                    $safeFilename = $slugger->slug($originalFilename);
+                    $newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
+
+                    // Move the file to the directory where brochures are stored
+                    try {
+                        $brochureFile->move(
+                            $this->getParameter('photos_directory'),
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        throw new \Exception('Error in upload');
+                    }
+
+                    // updates the 'brochureFilename' property to store the PDF file name
+                    // instead of its contents
+                    $activity->setPhoto($newFilename);
                 }
 
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
-                $activity->setPhoto($newFilename);
+                $user = $this->getUser();
+                $activity->setUser($user);
+                $datetime = new \DateTime();
+                $activity->setDateCreated($datetime);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($activity);
+                $em->flush();
+                return $this->redirectToRoute('MyActivities');
             }
-
-            $user = $this->getUser();
-            $activity->setUser($user);
-            $datetime = new \DateTime();
-            $activity->setDateCreated($datetime);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($activity);
-            $em->flush();
-            return $this->redirectToRoute('MyActivities');
+            return $this->render('activities/editActivity.html.twig', [
+                'form' => $form->createView(),
+            ]);
+        } else {
+            return $this->redirectToRoute('app_home');
         }
-        return $this->render('activities/editActivity.html.twig', [
-            'form' => $form->createView(),
-        ]);
     }
 
 

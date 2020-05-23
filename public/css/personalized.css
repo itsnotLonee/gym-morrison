@@ -33,3 +33,10 @@
 .list-complete-enter {
     transform: translateY(300%);
 }
+
+.box {
+    width: 120%;
+    margin-left: -10%;
+    flex-shrink:100;
+    border-radius:0 0 100% 100%;
+}

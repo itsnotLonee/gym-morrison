@@ -43,7 +43,7 @@ class ActivitiesRepository extends ServiceEntityRepository
     public function findTodayMyActivities($user): array
     {
         $query = $this->createQueryBuilder('a')
-            ->where('a.user = :usuario', 'a.start_date = CURRENT_DATE()')
+            ->where('a.user = :usuario', 'a.start_date <= CURRENT_DATE()', 'a.end_date >= CURRENT_DATE()')
             ->setParameter('usuario', $user)
             ->orderBy('a.id', 'ASC');
 
