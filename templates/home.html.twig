@@ -7,6 +7,7 @@
     {% block body %}
     {{ parent() }}
 
+
         <main role="main mt-5">
 
             <div>
@@ -37,6 +38,7 @@
                         </div><!-- /.row -->
                     </div>
                 </div>
+
                 <div class="container">
                     <div style="top: -10em; position: relative;">
                         <div class="card">
@@ -66,121 +68,141 @@
                             </div>
                         </div>
 
+                        <div class="card-deck mb-3 text-center">
+                            <div class="card mb-4 shadow">
+                                <div class="card-header">
+                                    <h2 class="my-0 mb-2">1 Month</h2>
+                                    <h3 class="gradient-1 rounded p-3 text-white">20€</h3>
+                                </div>
+                                <div class="card-body">
+                                    <h1 class="card-title pricing-card-title">20€ <small class="text-muted">/ mo</small></h1>
+                                    <ul class="list-unstyled mt-3 mb-4">
+                                        <li><b>30</b> Days of subscription</li>
+                                        <li>Access to web</li>
+                                        <li>Join activities</li>
+                                        <li>Manage subscription</li>
+                                    </ul>
+                                    <button id="one" type="button" class="btn btn-lg btn-block btn-primary">Select</button>
+                                </div>
+                            </div>
 
-                <div class="card-deck mb-3 text-center">
-                    <div class="card mb-4 shadow">
-                        <div class="card-header">
-                            <h2 class="my-0 mb-2">1 Month</h2>
-                            <h3 class="gradient-1 rounded p-3 text-white">20€</h3>
+                            <div class="card mb-4 shadow">
+                                <div class="card-header">
+                                    <h2 class="my-0 mb-2">2 Months</h2>
+                                    <h3 class="gradient-8 rounded p-3 text-white">35€</h3>
+                                </div>
+                                <div class="card-body">
+                                    <h1 class="card-title pricing-card-title">17,5€ <small class="text-muted">/ mo</small></h1>
+                                    <ul class="list-unstyled mt-3 mb-4">
+                                        <li><b>60</b> Days of subscription</li>
+                                        <li>Access to web</li>
+                                        <li>Join activities</li>
+                                        <li>Manage subscription</li>
+                                    </ul>
+                                    <button id="two" type="button" class="btn btn-lg btn-block btn-primary">Select</button>
+                                </div>
+                            </div>
+
+                            <div class="card mb-4 shadow">
+                                <div class="card-header">
+                                    <h2 class="my-0 mb-2">3 Months</h2>
+                                    <h3 class="gradient-7 rounded p-3 text-white">50€</h3>
+                                </div>
+                                <div class="card-body">
+                                    <h1 class="card-title pricing-card-title">16,6€ <small class="text-muted">/ mo</small></h1>
+                                    <ul class="list-unstyled mt-3 mb-4">
+                                        <li><b>90</b> Days of subscription</li>
+                                        <li>Access to web</li>
+                                        <li>Join activities</li>
+                                        <li>Manage subscription</li>
+                                    </ul>
+                                    <button id="three" type="button" class="btn btn-lg btn-block btn-primary">Select</button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <h1 class="card-title pricing-card-title">20€ <small class="text-muted">/ mo</small></h1>
-                            <ul class="list-unstyled mt-3 mb-4">
-                                <li><b>30</b> Days of subscription</li>
-                                <li>Access to web</li>
-                                <li>Join activities</li>
-                                <li>Manage subscription</li>
-                            </ul>
-                            <button id="one" type="button" class="btn btn-lg btn-block btn-primary">Select</button>
+
+                        <!-- Marketing messaging and featurettes
+                        ================================================== -->
+                        <!-- Wrap the rest of the page in another container to center all the content. -->
+
+                        <div class="marketing">
+
+                            <!-- START THE FEATURETTES -->
+
+                            <hr class="featurette-divider">
+
+                            <div class="row featurette">
+                                <div class="col-md-7">
+                                    <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It’ll blow your mind.</span></h2>
+                                    <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+                                </div>
+                                <div class="col-md-5">
+                                    <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+                                </div>
+                            </div>
+
+                            <hr class="featurette-divider">
+
+                            <div class="row featurette">
+                                <div class="col-md-7 order-md-2">
+                                    <h2 class="featurette-heading">Oh yeah, it’s that good. <span class="text-muted">See for yourself.</span></h2>
+                                    <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+                                </div>
+                                <div class="col-md-5 order-md-1">
+                                    <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+                                </div>
+                            </div>
+
+                            <hr class="featurette-divider">
+
+                            <div class="row featurette">
+                                <div class="col-md-7">
+                                    <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
+                                    <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+                                </div>
+                                <div class="col-md-5">
+                                    <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+                                </div>
+                            </div>
+                            
+                            <hr class="featurette-divider "><!-- /END THE FEATURETTES -->
                         </div>
-                    </div>
-                    <div class="card mb-4 shadow">
-                        <div class="card-header">
-                            <h2 class="my-0 mb-2">2 Months</h2>
-                            <h3 class="gradient-8 rounded p-3 text-white">35€</h3>
-                        </div>
-                        <div class="card-body">
-                            <h1 class="card-title pricing-card-title">17,5€ <small class="text-muted">/ mo</small></h1>
-                            <ul class="list-unstyled mt-3 mb-4">
-                                <li><b>60</b> Days of subscription</li>
-                                <li>Access to web</li>
-                                <li>Join activities</li>
-                                <li>Manage subscription</li>
-                            </ul>
-                            <button id="two" type="button" class="btn btn-lg btn-block btn-primary">Select</button>
-                        </div>
-                    </div>
-                    <div class="card mb-4 shadow">
-                        <div class="card-header">
-                            <h2 class="my-0 mb-2">3 Months</h2>
-                            <h3 class="gradient-7 rounded p-3 text-white">50€</h3>
-                        </div>
-                        <div class="card-body">
-                            <h1 class="card-title pricing-card-title">16,6€ <small class="text-muted">/ mo</small></h1>
-                            <ul class="list-unstyled mt-3 mb-4">
-                                <li><b>90</b> Days of subscription</li>
-                                <li>Access to web</li>
-                                <li>Join activities</li>
-                                <li>Manage subscription</li>
-                            </ul>
-                            <button id="three" type="button" class="btn btn-lg btn-block btn-primary">Select</button>
-                        </div>
-                    </div>
-                </div>
+                        
+                            <!-- /CONTACT -->           
+                            <div class="container">
+                                <div class="card">
+                                    <div class="card-body">
 
-                <!-- Marketing messaging and featurettes
-            ================================================== -->
-            <!-- Wrap the rest of the page in another container to center all the content. -->
+                                        <h2>Where we are</h2>
 
-            <div class="marketing">
-
-                <!-- START THE FEATURETTES -->
-
-                <hr class="featurette-divider">
-
-                <div class="row featurette">
-                    <div class="col-md-7">
-                        <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It’ll blow your mind.</span></h2>
-                        <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-                    </div>
-                    <div class="col-md-5">
-                        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
-                    </div>
-                </div>
-
-                <hr class="featurette-divider">
-
-                <div class="row featurette">
-                    <div class="col-md-7 order-md-2">
-                        <h2 class="featurette-heading">Oh yeah, it’s that good. <span class="text-muted">See for yourself.</span></h2>
-                        <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-                    </div>
-                    <div class="col-md-5 order-md-1">
-                        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
-                    </div>
-                </div>
-
-                <hr class="featurette-divider">
-
-                <div class="row featurette">
-                    <div class="col-md-7">
-                        <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
-                        <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-                    </div>
-                    <div class="col-md-5">
-                        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
-                    </div>
-                </div>
-                <!-- /END THE FEATURETTES -->
-            <div class="card">
-                <div class="card-body">
-                aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
-                aaaaaaa
-                </div>
+                                            <div class="row-fluid">
+                                                <div class="span8">
+                                                    <iframe width="100%" height="350" src="https://maps.google.com/maps?width=100%&height=350&hl=es&q=6690%20Eagle%20Nest%20Ln+(Gym%20Morrison)&ie=UTF8&t=&z=15&iwloc=B&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+                                                </div>
+                                                
+                                                <div class="span4">
+                                                    <address>
+                                                        <strong>Gym-Morrison</strong><br>
+                                                        6690 Eagle Nest Ln<br>
+                                                        Miami Lakes<br>
+                                                        Florida<br>
+                                                        EEUU<br>
+                                                        FL 33014H<br>
+                                                        <abbr title="Phone">P:</abbr> 01234 567 890
+                                                    </address>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>    
+                            </div>
+                    </div><!-- /.div style="top" -->
+                </div><!-- /.container -->
             </div>
-            </div><!-- /.container -->
-
-                    </div>
-                </div>
-            </div>
-
-            
-            
-<hr class="featurette-divider">
-
             <!-- FOOTER -->
-            <footer class="container">
-            
+            <footer class="container">   
+
+            <hr class="featurette-divider">
+
                 <p class="float-right"><a href="#">Back to top</a></p>
                 <p>Gym-Morrison &copy; 2020 &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
             </footer>
