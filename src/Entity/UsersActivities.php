@@ -22,7 +22,8 @@ class UsersActivities
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Activities", inversedBy="activity")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Activities", inversedBy="activity", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $activity;
 

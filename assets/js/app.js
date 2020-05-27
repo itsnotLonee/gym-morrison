@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Dashboard from './Dashboard.vue'
+import Promote from './Promote.vue'
 import userIndex from './userIndex.vue'
 import userDashboard from './userDashboard.vue'
 import userActivities from './userActivities.vue'
@@ -45,6 +46,6 @@ Vue.filter('formatTime', function(value) {
 
 new Vue({
     el: "#app",
-    components: {Dashboard, userIndex, userDashboard, userActivities, userPayment, Profile, MyActivities, AllActivities},
+    components: {Dashboard, Promote, userIndex, userDashboard, userActivities, userPayment, Profile, MyActivities, AllActivities},
     router
 })

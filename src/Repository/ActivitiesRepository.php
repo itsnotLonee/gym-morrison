@@ -29,7 +29,6 @@ class ActivitiesRepository extends ServiceEntityRepository
         $query = $entityManager->createQuery(
             'SELECT a
             FROM App\Entity\Activities a
-            WHERE a.start_date <= CURRENT_DATE()
             ORDER BY a.start_date ASC'
         );
 

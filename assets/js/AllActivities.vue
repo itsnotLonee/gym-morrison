@@ -10,6 +10,7 @@
                         <tr>
                             <th scope="col"></th>
                             <th scope="col">ID</th>
+                            <th scope="col">Photo</th>
                             <th scope="col">Title</th>
                             <th scope="col">Content</th>
                             <th scope="col">Date</th>
@@ -26,6 +27,9 @@
                             </td>
                             <td>
                                 {{ item.id }}
+                            </td>
+                            <td>
+                                <img class="p-1 rounded-circle shadow" v-bind:src="'/uploads/photos/' + item.photo" width="50" height="50" alt="No-Photo"/>
                             </td>
                             <td>
                                 {{ item.title }}
@@ -45,9 +49,7 @@
                                 <b>{{ item.start_time.date | formatTime }} - {{ item.end_time.date | formatTime }}</b>
                             </td>
                             <td>
-                                <span class="label gradient-4 btn-rounded d-flex align-items-start">
-                                    <i class="fas fa-users"></i> &nbsp; 0
-                                </span>
+                                <span class="label gradient-4 btn-rounded d-flex"><i class="fas fa-users"></i> &nbsp; {{ item.users_joined }}</span>
                             </td>
                             <td>
                                 {{ item.owner }}
@@ -86,16 +88,6 @@
                     }
                     this.allActivities = aux
                 })
-            setInterval(() => {
-                axios
-                    .get('/get-all-activities')
-                    .then(response => {
-                        var aux = response.data
-                        if (aux < this.allActivities ? -1 : +(aux > this.allActivities)){
-                            this.allActivities = aux
-                        }
-                    })
-            }, 1e3)
         },
         methods: {
             onChangePage(pageOfItems) {

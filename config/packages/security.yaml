@@ -41,6 +41,27 @@ security:
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_STAFF]
+
     access_control:
-#          - { path: ^/register-activity, roles: ROLE_STAFF }
-#          - { path: ^/my-activities, roles: ROLE_STAFF }
+      # STAFF
+        - { path: ^/register-activity, roles: ROLE_STAFF }
+        - { path: ^/my-activities, roles: ROLE_STAFF }
+        - { path: ^/profile, roles: ROLE_STAFF }
+        - { path: ^/all-activities, roles: ROLE_STAFF }
+        - { path: ^/promote, roles: ROLE_STAFF }
+        - { path: ^/activity, roles: ROLE_STAFF }
+        - { path: ^/totalUsersJoined, roles: ROLE_STAFF }
+        - { path: ^/get-my-activities, roles: ROLE_STAFF }
+        - { path: ^/get-today-myactivities, roles: ROLE_STAFF }
+        - { path: ^/removeActivity, roles: ROLE_STAFF }
+        - { path: ^/edit-activity, roles: ROLE_STAFF }
+      # USER
+        - { path: ^/get-user-activities, roles: ROLE_USER }
+        - { path: ^/get-user-today-activities, roles: ROLE_USER }
+        - { path: ^/join, roles: ROLE_USER }
+        - { path: ^/removeFromActivity, roles: ROLE_USER }
+        - { path: ^/newSub, roles: ROLE_USER }
+        - { path: ^/daysLeft, roles: ROLE_USER }
+        - { path: ^/modSub, roles: ROLE_USER }

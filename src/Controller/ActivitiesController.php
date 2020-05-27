@@ -113,50 +113,35 @@ class ActivitiesController extends AbstractController
      */
     public function GetActividad(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $id = $request->request->get('id');
-        $activity = $em->getRepository(Activities::class)->find($id);
+        if ($request->isXmlHttpRequest()) {
+            $em = $this->getDoctrine()->getManager();
+            $id = $request->request->get('id');
+            $activity = $em->getRepository(Activities::class)->find($id);
 
 
-        $owner = $activity->getUser()->getName() . " " . $activity->getUser()->getSurname();
-        $users_joined = $em->getRepository(UsersActivities::class)->findBy(['activity' => $activity->getId()]);
-        $data = [
-            'id_id' => $activity->getId(),
-            'title' => $activity->getTitle(),
-            'content' => $activity->getContent(),
-            'start_time' => $activity->getStartTime(),
-            'end_time' => $activity->getEndTime(),
-            'start_date' => $activity->getStartDate(),
-            'end_date' => $activity->getEndDate(),
-            'teacher' => $owner,
-            'date_created' => $activity->getDateCreated(),
-            'photo' => $activity->getPhoto(),
-            'users_joined' => count($users_joined)
-        ];
-
+            $owner = $activity->getUser()->getName() . " " . $activity->getUser()->getSurname();
+            $users_joined = $em->getRepository(UsersActivities::class)->findBy(['activity' => $activity->getId()]);
+            $data = [
+                'id_id' => $activity->getId(),
+                'title' => $activity->getTitle(),
+                'content' => $activity->getContent(),
+                'start_time' => $activity->getStartTime(),
+                'end_time' => $activity->getEndTime(),
+                'start_date' => $activity->getStartDate(),
+                'end_date' => $activity->getEndDate(),
+                'teacher' => $owner,
+                'date_created' => $activity->getDateCreated(),
+                'photo' => $activity->getPhoto(),
+                'users_joined' => count($users_joined)
+            ];
+        } else {
+            throw new \Exception('Not allowed');
+        }
 
         return new JsonResponse($data, Response::HTTP_OK);
         // return ($jsonfile);
         // return $this->render('activities/MyActivities.html.twig', ['activities' => $activities]);
     }
-
-//    /**
-//     * @Route("/activity/{id}", name="ActivityId", methods={"GET"})
-//     */
-//    public function getActivity($id): JsonResponse
-//    {
-//        $em = $this->getDoctrine()->getManager();
-//        $activity = $em->getRepository( Activities::class)->findOneBy(['id' => $id]);
-//
-//        $data = [
-//            'id'=> $activity->getId(),
-//            'name' => $activity->getTitle(),
-//            'type' => $activity->getContent(),
-//        ];
-//
-//        return new JsonResponse($data, Response::HTTP_OK);
-//
-//    }
 
     /**
      * @Route("/my-activities", name="MyActivities")
@@ -280,7 +265,7 @@ class ActivitiesController extends AbstractController
     public function GetTodasActividades(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $activities = $em->getRepository(Activities::class)->findAllActivities();
+        $activities = $em->getRepository(Activities::class)->findAll();
 
         for ($i = 0; $i < count($activities); $i++) {
             $users_joined = $em->getRepository(UsersActivities::class)->findBy(['activity' => $activities[$i]->getId()]);
@@ -382,7 +367,4 @@ class ActivitiesController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
     }
-
-
-
 }

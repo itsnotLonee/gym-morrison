@@ -15,17 +15,6 @@ class UserActivitiesController extends AbstractController
     // Actividades en las que se apunta el usuario
 
     /**
-     * @Route("/user/activities", name="user_activities")
-     */
-    public function index()
-    {
-
-        return $this->render('user_activities/index.html.twig', [
-            'controller_name' => 'UserActivitiesController',
-        ]);
-    }
-
-    /**
      * @Route("/get-user-activities", options={"expose"=true}, name="GetUserActivitiesHistory", methods={"GET"})
      */
     public function GetUserActividadesHistory(Request $request)

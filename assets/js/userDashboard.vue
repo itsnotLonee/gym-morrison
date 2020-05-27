@@ -44,7 +44,12 @@
                         <div class="media-body">
                             <h5> {{ item.title }} </h5>
                             <p class="m-1">{{ item.content.slice(0, 100) + '...'  }} </p>
-                            <button class="btn btn-success btn-sm" @click="join(item.id), updateToday()">Join</button>
+                            <div v-if="checkActivity(item.id)">
+                                <button class="btn btn-success btn-sm" @click="join(item.id), updateToday()">Join</button>
+                            </div>
+                            <div v-else>
+                                <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalRemove" @click="removeModalID = item.activity_id">Remove me</button>
+                            </div>
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalInfo" @click="modalInfo(item.id)">
                                 Info
                             </button>
@@ -183,7 +188,20 @@
             axios
                 .get('/get-all-activities')
                 .then(response => {
-                    this.upcomingActivities = response.data.reverse()
+                    var today = new Date()
+                    var aux = []
+                    var c = 0
+                    for (var i = 0; i < response.data.length; i++) {
+                        var fechaStart = new Date(response.data[i].start_date.date)
+                        var fechaEnd = new Date(new Date(new Date(response.data[i].end_date.date).setHours(23)).setMinutes(59))
+                        if (fechaStart >= today) {
+                            aux[c] = response.data[i]
+                            c++
+                        }
+                    }
+                    if (aux.length !== 0) {
+                        this.upcomingActivities = aux.reverse()
+                    }
                 })
             axios
                 .get('/get-user-today-activities')
@@ -259,7 +277,7 @@
                 $.ajax({
                     type: 'POST',
                     url: ruta,
-                    data: ({id: actID}),
+                    data: ({id: actID, }),
                     async: true,
                     dataType: 'json',
                     success: (data) => {

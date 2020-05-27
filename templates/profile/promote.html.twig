@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gym-Morrison · Staff Dashboard{% endblock %}
+
+{% block stylesheets %}
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="/plugins/nouislider/nouislider.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <!-- Custom Stylesheet -->
+    <link href="/plugins/fullcalendar/css/fullcalendar.min.css" rel="stylesheet">
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+
+    <!--**********************************
+        Content body start
+    ***********************************-->
+    <div class="content-body">
+        <div id="app">
+            <Promote />
+        </div>
+        {{ encore_entry_script_tags('app') }}
+    </div>
+    <!--**********************************
+        Content body end
+    ***********************************-->
+    <!--**********************************
+            Footer start
+        ***********************************-->
+    <div class="footer">
+        <div class="copyright">
+            <p>Copyright &copy; Designed & Developed by <span class="text-primary">Gym-Morrison</span> 2020</p>
+        </div>
+    </div>
+    <!--**********************************
+        Footer end
+    ***********************************-->
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="/plugins/chart.js/Chart.bundle.min.js"></script>
+    <script src="/js/plugins-init/chartjs-init.js"></script>
+    <script src="/plugins/sweetalert/js/sweetalert.min.js"></script>
+    <script src="/js/plugins-init/sweetalert.init.js"></script>
+
+    <!-- Chartjs -->
+    <script src="./plugins/chart.js/Chart.bundle.min.js"></script>
+    <!-- Circle progress -->
+    <script src="./plugins/circle-progress/circle-progress.min.js"></script>
+    <!-- Datamap -->
+    <script src="./plugins/d3v3/index.js"></script>
+    <script src="./plugins/topojson/topojson.min.js"></script>
+    <script src="./plugins/datamaps/datamaps.world.min.js"></script>
+    <!-- Morrisjs -->
+    <script src="./plugins/raphael/raphael.min.js"></script>
+    <script src="./plugins/morris/morris.min.js"></script>
+    <!-- Pignose Calender -->
+    <script src="./plugins/moment/moment.min.js"></script>
+    <script src="./plugins/pg-calendar/js/pignose.calendar.min.js"></script>
+    <!-- ChartistJS -->
+    <script src="./plugins/chartist/js/chartist.min.js"></script>
+    <script src="./plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
+
+    <script src="./js/dashboard/dashboard-1.js"></script>
+{% endblock %}
+
+{#
+
+{% for article in pag %}
+    <div class="col-xl-3  mb-4">
+        <div class="card border-bottom-primary h-100">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <h6 class="m-0 font-weight-bold text-primary">{{ article.title }}</h6>
+
+                        <div class="mb-0 font-weight-bold text-gray-800">{{ article.content }}</div>
+                    </div>
+                </div>
+                <a type="button" class="btn btn-outline-info mt-3" href="/activity/{{ article.id }}">More</a>
+            </div>
+            <div class="card-footer text-muted">
+                <b>{{ article.name }} {{ article.surname }}</b>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+</div>
+#}
+{# display navigation #}{#
+
+<div class="navigation mx-auto mt-4" style="width: 200px;">
+    {{ knp_pagination_render(pag) }}
+</div>#}
