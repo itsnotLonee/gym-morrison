@@ -37,7 +37,6 @@
                 <div class="card sticky-top" style="z-index: 10; top: 6.5em">
                     <div class="card-header">
                         Profile
-                        <button id="switch-mode" type="button" class="btn btn-outline-secondary float-right border-0" data-toggle="tooltip" data-placement="top" data-original-title="Dark Mode" @click="darkmode"><i class="fas fa-moon"></i></button>
                     </div>
                     <div class="card-body">
                         <div class="media align-items-center mb-4">
@@ -57,7 +56,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-4 col-lg-9 p-0" >
+            <div class="col-xl-4 col-lg-9 p-0 mb-5">
                 <!--<user-dashboard />-->
 
                 <transition name="list-complete">
@@ -130,34 +129,6 @@
                     console.log(response.data)
                     this.daysLeft = response.data
                 })
-        },
-        methods: {
-            darkmode () {
-                if ($('body').hasClass('bg-dark')) {
-                    console.log('negro')
-                    $('#switch-mode').html('<i class="fas fa-moon"></i>').attr('data-original-title', 'Dark Mode');
-                    $(".navbar").addClass('bg-light');
-                    $("body").removeClass('bg-dark');
-                    $('.card').addClass('bg-light');
-                    $('.card').children().addClass('text-dark').removeClass('text-white');
-                } else {
-                    console.log('blanco')
-                    $('#switch-mode').html('<i class="fas fa-sun"></i>').attr('data-original-title', 'Turn dark mode off');
-                    $(".navbar").css('background-color', 'rgb(66, 66, 66)').removeClass('bg-light');
-                    $("body").addClass('bg-dark text-dark').removeClass('bg-light');
-                    $('.card').removeClass('bg-light').css('background-color', 'rgb(80, 80, 80)');
-                     $('.card').children().removeClass('text-dark').addClass('text-white');
-                    // $('h4').removeClass('text-dark').addClass('text-white');
-                    // $('h3').removeClass('text-dark').addClass('text-white');
-                }
-            },
-            days () {
-                axios
-                    .get('/daysLeft')
-                    .then(response => (
-                        console.log(response.data)
-                    ))
-            }
         }
     }
 </script>

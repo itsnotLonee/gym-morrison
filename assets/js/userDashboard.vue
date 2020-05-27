@@ -25,7 +25,7 @@
                             </button>
                             <div class="float-right">
                                 <span class="text-muted"><i class="far fa-clock"></i> {{ item.activity_starttime.date.slice(11, 16) }}</span> &nbsp; &nbsp;
-                                <span class="text-muted"><i class="fas fa-user"></i> {{ item.activity_teacher }}</span>
+                                <span class="text-muted pr-3"><i class="fas fa-chalkboard-teacher"></i> {{ item.activity_teacher }}</span>
                             </div>
                         </div>
                     </div>
@@ -49,7 +49,8 @@
                                 Info
                             </button>
                         </div>
-                        <span class="text-muted "><i class="fas fa-user"></i> {{ item.owner }}</span>
+                        <span class="text-muted pr-3"><i class="fas fa-chalkboard-teacher"></i> {{ item.owner }}</span>
+                        <span class="text-muted "><i class="fas fa-users"></i> {{ item.users_joined }}</span>
                     </div>
                 </div>
             </div>
@@ -61,7 +62,7 @@
                         <h4 class="head3r gradient-7 rounded p-2"><strong>NO UPCOMING ACTIVITIES</strong></h4>
                         <p>No public activities scheduled.</p>
                     </div>
-                    <div class="media border-bottom-1 pt-3 pb-3" v-for="item in upcomingActivities.reverse()">
+                    <div class="media border-bottom-1 pt-3 pb-3" v-for="item in upcomingActivities">
                         <img width="50" height="50" class="mr-3 rounded-circle" v-bind:src="'/uploads/photos/' + item.photo">
                         <div class="media-body">
                             <h5> {{ item.title }} </h5>
@@ -73,15 +74,12 @@
                             <div class="float-right">
                                 <span class="text-muted"><i class="fas fa-clock"></i> {{ item.start_time.date.slice(11, 16) }}</span> &nbsp;
                                 <span class="text-muted"><i class="fas fa-calendar"></i> {{ item.start_date.date.slice(0, 10) }}</span> &nbsp;
-                                <span class="text-muted "><i class="fas fa-user"></i> {{ item.owner }}</span>
+                                <span class="text-muted "><i class="fas fa-chalkboard-teacher"></i> {{ item.owner }}</span>
+                                <span class="text-muted "><i class="fas fa-users"></i> {{ item.users_joined }}</span>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="card-footer bg-transparent">
-                <p class="card-text d-inline"><small class="text-muted">Last updated 3 mins ago</small>
-                </p><a href="#" class="card-link float-right"><small>Card link</small></a>
             </div>
         </div>
 
@@ -96,12 +94,21 @@
                         </button>
                     </div>
                     <img class="w-100" v-bind:src="'/uploads/photos/' + infoModal.photo" style="max-height: 400px" alt="Photo">
-                    <div class="modal-body">
-                        <p>
+
+                    <div class="border-bottom" style="max-height: 300px; overflow: auto">
+                        <h5 class="text-center gradient-1 p-3 sticky-top bg-white">
+                            Description
+                        </h5>
+                        <p class="p-3">
                             {{ infoModal.content }}
                         </p>
+                    </div>
+                    <div class="modal-body">
                         <p class="text-secondary">
                             <i class="fas fa-chalkboard-teacher"></i> <b>{{ infoModal.teacher }}</b>
+                        </p>
+                        <p class="text-secondary">
+                            <i class="fas fa-users"></i> <b>{{ infoModal.users_joined }}</b>
                         </p>
                         <p class="text-info">
                             <i class="fas fa-clock"></i> <b>{{ infoModal.start_time.date.toString().slice(11, 16) }}</b> - <b>{{ infoModal.end_time.date.toString().slice(11, 16) }}</b>
@@ -165,8 +172,6 @@
                     date: new Date()
                 }
             },
-            infoModalHora: '',
-            infoModalFecha: '',
             removeModalID: -1
         }),
         mounted () {
@@ -178,7 +183,7 @@
             axios
                 .get('/get-all-activities')
                 .then(response => {
-                    this.upcomingActivities = response.data
+                    this.upcomingActivities = response.data.reverse()
                 })
             axios
                 .get('/get-user-today-activities')
@@ -189,7 +194,7 @@
                     var c = 0
                     for (var i = 0; i < response.data.length; i++) {
                         var fechaStart = new Date(response.data[i].activity_startdate.date)
-                        var fechaEnd = new Date(response.data[i].activity_enddate.date)
+                        var fechaEnd = new Date(new Date(new Date(response.data[i].activity_enddate.date).setHours(23)).setMinutes(59))
                         if (fechaStart <= today && fechaEnd >= today) {
                             aux[c] = response.data[i]
                             c++
@@ -239,8 +244,8 @@
                         var c = 0
                         for (var i = 0; i < response.data.length; i++) {
                             var fechaStart = new Date(response.data[i].activity_startdate.date)
-                            var fechaEnd = new Date(response.data[i].activity_enddate.date)
-                            if (today >= fechaStart && today <= fechaEnd) {
+                            var fechaEnd = new Date(new Date(new Date(response.data[i].activity_enddate.date).setHours(23)).setMinutes(59))
+                            if (fechaStart <= today && fechaEnd >= today) {
                                 aux[c] = response.data[i]
                                 c++
                             }

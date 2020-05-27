@@ -79,9 +79,34 @@ class ActivitiesController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $activity = $em->getRepository(Activities::class)->find($id);
+        $users_joined = $em->getRepository(UsersActivities::class)->findBy(['activity' => $activity->getId()]);
         // return new JsonResponse($activity);
-        return $this->render('activities/showActivity.html.twig', ['activity' => $activity]);
+        return $this->render('activities/showActivity.html.twig', ['activity' => $activity, 'users_joined' => count($users_joined)]);
     }
+
+    /**
+     * @Route("/totalUsersJoined", name="totalUsersJoined")
+     */
+    public function totalUsers(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $activities = $em->getRepository(Activities::class)->findBy(['user' => $user]);
+        $users_joined = 0;
+        for ($i = 0; $i < count($activities); $i++) {
+            $users_joined += count($em->getRepository(UsersActivities::class)->findBy(['activity' => $activities[$i]->getId()]));
+        }
+        $users_platform = $em->getRepository(User::class)->findAll();
+        $data = [
+            'users_joined' => $users_joined,
+            'users_platform' => count($users_platform)
+        ];
+
+        return new JsonResponse($data, Response::HTTP_OK);
+        // return ($jsonfile);
+        // return $this->render('activities/MyActivities.html.twig', ['activities' => $activities]);
+    }
+
 
     /**
      * @Route("/get-activity", name="GetActivity")
@@ -92,7 +117,9 @@ class ActivitiesController extends AbstractController
         $id = $request->request->get('id');
         $activity = $em->getRepository(Activities::class)->find($id);
 
+
         $owner = $activity->getUser()->getName() . " " . $activity->getUser()->getSurname();
+        $users_joined = $em->getRepository(UsersActivities::class)->findBy(['activity' => $activity->getId()]);
         $data = [
             'id_id' => $activity->getId(),
             'title' => $activity->getTitle(),
@@ -104,6 +131,7 @@ class ActivitiesController extends AbstractController
             'teacher' => $owner,
             'date_created' => $activity->getDateCreated(),
             'photo' => $activity->getPhoto(),
+            'users_joined' => count($users_joined)
         ];
 
 
@@ -148,6 +176,7 @@ class ActivitiesController extends AbstractController
         $activities = $em->getRepository(Activities::class)->findBy(['user' => $user]);
 
         for ($i = 0; $i < count($activities); $i++) {
+            $users_joined = $em->getRepository(UsersActivities::class)->findBy(['activity' => $activities[$i]->getId()]);
             $owner = $activities[$i]->getUser()->getName() . " " . $activities[$i]->getUser()->getSurname();
             $data[$i] = [
                 'id' => $activities[$i]->getId(),
@@ -160,6 +189,7 @@ class ActivitiesController extends AbstractController
                 'end_date' => $activities[$i]->getEndDate(),
                 'owner' => $owner,
                 'date_created' => $activities[$i]->getDateCreated(),
+                'users_joined' => count($users_joined)
             ];
         }
 
@@ -178,8 +208,8 @@ class ActivitiesController extends AbstractController
         // $activities = $em->getRepository(Activities::class)->findBy(['user' => $user]);
         $activities = $em->getRepository(Activities::class)->findTodayMyActivities($this->getUser());
 
-
         for ($i = 0; $i < count($activities); $i++) {
+            $users_joined = $em->getRepository(UsersActivities::class)->findBy(['activity' => $activities[$i]->getId()]);
             $owner = $activities[$i]->getUser()->getName() . " " . $activities[$i]->getUser()->getSurname();
             $data[$i] = [
                 'id' => $activities[$i]->getId(),
@@ -192,6 +222,7 @@ class ActivitiesController extends AbstractController
                 'end_date' => $activities[$i]->getEndDate(),
                 'owner' => $owner,
                 'date_created' => $activities[$i]->getDateCreated(),
+                'users_joined' => count($users_joined)
             ];
 
         }
@@ -211,8 +242,8 @@ class ActivitiesController extends AbstractController
         // $activities = $em->getRepository(Activities::class)->findBy(['user' => $user]);
         $activities = $em->getRepository(Activities::class)->findTodayActivities();
 
-
         for ($i = 0; $i < count($activities); $i++) {
+            $users_joined = $em->getRepository(UsersActivities::class)->findBy(['activity' => $activities[$i]->getId()]);
             $owner = $activities[$i]->getUser()->getName() . " " . $activities[$i]->getUser()->getSurname();
             $data[$i] = [
                 'id' => $activities[$i]->getId(),
@@ -225,8 +256,8 @@ class ActivitiesController extends AbstractController
                 'end_date' => $activities[$i]->getEndDate(),
                 'owner' => $owner,
                 'date_created' => $activities[$i]->getDateCreated(),
+                'users_joined' => count($users_joined)
             ];
-
         }
 
         return new JsonResponse($data, Response::HTTP_OK);
@@ -252,6 +283,7 @@ class ActivitiesController extends AbstractController
         $activities = $em->getRepository(Activities::class)->findAllActivities();
 
         for ($i = 0; $i < count($activities); $i++) {
+            $users_joined = $em->getRepository(UsersActivities::class)->findBy(['activity' => $activities[$i]->getId()]);
             $owner = $activities[$i]->getUser()->getName() . " " . $activities[$i]->getUser()->getSurname();
             $data[$i] = [
                 'id' => $activities[$i]->getId(),
@@ -264,6 +296,7 @@ class ActivitiesController extends AbstractController
                 'end_date' => $activities[$i]->getEndDate(),
                 'owner' => $owner,
                 'date_created' => $activities[$i]->getDateCreated(),
+                'users_joined' => count($users_joined)
             ];
         }
 

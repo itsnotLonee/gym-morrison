@@ -65,10 +65,10 @@
 
                             <br> <br>
                             {{ form_errors(formulario.email) }}
-                            <i class="fas fa-envelope"></i> {{ form_label(formulario.email, 'Your email') }}
-                            {{ form_widget(formulario.email, {'attr': {'class': 'border-top-0 border-right-0 border-left-0 rounded-0'}}) }}
+                            <i class="fas fa-envelope"></i> {{ form_label(formulario.email, 'Your email') }} <br>
+                            <label id="email_exists"></label>
+                            {{ form_widget(formulario.email, {'attr': {'class': 'border-top-0 border-right-0 border-left-0 rounded-0', 'pattern': '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'}}) }}
                             {{ form_help(formulario.email) }}
-                            <p class="text-muted text-left" style="font-size: small">This will be the email to login</p>
 
                             {{ form_errors(formulario.password) }}
                             <i class="fas fa-key"></i>
@@ -165,11 +165,27 @@
         $('.custom-file').children('label').remove()
         $('#user_profile_photo').removeClass('custom-file-input').addClass('form-control p-2 w-100')
 
+        var email = document.getElementById('user_email')
         var pass = document.getElementById('user_password')
         var pass2 = document.getElementById('user_password2')
         var submit = document.getElementById('user_submit')
         var fillall = document.getElementById('fill-all')
         var done = false
+
+        email.onkeyup = () => {
+            var ruta = '/checkEmail'
+            console.log(email.value)
+            $.ajax({
+                type: 'POST',
+                url: ruta,
+                data: ({email: email.value.toString()}),
+                async: true,
+                dataType: 'json',
+                success: function (data) {
+                    check(data)
+                }
+            })
+        }
 
         pass.onkeyup = () => {
             check()
@@ -178,8 +194,15 @@
             check()
         }
 
-        function check () {
-
+        function check (exists) {
+            // email
+            if (exists) {
+                $('#email_exists').text('Email avaliable').addClass('text-success').removeClass('text-danger')
+                done = true
+            } else {
+                $('#email_exists').text('Email already exists').removeClass('text-success').addClass('text-danger')
+                done = false
+            }
             // length
             if (pass.value.length >= 8 && pass.value.length <= 18) {
                 $('#length_pass').addClass('fa-check').removeClass('fa-times').parent().addClass('text-success')
@@ -188,7 +211,6 @@
                 $('#length_pass').removeClass('fa-check').addClass('fa-check').parent().removeClass('text-success')
                 done = false
             }
-
             // one upper case
             if (pass.value.toUpperCase() != pass.value) {
                 $('#upper_pass').addClass('fa-check').removeClass('fa-times').parent().addClass('text-success')
@@ -197,7 +219,6 @@
                 $('#upper_pass').removeClass('fa-check').addClass('fa-check').parent().removeClass('text-success')
                 done = false
             }
-
             // one lower case
             if (pass.value.toLowerCase() != pass.value) {
                 $('#lower_pass').addClass('fa-check').removeClass('fa-times').parent().addClass('text-success')
@@ -206,7 +227,6 @@
                 $('#lower_pass').removeClass('fa-check').addClass('fa-check').parent().removeClass('text-success')
                 done = false
             }
-
             // one number
             if (/\d/.test(pass.value)) {
                 $('#number_pass').addClass('fa-check').removeClass('fa-times').parent().addClass('text-success')
@@ -215,7 +235,6 @@
                 $('#number_pass').removeClass('fa-check').addClass('fa-check').parent().removeClass('text-success')
                 done = false
             }
-
             // pass match
             if (pass.value === pass2.value && pass.value != '') {
                 $('#confirm_pass').addClass('fa-check').removeClass('fa-times').parent().addClass('text-success')
@@ -224,7 +243,6 @@
                 $('#confirm_pass').removeClass('fa-check').addClass('fa-check').parent().removeClass('text-success')
                 done = false
             }
-
             if (done === true) {
                 fillall.style.display = 'none'
                 submit.disabled = false
@@ -234,7 +252,6 @@
                 submit.disabled = true
                 console.log(done)
             }
-
         }
 
     </script>

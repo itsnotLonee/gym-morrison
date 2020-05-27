@@ -9,22 +9,35 @@
     ***********************************-->
     <div class="content-body">
 
-        <div class="card m-4">
-            <h3 class="card-header mt-2">{{ activity.title }}</h3>
-            <h5 class="card-subtitle gradient-1 text-center p-2 text-white">
-                <div class="mb-2 text-white"><b><i class="fas fa-calendar-alt"></i> Timetable</b></div>
-                From <b>{{ activity.startdate | date("d/M/Y") }}</b> to <b>{{ activity.enddate | date("d/M/Y") }}</b> <br>
-                <b>{{ activity.starttime | date("H:i") }}</b> - <b>{{ activity.endtime | date("H:i") }}</b>
-
-            </h5>
-            <div class="card-body">
-
-                <p class="card-text">{{ activity.content }}</p>
-                <br>
-                {# <button class="btn btn-danger" onclick="removeActivity({{ activity.id }})">Remove activity</button> #}
-                {% if app.user.id == activity.user.id %}
-                    <span class="btn btn-danger" data-toggle="modal" data-target="#removeActModal">Remove</span>
-                {% endif %}
+        <div class="container m-4">
+            <div class="card">
+                <h3 class="card-header mt-2">
+                    {{ activity.title }}
+                    <div class="float-right">
+                        <i class="fas fa-users"></i> {{ users_joined }}
+                    </div>
+                </h3>
+                <div class="d-flex mb-3">
+                    <div class="order-0">
+                        <p class="p-3" align="justify">
+                            <img class="m-3 rounded shadow float-left" src="/uploads/photos/{{ activity.photo }}" style="max-height: 400px; max-width: 500px">
+                            <span class="font-medium text-primary">Description</span> <br>
+                            {{ activity.content }}
+                        </p>
+                    </div>
+                </div>
+                <div class="gradient-1 p-3 text-center">
+                    <div class="mb-2 text-white"><b><i class="fas fa-calendar-alt"></i> Timetable</b></div>
+                    From <b>{{ activity.startdate | date("d/M/Y") }}</b> to <b>{{ activity.enddate | date("d/M/Y") }}</b> <br>
+                    <b>{{ activity.starttime | date("H:i") }}</b> - <b>{{ activity.endtime | date("H:i") }}</b>
+                </div>
+                <div class="card-body">
+                    <br>
+                    {# <button class="btn btn-danger" onclick="removeActivity({{ activity.id }})">Remove activity</button> #}
+                    {% if app.user.id == activity.user.id %}
+                        <span class="btn btn-danger" data-toggle="modal" data-target="#removeActModal">Remove</span>
+                    {% endif %}
+                </div>
             </div>
         </div>
 

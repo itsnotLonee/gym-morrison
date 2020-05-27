@@ -50,7 +50,7 @@
                                 <b>{{ item.start_time.date | formatTime }} - {{ item.end_time.date | formatTime }}</b>
                             </td>
                             <td>
-                                <span class="label gradient-4 btn-rounded d-flex"><i class="fas fa-users"></i> &nbsp; 0</span>
+                                <span class="label gradient-4 btn-rounded d-flex"><i class="fas fa-users"></i> &nbsp; {{ item.users_joined }}</span>
                             </td>
                             <td>
                                 <span>

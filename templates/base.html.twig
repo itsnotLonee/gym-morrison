@@ -82,7 +82,6 @@
                             <ul class="clearfix">
                                 <li class="icons dropdown">
                                     <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
-                                        <span class="activity active"></span>
                                         <img src="{{ asset('/uploads/photos/' ~ app.user.getProfilePhoto) }}" height="40" width="40" >
                                     </div>
                                     <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
@@ -113,6 +112,9 @@
                 <div class="nk-sidebar">
                     <div class="nk-nav-scroll">
                         <ul class="metismenu" id="menu">
+                            <li>
+                                <b class="p-2 text-center text-primary">{{ app.user.roles[0] | slice(5,9) }}</b>
+                            </li>
                             <li>
                                 <a href="{{ path('dashboard') }}" aria-expanded="false">
                                     <i class="icon-speedometer menu-icon"></i>

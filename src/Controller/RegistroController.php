@@ -4,9 +4,12 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use phpDocumentor\Reflection\Types\String_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -65,6 +68,21 @@ class RegistroController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/checkEmail", name="checkEmail")
+     */
+    public function checkEmail(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $email = $request->request->get('email');
+        $exist = $em->getRepository(User::class)->findOneBy(['email'=> $email]);
 
+        if ($exist) {
+            return new JsonResponse(false, Response::HTTP_OK);
+        }
+        return new JsonResponse(true, Response::HTTP_OK);
+        // return ($jsonfile);
+        // return $this->render('activities/MyActivities.html.twig', ['activities' => $activities]);
+    }
 
 }

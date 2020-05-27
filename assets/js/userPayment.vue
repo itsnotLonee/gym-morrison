@@ -9,6 +9,9 @@
                 <p>
                     Here you will select a new suscription.
                 </p>
+                <p class="text-primary">
+                    Your subscription now is: <b>{{ subscription }}</b>
+                </p>
                 <div class="text-center">
                     <div class="card mb-4 shadow">
                         <div class="card-header">
@@ -65,8 +68,23 @@
 </template>
 
 <script>
+    import axios from "axios";
+
     export default {
         name: "userPayment",
+        data () {
+            return {
+                subscription: ''
+            }
+        },
+        mounted () {
+            axios
+                .get('/daysLeft')
+                .then(response => {
+                    console.log(response.data)
+                    this.subscription = response.data.description
+                })
+        },
         methods: {
             newPayment (payID) {
                 var ruta = '/modSub'
