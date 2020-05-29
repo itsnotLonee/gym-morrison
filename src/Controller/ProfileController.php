@@ -133,7 +133,6 @@ class ProfileController extends AbstractController
      * @Route("/get-users", name="getUsers", methods={"GET"})
      */
     public function getUsers(Request $request){
-        if ($request->isXmlHttpRequest()) {
             $em = $this->getDoctrine()->getManager();
             $users = $em->getRepository(User::class)->findAll();
 
@@ -149,9 +148,6 @@ class ProfileController extends AbstractController
                     'photo' => $users[$i]->getProfilePhoto(),
                 ];
             }
-        } else {
-            throw new \Exception('Not allowed');
-        }
         return new JsonResponse($data, Response::HTTP_OK);
     }
 

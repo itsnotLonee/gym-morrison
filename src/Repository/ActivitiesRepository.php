@@ -66,7 +66,7 @@ class ActivitiesRepository extends ServiceEntityRepository
         $q = $query->getQuery();
 
         // returns an array of Product objects
-        //return $query->getResult();
+        // return $query->getResult();
         return $q->execute();
 
     }

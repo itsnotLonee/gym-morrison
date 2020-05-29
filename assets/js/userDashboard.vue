@@ -44,12 +44,12 @@
                         <div class="media-body">
                             <h5> {{ item.title }} </h5>
                             <p class="m-1">{{ item.content.slice(0, 100) + '...'  }} </p>
-                            <div v-if="checkActivity(item.id)">
+<!--                            <div v-if="checkActivity(item.id)">-->
                                 <button class="btn btn-success btn-sm" @click="join(item.id), updateToday()">Join</button>
-                            </div>
-                            <div v-else>
-                                <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalRemove" @click="removeModalID = item.activity_id">Remove me</button>
-                            </div>
+<!--                            </div>-->
+<!--                            <div v-else>-->
+<!--                                <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalRemove" @click="removeModalID = item.activity_id">Remove me</button>-->
+<!--                            </div>-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalInfo" @click="modalInfo(item.id)">
                                 Info
                             </button>
@@ -183,6 +183,7 @@
             axios
                 .get('/get-today-activities')
                 .then(response => {
+                    // console.log(response.data)
                     this.todayActivities = response.data
                 })
             axios
@@ -269,7 +270,7 @@
                             }
                         }
                         this.todayUserActivities = aux
-                        console.log(this.todayUserActivities)
+                        // console.log(this.todayUserActivities)
                     })
             },
             modalInfo (actID) {
@@ -283,7 +284,7 @@
                     success: (data) => {
                         var aux = data
                         this.infoModal = aux
-                        console.log(this.infoModal)
+                        // console.log(this.infoModal)
                     }
                 })
             }

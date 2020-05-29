@@ -27,7 +27,7 @@ class UsersPayment
     private $payment;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="user")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="payment")
      */
     private $user;
 

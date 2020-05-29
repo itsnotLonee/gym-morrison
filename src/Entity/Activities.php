@@ -52,7 +52,7 @@ class Activities
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\UsersActivities", mappedBy="activities")
+     * @ORM\OneToMany(targetEntity="App\Entity\UsersActivities", mappedBy="activity")
      */
     private $activity;
 
