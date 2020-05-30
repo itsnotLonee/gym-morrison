@@ -44,12 +44,8 @@
                         <div class="media-body">
                             <h5> {{ item.title }} </h5>
                             <p class="m-1">{{ item.content.slice(0, 100) + '...'  }} </p>
-<!--                            <div v-if="checkActivity(item.id)">-->
-                                <button class="btn btn-success btn-sm" @click="join(item.id), updateToday()">Join</button>
-<!--                            </div>-->
-<!--                            <div v-else>-->
-<!--                                <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalRemove" @click="removeModalID = item.activity_id">Remove me</button>-->
-<!--                            </div>-->
+                            <button v-if="checkActivity(item)" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalRemove" @click="removeModalID = item.id">Remove me</button>
+                            <button v-else class="btn btn-success btn-sm" @click="join(item.id), updateToday()">Join</button>
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalInfo" @click="modalInfo(item.id)">
                                 Info
                             </button>
@@ -72,7 +68,8 @@
                         <div class="media-body">
                             <h5> {{ item.title }} </h5>
                             <p class="m-1">{{ item.content.slice(0, 200) + '...'  }} </p>
-                            <button class="btn btn-success btn-sm" @click="join(item.id), updateToday()">Join</button>
+                            <button v-if="checkActivity(item)" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalRemove" @click="removeModalID = item.id">Remove me</button>
+                            <button v-else class="btn btn-success btn-sm" @click="join(item.id), updateToday()">Join</button>
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalInfo" @click="modalInfo(item.id)">
                                 Info
                             </button>
@@ -160,9 +157,10 @@
 
     export default {
         data: () => ({
-            todayActivities: null,
-            upcomingActivities: null,
-            todayUserActivities: null,
+            todayActivities: [],
+            upcomingActivities: [],
+            todayUserActivities: [],
+            userActivities: [],
             infoModal: {
                 start_date: {
                     date: new Date()
@@ -224,6 +222,12 @@
                     }
                     // console.log(this.todayUserActivities)
                 })
+            axios
+                .get('/get-user-activities')
+                .then(response => {
+                    // console.log(response.data)
+                    this.userActivities = response.data
+                })
 
         },
         methods: {
@@ -249,15 +253,40 @@
                     async: true,
                     dataType: 'json',
                     success: function (data) {
-                        console.log(data)
+                        //console.log(data)
                         console.log('Eliminado')
                     }
                 })
             },
             updateToday () {
                 axios
+                    .get('/get-today-activities')
+                    .then(response => {
+                        // console.log(response.data)
+                        this.todayActivities = response.data
+                    })
+                axios
+                    .get('/get-all-activities')
+                    .then(response => {
+                        var today = new Date()
+                        var aux = []
+                        var c = 0
+                        for (var i = 0; i < response.data.length; i++) {
+                            var fechaStart = new Date(response.data[i].start_date.date)
+                            var fechaEnd = new Date(new Date(new Date(response.data[i].end_date.date).setHours(23)).setMinutes(59))
+                            if (fechaStart >= today) {
+                                aux[c] = response.data[i]
+                                c++
+                            }
+                        }
+                        if (aux.length !== 0) {
+                            this.upcomingActivities = aux.reverse()
+                        }
+                    })
+                axios
                     .get('/get-user-today-activities')
                     .then(response => {
+                        // console.log(response)
                         var today = new Date()
                         var aux = []
                         var c = 0
@@ -269,8 +298,16 @@
                                 c++
                             }
                         }
-                        this.todayUserActivities = aux
+                        if (aux.length !== 0) {
+                            this.todayUserActivities = aux
+                        }
                         // console.log(this.todayUserActivities)
+                    })
+                axios
+                    .get('/get-user-activities')
+                    .then(response => {
+                        // console.log(response.data)
+                        this.userActivities = response.data
                     })
             },
             modalInfo (actID) {
@@ -287,6 +324,14 @@
                         // console.log(this.infoModal)
                     }
                 })
+            },
+            checkActivity (act) {
+                for (const item of this.userActivities) {
+                    if (item.activity_id === act.id) {
+                        return true;
+                    }
+                }
+                return false;
             }
         }
     }

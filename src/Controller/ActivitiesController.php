@@ -228,7 +228,7 @@ class ActivitiesController extends AbstractController
         $activities = $em->getRepository(Activities::class)->findTodayActivities();
 
         for ($i = 0; $i < count($activities); $i++) {
-            // $users_joined = $em->getRepository(UsersActivities::class)->findBy(['activity' => $activities[$i]->getId()]);
+            $users_joined = $em->getRepository(UsersActivities::class)->findBy(['activity' => $activities[$i]->getId()]);
             $owner = $activities[$i]->getUser()->getName() . " " . $activities[$i]->getUser()->getSurname();
             $data[$i] = [
                 'id' => $activities[$i]->getId(),
@@ -241,7 +241,7 @@ class ActivitiesController extends AbstractController
                 'end_date' => $activities[$i]->getEndDate(),
                 'owner' => $owner,
                 'date_created' => $activities[$i]->getDateCreated(),
-                // 'users_joined' => count($users_joined)
+                'users_joined' => count($users_joined)
             ];
         }
 

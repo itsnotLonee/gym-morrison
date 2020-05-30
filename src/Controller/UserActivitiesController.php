@@ -27,6 +27,7 @@ class UserActivitiesController extends AbstractController
         // $data = $activities->getUser()->getName();
 
         for ($i = 0; $i < count($activities); $i++) {
+            $users_joined = $em->getRepository(UsersActivities::class)->findBy(['activity' => $activities[$i]->getId()]);
             $userJoined = $activities[$i]->getUser()->getName()." ".$activities[$i]->getUser()->getSurname();
             $teacher = $activities[$i]->getActivity()->getUser()->getName()." ".$activities[$i]->getActivity()->getUser()->getSurname();
             $data[$i] = [
@@ -41,6 +42,7 @@ class UserActivitiesController extends AbstractController
                 'activity_endtime' => $activities[$i]->getActivity()->getEndTime(),
                 'activity_startdate' => $activities[$i]->getActivity()->getStartDate(),
                 'activity_enddate' => $activities[$i]->getActivity()->getEndDate(),
+                'activity_users' => count($users_joined)
             ];
         }
 
@@ -59,8 +61,6 @@ class UserActivitiesController extends AbstractController
         // $activities = $em->getRepository(Activities::class)->findBy(['user' => $user]);
         $activities = $em->getRepository(UsersActivities::class)->ApuntadoActividades($user);
 
-        // $data = $activities->getUser()->getName();
-
         for ($i = 0; $i < count($activities); $i++) {
             $userJoined = $activities[$i]->getUser()->getName()." ".$activities[$i]->getUser()->getSurname();
             $teacher = $activities[$i]->getActivity()->getUser()->getName()." ".$activities[$i]->getActivity()->getUser()->getSurname();
@@ -77,7 +77,7 @@ class UserActivitiesController extends AbstractController
                 'activity_endtime' => $activities[$i]->getActivity()->getEndTime(),
                 'activity_startdate' => $activities[$i]->getActivity()->getStartDate(),
                 'activity_enddate' => $activities[$i]->getActivity()->getEndDate(),
-                'users_joined' => count($users_joined)
+                'activity_users' => count($users_joined)
             ];
         }
 
