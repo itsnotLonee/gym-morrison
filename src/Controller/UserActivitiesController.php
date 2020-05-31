@@ -24,7 +24,7 @@ class UserActivitiesController extends AbstractController
         // $activities = $em->getRepository(Activities::class)->findBy(['user' => $user]);
         $activities = $em->getRepository(UsersActivities::class)->ApuntadoActividades($user);
 
-        // $data = $activities->getUser()->getName();
+        $data[0] = ['id' => 1];
 
         for ($i = 0; $i < count($activities); $i++) {
             $users_joined = $em->getRepository(UsersActivities::class)->findBy(['activity' => $activities[$i]->getId()]);
@@ -61,27 +61,32 @@ class UserActivitiesController extends AbstractController
         // $activities = $em->getRepository(Activities::class)->findBy(['user' => $user]);
         $activities = $em->getRepository(UsersActivities::class)->ApuntadoActividades($user);
 
-        for ($i = 0; $i < count($activities); $i++) {
-            $userJoined = $activities[$i]->getUser()->getName()." ".$activities[$i]->getUser()->getSurname();
-            $teacher = $activities[$i]->getActivity()->getUser()->getName()." ".$activities[$i]->getActivity()->getUser()->getSurname();
-            $users_joined = $em->getRepository(UsersActivities::class)->findBy(['activity' => $activities[$i]->getId()]);
-            $data[$i] = [
-                'id' => $activities[$i]->getId(),
-                'user_joined' => $userJoined,
-                'activity_id' => $activities[$i]->getActivity()->getID(),
-                'activity_photo' => $activities[$i]->getActivity()->getPhoto(),
-                'activity_teacher' => $teacher,
-                'activity_title' => $activities[$i]->getActivity()->getTitle(),
-                'activity_content' => $activities[$i]->getActivity()->getContent(),
-                'activity_starttime' => $activities[$i]->getActivity()->getStartTime(),
-                'activity_endtime' => $activities[$i]->getActivity()->getEndTime(),
-                'activity_startdate' => $activities[$i]->getActivity()->getStartDate(),
-                'activity_enddate' => $activities[$i]->getActivity()->getEndDate(),
-                'activity_users' => count($users_joined)
-            ];
+        if ($activities) {
+            for ($i = 0; $i < count($activities); $i++) {
+                $users_joined = $em->getRepository(UsersActivities::class)->findBy(['activity' => $activities[$i]->getId()]);
+                $userJoined = $activities[$i]->getUser()->getName()." ".$activities[$i]->getUser()->getSurname();
+                $teacher = $activities[$i]->getActivity()->getUser()->getName()." ".$activities[$i]->getActivity()->getUser()->getSurname();
+                $data[$i] = [
+                    'id' => $activities[$i]->getId(),
+                    'user_joined' => $userJoined,
+                    'activity_id' => $activities[$i]->getActivity()->getID(),
+                    'activity_photo' => $activities[$i]->getActivity()->getPhoto(),
+                    'activity_teacher' => $teacher,
+                    'activity_title' => $activities[$i]->getActivity()->getTitle(),
+                    'activity_content' => $activities[$i]->getActivity()->getContent(),
+                    'activity_starttime' => $activities[$i]->getActivity()->getStartTime(),
+                    'activity_endtime' => $activities[$i]->getActivity()->getEndTime(),
+                    'activity_startdate' => $activities[$i]->getActivity()->getStartDate(),
+                    'activity_enddate' => $activities[$i]->getActivity()->getEndDate(),
+                    'activity_users' => count($users_joined)
+                ];
+            }
+            return new JsonResponse($data, Response::HTTP_OK);
+        } else {
+            return new JsonResponse('no data', Response::HTTP_OK);
         }
 
-        return new JsonResponse($data, Response::HTTP_OK);
+
         // return ($jsonfile);
         // return $this->render('activities/MyActivities.html.twig', ['activities' => $activities]);
     }

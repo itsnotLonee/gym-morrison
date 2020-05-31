@@ -7,9 +7,6 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse navbarSupportedContent float-right mr-5">
-                    <form>
-                        <input class="form-control input-rounded border-0 shadow-sm" type="search" placeholder="Search" aria-label="Search">
-                    </form>
                 </div>
             </div>
             <div class="col-4">

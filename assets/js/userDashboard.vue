@@ -18,15 +18,13 @@
                         <img width="50" height="50" class="mr-3 rounded-circle" v-bind:src="'/uploads/photos/' + item.activity_photo">
                         <div class="media-body">
                             <h5>{{ item.activity_title }}</h5>
-                            <p class="m-1">{{ item.activity_content.slice(0, 50) + '...' }}</p>
+                            <span class="text-primary"><i class="far fa-clock"></i> {{ item.activity_starttime.date.slice(11, 16) }}</span> &nbsp; &nbsp;
+                            <span class="text-primary pr-3"><i class="fas fa-chalkboard-teacher"></i> {{ item.activity_teacher }}</span>
+                            <p class="m-1">{{ item.activity_content.slice(0, 100) + '...' }}</p>
                             <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalRemove" @click="removeModalID = item.activity_id">Remove me</button>
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalInfo" @click="modalInfo(item.activity_id)">
                                 Info
                             </button>
-                            <div class="float-right">
-                                <span class="text-muted"><i class="far fa-clock"></i> {{ item.activity_starttime.date.slice(11, 16) }}</span> &nbsp; &nbsp;
-                                <span class="text-muted pr-3"><i class="fas fa-chalkboard-teacher"></i> {{ item.activity_teacher }}</span>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -43,6 +41,9 @@
                         <img width="50" height="50" class="mr-3 rounded-circle" v-bind:src="'/uploads/photos/' + item.photo">
                         <div class="media-body">
                             <h5> {{ item.title }} </h5>
+                            <span class="text-primary"><i class="far fa-clock"></i> {{ item.start_time.date.slice(11, 16) }}</span> &nbsp; &nbsp;
+                            <span class="text-primary pr-3"><i class="fas fa-chalkboard-teacher"></i> {{ item.owner }}</span>
+                            <span class="text-primary "><i class="fas fa-users"></i> {{ item.users_joined }}</span>
                             <p class="m-1">{{ item.content.slice(0, 100) + '...'  }} </p>
                             <button v-if="checkActivity(item)" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalRemove" @click="removeModalID = item.id">Remove me</button>
                             <button v-else class="btn btn-success btn-sm" @click="join(item.id), updateToday()">Join</button>
@@ -50,8 +51,6 @@
                                 Info
                             </button>
                         </div>
-                        <span class="text-muted pr-3"><i class="fas fa-chalkboard-teacher"></i> {{ item.owner }}</span>
-                        <span class="text-muted "><i class="fas fa-users"></i> {{ item.users_joined }}</span>
                     </div>
                 </div>
             </div>
@@ -74,10 +73,10 @@
                                 Info
                             </button>
                             <div class="float-right">
-                                <span class="text-muted"><i class="fas fa-clock"></i> {{ item.start_time.date.slice(11, 16) }}</span> &nbsp;
-                                <span class="text-muted"><i class="fas fa-calendar"></i> {{ item.start_date.date.slice(0, 10) }}</span> &nbsp;
-                                <span class="text-muted "><i class="fas fa-chalkboard-teacher"></i> {{ item.owner }}</span>
-                                <span class="text-muted "><i class="fas fa-users"></i> {{ item.users_joined }}</span>
+                                <span class="text-primary"><i class="fas fa-clock"></i> {{ item.start_time.date.slice(11, 16) }}</span> &nbsp;
+                                <span class="text-primary"><i class="fas fa-calendar"></i> {{ item.start_date.date.slice(0, 10) }}</span> &nbsp;
+                                <span class="text-primary"><i class="fas fa-chalkboard-teacher"></i> {{ item.owner }}</span>
+                                <span class="text-primary"><i class="fas fa-users"></i> {{ item.users_joined }}</span>
                             </div>
                         </div>
                     </div>
@@ -143,8 +142,8 @@
                         Confirm you aren't coming to the activity.
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal" @click="remove(removeModalID), updateToday()">Remove me</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" @click="remove(removeModalID)">Remove me</button>
                     </div>
                 </div>
             </div>
@@ -157,9 +156,9 @@
 
     export default {
         data: () => ({
-            todayActivities: [],
-            upcomingActivities: [],
-            todayUserActivities: [],
+            todayActivities: null,
+            upcomingActivities: null,
+            todayUserActivities: null,
             userActivities: [],
             infoModal: {
                 start_date: {
@@ -178,57 +177,62 @@
             removeModalID: -1
         }),
         mounted () {
-            axios
-                .get('/get-today-activities')
-                .then(response => {
-                    // console.log(response.data)
-                    this.todayActivities = response.data
-                })
-            axios
-                .get('/get-all-activities')
-                .then(response => {
-                    var today = new Date()
-                    var aux = []
-                    var c = 0
-                    for (var i = 0; i < response.data.length; i++) {
-                        var fechaStart = new Date(response.data[i].start_date.date)
-                        var fechaEnd = new Date(new Date(new Date(response.data[i].end_date.date).setHours(23)).setMinutes(59))
-                        if (fechaStart >= today) {
-                            aux[c] = response.data[i]
-                            c++
+                axios
+                    .get('/get-today-activities')
+                    .then(response => {
+                        // console.log(response.data)
+                        this.todayActivities = response.data
+                    })
+                    .catch(reason => {
+                        this.todayActivities = null
+                    })
+                axios
+                    .get('/get-all-activities')
+                    .then(response => {
+                        var today = new Date()
+                        var aux = []
+                        var c = 0
+                        for (var i = 0; i < response.data.length; i++) {
+                            var fechaStart = new Date(response.data[i].start_date.date)
+                            if (fechaStart <= today) {
+                                aux[c] = response.data[i]
+                                c++
+                            }
                         }
-                    }
-                    if (aux.length !== 0) {
-                        this.upcomingActivities = aux.reverse()
-                    }
-                })
-            axios
-                .get('/get-user-today-activities')
-                .then(response => {
-                    // console.log(response)
-                    var today = new Date()
-                    var aux = []
-                    var c = 0
-                    for (var i = 0; i < response.data.length; i++) {
-                        var fechaStart = new Date(response.data[i].activity_startdate.date)
-                        var fechaEnd = new Date(new Date(new Date(response.data[i].activity_enddate.date).setHours(23)).setMinutes(59))
-                        if (fechaStart <= today && fechaEnd >= today) {
-                            aux[c] = response.data[i]
-                            c++
+                        this.upcomingActivities = aux
+                    })
+                    .catch(reason => {
+                        this.upcomingActivities = null
+                    })
+                axios
+                    .get('/get-user-today-activities')
+                    .then(response => {
+                        // console.log(response)
+                        var today = new Date()
+                        var aux = []
+                        var c = 0
+                        for (var i = 0; i < response.data.length; i++) {
+                            var fechaStart = new Date(response.data[i].activity_startdate.date)
+                            var fechaEnd = new Date(new Date(new Date(response.data[i].activity_enddate.date).setHours(23)).setMinutes(59))
+                            if (fechaStart <= today && fechaEnd >= today) {
+                                aux[c] = response.data[i]
+                                c++
+                            }
                         }
-                    }
-                    if (aux.length !== 0) {
                         this.todayUserActivities = aux
-                    }
-                    // console.log(this.todayUserActivities)
-                })
-            axios
-                .get('/get-user-activities')
-                .then(response => {
-                    // console.log(response.data)
-                    this.userActivities = response.data
-                })
-
+                        // console.log(this.todayUserActivities)
+                    })
+                    .catch(reason => {
+                        this.todayUserActivities = null
+                    })
+                axios
+                    .get('/get-user-activities')
+                    .then(response => {
+                        this.userActivities = response.data
+                    })
+                    .catch(reason => {
+                        this.upcomingActivities = null
+                    })
         },
         methods: {
             join (actID) {
@@ -257,6 +261,7 @@
                         console.log('Eliminado')
                     }
                 })
+                this.updateToday()
             },
             updateToday () {
                 axios
@@ -264,6 +269,9 @@
                     .then(response => {
                         // console.log(response.data)
                         this.todayActivities = response.data
+                    })
+                    .catch(reason => {
+                        this.todayActivities = null
                     })
                 axios
                     .get('/get-all-activities')
@@ -273,15 +281,16 @@
                         var c = 0
                         for (var i = 0; i < response.data.length; i++) {
                             var fechaStart = new Date(response.data[i].start_date.date)
-                            var fechaEnd = new Date(new Date(new Date(response.data[i].end_date.date).setHours(23)).setMinutes(59))
-                            if (fechaStart >= today) {
+                            if (fechaStart <= today) {
                                 aux[c] = response.data[i]
+                                aux[c].users_joined = response.data[i].users_joined
                                 c++
                             }
                         }
-                        if (aux.length !== 0) {
-                            this.upcomingActivities = aux.reverse()
-                        }
+                        this.upcomingActivities = aux
+                    })
+                    .catch(reason => {
+                        this.upcomingActivities = null
                     })
                 axios
                     .get('/get-user-today-activities')
@@ -298,17 +307,20 @@
                                 c++
                             }
                         }
-                        if (aux.length !== 0) {
-                            this.todayUserActivities = aux
-                        }
-                        // console.log(this.todayUserActivities)
+                        this.todayUserActivities = aux
+                    })
+                    .catch(reason => {
+                        this.todayUserActivities = null
                     })
                 axios
                     .get('/get-user-activities')
                     .then(response => {
-                        // console.log(response.data)
                         this.userActivities = response.data
                     })
+                    .catch(reason => {
+                        this.upcomingActivities = null
+                    })
+                console.log('hola')
             },
             modalInfo (actID) {
                 var ruta = '/get-activity'

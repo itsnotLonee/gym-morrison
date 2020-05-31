@@ -101,23 +101,23 @@
     <script>
 
         document.getElementById('one').onclick = () => {
-            newSub(1)
+            newSub(30)
         }
 
         document.getElementById('two').onclick = () => {
-            newSub(2)
+            newSub(60)
         }
 
         document.getElementById('three').onclick = () => {
-            newSub(3)
+            newSub(90)
         }
 
-        newSub = (payID) => {
+        newSub = (payDays) => {
             var ruta = '/newSub'
             $.ajax({
                 type: 'POST',
                 url: ruta,
-                data: ({id: payID}),
+                data: ({days: payDays}),
                 async: true,
                 dataType: 'json',
                 success: function (data) {

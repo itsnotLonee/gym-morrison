@@ -129,18 +129,14 @@
                                     <li><a href="{{ path('RegisterActivity') }}">Create Activity</a></li>
                                     <li><a href="{{ path('MyActivities') }}">My Activities</a></li>
                                     <li><a href="{{ path('AllActivities') }}">Show All</a></li>
-                                    <li><a href="{{ path('AllActivities') }}">Today Activities</a></li>
                                 </ul>
                             </li>
                             {% if app.user.roles[0] == 'ROLE_ADMIN' %}
                                 <li>
-                                    <a class="has-arrow" aria-expanded="false">
-                                        <i class="icon-user menu-icon"></i><span class="nav-text">Users</span>
+                                    <a href="/promote" aria-expanded="false">
+                                        <i class="icon-user menu-icon"></i>
+                                        <span class="nav-text">Manage Users</span>
                                     </a>
-                                    <ul aria-expanded="false">
-                                        <li><a href="/promote">Promote user</a></li>
-
-                                    </ul>
                                 </li>
                             {% endif %}
                         </ul>

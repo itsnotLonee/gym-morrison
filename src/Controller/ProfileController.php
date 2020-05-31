@@ -99,7 +99,11 @@ class ProfileController extends AbstractController
      */
     public function promote()
     {
-        return $this->render('profile/promote.html.twig');
+        if ($this->getUser()->getRoles()[0] == 'ROLE_ADMIN') {
+            return $this->render('profile/promote.html.twig');
+        } else {
+            return $this->redirectToRoute('dashboard');
+        }
     }
 
     /**

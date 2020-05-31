@@ -2,8 +2,8 @@
     <div class="col-lg-12 mt-3">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Users</h4>
-                <div>Sorted by name</div>
+                <h4 class="card-title">Manage Users</h4>
+                <div>Sorted by latest created</div>
 
                 <div class="table-responsive">
                     <table class="table header-border table-hover verticle-middle">
@@ -138,7 +138,7 @@
         },
         computed : {
             sorted_users() {
-                return this.users.sort((a, b) => { return a.name.date - b.name.date;}).reverse();
+                return this.users.reverse();
             }
         }
     }

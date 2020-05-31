@@ -43,18 +43,19 @@ class UserPaymentController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             $em = $this->getDoctrine()->getManager();
             $user = $this->getUser();
-            $id = $request->request->get('id');
+            $days = $request->request->get('days');
 
             $query = $em->getRepository(UsersPayment::class)->findBy(['user' => $user]);
 
             if ($query == null) {
-                $pay = $em->getRepository(Payment::class)->find($id);
+                $pay = $em->getRepository(Payment::class)->findOneBy(['days' => $days]);
                 $payment = new UsersPayment();
 
                 $payment->setUser($user);
                 $payment->setPayment($pay);
                 $datetime = new \DateTime();
                 $payment->setDatePurchase($datetime);
+                $payment->setPrice($pay->getPrice());
 
                 // tell Doctrine you want to (eventually) save the Product (no queries yet)
                 $em->persist($payment);
