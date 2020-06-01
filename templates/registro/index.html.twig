@@ -44,6 +44,11 @@
                                 {{ message }}
                             </div>
                         {% endfor %}
+                        {% for message in app.flashes('fail') %}
+                            <div class="alert alert-danger">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
                         <div class="text-success rounded border bg-light p-4 font-small">
                             <div class="text-dark">Why Gym-Morrison?</div> <br>
                             <i class="fas fa-check"></i> Join Activities. <br>

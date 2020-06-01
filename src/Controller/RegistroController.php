@@ -58,6 +58,14 @@ class RegistroController extends AbstractController
                 $user,
                 $form['password']->getData()
             ));
+            $email = $form->get('email')->getData();
+            $exist = $em->getRepository(User::class)->findOneBy(['email'=> $email]);
+            if ($exist) {
+                $this->addFlash('fail', 'User already exists');
+                return $this->render('registro/index.html.twig', [
+                    'formulario' => $form->createView()
+                ]);
+            }
             $em->persist($user);
             $em->flush();
             $this->addFlash('exito', User::REGISTRO_EXITOSO);
