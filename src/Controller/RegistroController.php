@@ -29,6 +29,14 @@ class RegistroController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
+            $email = $form->get('email')->getData();
+            $exist = $em->getRepository(User::class)->findOneBy(['email'=> $email]);
+            if ($exist) {
+                $this->addFlash('fail', 'User already exists');
+                return $this->render('registro/index.html.twig', [
+                    'formulario' => $form->createView()
+                ]);
+            }
             $user->setRoles(['ROLE_USER']);
 
             $brochureFile = $form->get('profile_photo')->getData();
@@ -58,14 +66,6 @@ class RegistroController extends AbstractController
                 $user,
                 $form['password']->getData()
             ));
-            $email = $form->get('email')->getData();
-            $exist = $em->getRepository(User::class)->findOneBy(['email'=> $email]);
-            if ($exist) {
-                $this->addFlash('fail', 'User already exists');
-                return $this->render('registro/index.html.twig', [
-                    'formulario' => $form->createView()
-                ]);
-            }
             $em->persist($user);
             $em->flush();
             $this->addFlash('exito', User::REGISTRO_EXITOSO);
