@@ -52,7 +52,8 @@ class Activities
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\UsersActivities", mappedBy="activity")
+     * @ORM\OneToMany(targetEntity="App\Entity\UsersActivities", mappedBy="activity", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="usuarios_id", nullable=false, onDelete="CASCADE")
      */
     private $activity;
 

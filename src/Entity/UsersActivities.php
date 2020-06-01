@@ -18,11 +18,13 @@ class UsersActivities
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="activity")
+     * @ORM\JoinColumn(name="user_id", nullable=false)
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Activities", inversedBy="activity")
+     * @ORM\JoinColumn(name="activity_id", nullable=false)
      */
     private $activity;
 

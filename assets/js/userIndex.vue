@@ -3,11 +3,6 @@
         <!-- NavTop -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top pt-3 mb-3" id="navbar-head">
             <div class="col-4">
-                <button class="navbar-toggler mb-3" type="button" data-toggle="collapse" data-target=".navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse navbarSupportedContent float-right mr-5">
-                </div>
             </div>
             <div class="col-4">
                 <div class="d-flex justify-content-center">

@@ -115,6 +115,7 @@ class UserPaymentController extends AbstractController
             $payment->setPayment($pay);
             $datetime = new \DateTime();
             $payment->setDatePurchase($datetime);
+            $payment->setPrice($pay->getPrice());
 
             // tell Doctrine you want to (eventually) save the Product (no queries yet)
             $em->persist($payment);
