@@ -5,9 +5,9 @@
                 Payment
             </div>
             <div class="card-body">
-                <h3>Select your suscription</h3>
+                <h3>Select your subscription</h3>
                 <p>
-                    Here you will select a new suscription.
+                    Here you will select a new subscription.
                 </p>
                 <p class="text-primary">
                     Your subscription now is: <b>{{ subscription }}</b>

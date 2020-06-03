@@ -59,7 +59,7 @@ class ProfileController extends AbstractController
     /**
      * @Route("/edit-user", name="editUser")
      */
-    public function edit(Request $request)
+    public function edit(Request $request, UserPasswordEncoderInterface $encoder)
     {
         if ($request->isXmlHttpRequest()) {
             $em = $this->getDoctrine()->getManager();
@@ -78,13 +78,12 @@ class ProfileController extends AbstractController
             } elseif ($type == 'phone') {
                 $user->setPhone($str);
             }
-    //        elseif ($type == 'pass') {
-    //            $user->setPassword($encoder->encodePassword(
-    //                $user,
-    //                $str
-    //            ));
-    //            return $this->redirectToRoute('/logout');
-    //        }
+            elseif ($type == 'pass') {
+                $user->setPassword($encoder->encodePassword(
+                    $u,
+                    $str
+                ));
+            }
 
             $em->persist($user);
             $em->flush();

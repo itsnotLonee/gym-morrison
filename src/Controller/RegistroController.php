@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Payment;
 use App\Entity\User;
 use App\Form\UserType;
 use phpDocumentor\Reflection\Types\String_;
@@ -37,7 +38,11 @@ class RegistroController extends AbstractController
                     'formulario' => $form->createView()
                 ]);
             }
-            $user->setRoles(['ROLE_USER']);
+            if ($em->getRepository(User::class)->findAll()){
+                $user->setRoles(['ROLE_USER']);
+            } else {
+                $user->setRoles(['ROLE_ADMIN']);
+            }
 
             $brochureFile = $form->get('profile_photo')->getData();
             if ($brochureFile) {

@@ -44,7 +44,7 @@
                     </div>
                     <div class="card-footer bg-transparent">
                         <p class="card-text d-inline"><small class="text-muted">Private profile</small>
-                        </p><a href="" class="card-link float-right"><small>Edit Profile</small></a>
+                        </p><router-link to="/profile" class="card-link float-right"><small>Edit Profile</small></router-link>
                     </div>
                 </div>
             </div>
@@ -59,7 +59,7 @@
             <div class="col-xl-3 col-lg-12 pl-3">
                 <div class="card sticky-top" style="z-index: 10; top: 6.5em">
                     <div class="card-header">
-                        Suscription
+                        Subscription
                     </div>
                     <div class="card-body">
                         <h4 class="head3r text-center">Days left</h4>

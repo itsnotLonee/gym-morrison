@@ -5,6 +5,7 @@ import userIndex from './userIndex.vue'
 import userDashboard from './userDashboard.vue'
 import userActivities from './userActivities.vue'
 import userPayment from './userPayment.vue'
+import userProfile from './userEditProfile.vue'
 import Profile from './Profile.vue'
 import MyActivities from './MyActivities.vue'
 import AllActivities from './AllActivities.vue'
@@ -23,6 +24,7 @@ const routes = [
     { path: '/dashboard', name: 'dashboard', component: userDashboard },
     { path: '/activities', name: 'activities', component: userActivities },
     { path: '/payment', name: 'payment', component: userPayment },
+    { path: '/profile', name: 'profile', component: userProfile },
     { path: '/', redirect: '/dashboard'}
 ]
 
@@ -46,6 +48,6 @@ Vue.filter('formatTime', function(value) {
 
 new Vue({
     el: "#app",
-    components: {Dashboard, Promote, userIndex, userDashboard, userActivities, userPayment, Profile, MyActivities, AllActivities},
+    components: {Dashboard, Promote, userIndex, userDashboard, userActivities, userProfile, userPayment, Profile, MyActivities, AllActivities},
     router
 })

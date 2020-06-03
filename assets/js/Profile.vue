@@ -40,9 +40,9 @@
                         <input type="text" v-model="email" class="form-control input-default">
                         <button type="submit" class="btn btn-dark m-2" @click="modify(email, 'email'), updateProfile()">Change Email</button> <br>
 
-<!--                        <label>Password:</label>-->
-<!--                        <input type="text" v-model="pass" class="form-control input-default">-->
-<!--                        <button type="submit" class="btn btn-dark m-2" @click="modify(pass, 'pass')">Change Password</button> <br>-->
+                        <label>Password:</label>
+                        <input type="text" v-model="pass" class="form-control input-default">
+                        <button type="submit" class="btn btn-dark m-2" @click="modify(pass, 'pass')">Change Password</button> <br>
 
                         <label>Phone:</label>
                         <input type="text" v-model="movil" class="form-control input-default">
@@ -75,7 +75,7 @@ export default {
     },
     methods: {
         modify (str, type) {
-            if (str !== '') {
+            if (str !== undefined) {
                 var ruta = '/edit-user'
                 $.ajax({
                     type: 'POST',
