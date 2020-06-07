@@ -58,7 +58,7 @@ class RegistroController extends AbstractController
                         $newFilename
                     );
                 } catch (FileException $e) {
-                    throw new \Exception('Error in upload');
+                    throw new \Exception($e);
                 }
 
                 // updates the 'brochureFilename' property to store the PDF file name

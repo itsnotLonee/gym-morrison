@@ -63,9 +63,9 @@
                         <fieldset class="mt-5 border rounded p-3">
                             <legend class="text-primary">Login info</legend>
 
-                            {{ form_errors(formulario.profile_photo) }}
+
                             <i class="fas fa-id-card"></i> {{ form_label(formulario.profile_photo, 'Profile Photo') }}
-                            {{ form_widget(formulario.profile_photo,{'attr': {'class': 'form-control-file'}} )}}
+                            {{ form_widget(formulario.profile_photo,{'attr': {'class': 'form-control-file', 'accept': 'image/jpeg, image/jpg'}} )}}
                             {{ form_help(formulario.profile_photo) }}
 
                             <br> <br>
