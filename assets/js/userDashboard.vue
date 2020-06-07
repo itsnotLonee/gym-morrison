@@ -194,7 +194,8 @@
                         var c = 0
                         for (var i = 0; i < response.data.length; i++) {
                             var fechaStart = new Date(response.data[i].start_date.date)
-                            if (fechaStart <= today) {
+                            var fechaEnd = new Date(new Date(new Date(response.data[i].end_date.date).setHours(23)).setMinutes(59))
+                            if (fechaStart <= today && fechaEnd >= today) {
                                 aux[c] = response.data[i]
                                 c++
                             }
@@ -281,9 +282,9 @@
                         var c = 0
                         for (var i = 0; i < response.data.length; i++) {
                             var fechaStart = new Date(response.data[i].start_date.date)
-                            if (fechaStart <= today) {
+                            var fechaEnd = new Date(new Date(new Date(response.data[i].end_date.date).setHours(23)).setMinutes(59))
+                            if (fechaStart <= today && fechaEnd >= today) {
                                 aux[c] = response.data[i]
-                                aux[c].users_joined = response.data[i].users_joined
                                 c++
                             }
                         }
