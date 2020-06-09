@@ -4,8 +4,6 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <!-- Custom Stylesheet -->
-    <link href="./plugins/fullcalendar/css/fullcalendar.min.css" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
@@ -28,50 +26,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="./plugins/jqueryui/js/jquery-ui.min.js"></script>
-    <script src="./plugins/moment/moment.min.js"></script>
-    <script src="./plugins/fullcalendar/js/fullcalendar.min.js"></script>
-    <script src="./js/plugins-init/fullcalendar-init.js"></script>
+    <script src="/plugins/jqueryui/js/jquery-ui.min.js"></script>
+    <script src="/plugins/moment/moment.min.js"></script>
 {% endblock %}
-
-{#<div class="container rounded-bottom p-3">
-        <div class="row">
-            <div class="col">
-                <h1 class="mt-3">My Profile</h1>
-            </div>
-            <div class="col">
-                <div class="text-right mt-3">
-                    {% if app.user %}
-                           <a type="button" class="btn btn-danger" href="{{ path('app_logout') }}">Logout</a>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-3">
-                <a href="/profile/{{ user.id }}">Profile Info</a> <br>
-                <a href="/profile/{{ user.id }}">Edit profile Info</a> <br>
-            </div>
-            <div class="col-9">
-                <h4 class="mt-3">Email</h4>
-                <input class="form-control" type="text" placeholder="{{ user.email }}" readonly>
-                <h4 class="mt-3">DNI</h4>
-                <input class="form-control" type="text" placeholder="{{ user.dni }}" readonly>
-                <h4 class="mt-3">Name</h4>
-                <input class="form-control" type="text" placeholder="{{ user.name }}" readonly>
-                <h4 class="mt-3">Surname</h4>
-                <input class="form-control" type="text" placeholder="{{ user.surname }}" readonly>
-                <h4 class="mt-3">Sex</h4>
-                <input class="form-control" type="text" placeholder="{{ user.sex }}" readonly>
-                <h4 class="mt-3">Address</h4>
-                <input class="form-control" type="text" placeholder="{{ user.address }}" readonly>
-                <h4 class="mt-3">Phone</h4>
-                <input class="form-control" type="text" placeholder="{{ user.phone }}" readonly>
-                <h4 class="mt-3">Birthdate</h4>
-                <input class="form-control" type="text" placeholder="{{ user.birthdate | date }}" readonly>
-
-            </div>
-        </div>
-    </div>#}

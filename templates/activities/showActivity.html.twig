@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ActivitiesController!{% endblock %}
+{% block title %}Gym-Morrison{% endblock %}
 
 {% block body %}
     {{ parent() }}
@@ -17,21 +17,19 @@
                         <i class="fas fa-users"></i> {{ users_joined }}
                     </div>
                 </h3>
-                <div class="d-flex mb-3">
-                    <div class="order-0">
-                        <p class="p-3" align="justify">
-                            <img class="m-3 rounded shadow float-left" src="/uploads/photos/{{ activity.photo }}" style="max-height: 400px; max-width: 500px">
-                            <span class="font-medium text-primary">Description</span> <br>
-                            {{ activity.content }}
-                        </p>
-                    </div>
-                </div>
                 <div class="gradient-1 p-3 text-center">
                     <div class="mb-2 text-white"><b><i class="fas fa-calendar-alt"></i> Timetable</b></div>
                     From <b>{{ activity.startdate | date("d/M/Y") }}</b> to <b>{{ activity.enddate | date("d/M/Y") }}</b> <br>
                     <b>{{ activity.starttime | date("H:i") }}</b> - <b>{{ activity.endtime | date("H:i") }}</b>
                 </div>
-                <div class="card-body">
+                <div class="mb-3 m-4">
+                    <p align="justify">
+                        <img class="m-3 img-responsive rounded shadow float-left" src="/uploads/photos/{{ activity.photo }}" style="max-height: 400px; max-width: 500px">
+                        <span class="font-medium text-primary">Description</span> <br>
+                        {{ activity.content }}
+                    </p>
+                </div>
+                <div class="card-footer">
                     <br>
                     {# <button class="btn btn-danger" onclick="removeActivity({{ activity.id }})">Remove activity</button> #}
                     {% if app.user.id == activity.user.id %}
