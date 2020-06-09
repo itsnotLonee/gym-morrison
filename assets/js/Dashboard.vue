@@ -170,7 +170,7 @@
         }),
         mounted () {
             function update() {
-                $('#clock').html(moment().format('H:mm'));
+                $('#clock').html(moment().format('HH:mm'));
             }
             setInterval(update, 1000);
             axios
