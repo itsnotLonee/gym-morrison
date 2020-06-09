@@ -41,13 +41,13 @@
                 <div class="col-xl-3 col-lg-6 col-sm-12 col-xxl-3">
                     <div class="card gradient-4 w-100">
                         <div class="card-body h-100">
-                            <h3 class="card-title text-white">&nbsp;</h3>
+                            <h3 class="card-title text-white">Time</h3>
                             <div class="d-inline-block">
                                 <!--<button @click="activitiesCreated">Click</button>-->
-                                <h2 class="text-white">&nbsp;</h2>
+                                <h2 class="text-white" id="clock">Loading ...</h2>
                                 <p class="text-white mb-0">&nbsp;</p>
                             </div>
-                            <span class="float-right display-5 opacity-5">&nbsp;</span>
+                            <span class="float-right display-5 opacity-5"><i class="fas fa-clock"></i></span>
                         </div>
                     </div>
                 </div>
@@ -169,6 +169,10 @@
             todayActivities: null
         }),
         mounted () {
+            function update() {
+                $('#clock').html(moment().format('H:mm'));
+            }
+            setInterval(update, 1000);
             axios
                 .get('/get-my-activities')
                 .then(response => (

@@ -72,7 +72,7 @@
                             {{ form_errors(formulario.email) }}
                             <i class="fas fa-envelope"></i> {{ form_label(formulario.email, 'Your email') }} <br>
                             <label id="email_exists"></label>
-                            {{ form_widget(formulario.email, {'attr': {'class': 'border-top-0 border-right-0 border-left-0 rounded-0', 'pattern': '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'}}) }}
+                            {{ form_widget(formulario.email, {'attr': {'class': 'border-top-0 border-right-0 border-left-0 rounded-0', 'pattern': '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$'}}) }}
                             {{ form_help(formulario.email) }}
 
                             {{ form_errors(formulario.password) }}
@@ -107,12 +107,12 @@
 
                                             {{ form_errors(formulario.name) }}
                                             <i class="fas fa-user"></i> {{ form_label(formulario.name, 'Name') }}
-                                            {{ form_widget(formulario.name, {'attr': {'class': 'border-top-0 border-right-0 border-left-0 rounded-0 mb-2', 'placeholder': 'Travis'}}) }}
+                                            {{ form_widget(formulario.name, {'attr': {'class': 'border-top-0 border-right-0 border-left-0 rounded-0 mb-2', 'placeholder': 'Travis', 'pattern': "[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,18}", 'title': "Name must be capitalize, ex: Travis"}}) }}
                                             {{ form_help(formulario.name) }}
 
                                             {{ form_errors(formulario.surname) }}
                                             <i class="fas fa-user"></i> {{ form_label(formulario.surname, 'Surname') }}
-                                            {{ form_widget(formulario.surname, {'attr': {'class': 'border-top-0 border-right-0 border-left-0 rounded-0 mb-5', 'placeholder': 'Scott'}}) }}
+                                            {{ form_widget(formulario.surname, {'attr': {'class': 'border-top-0 border-right-0 border-left-0 rounded-0 mb-5', 'placeholder': 'Scott', 'pattern': "[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,18}", 'title': "Surname must be capitalize, ex: Scott"}}) }}
                                             {{ form_help(formulario.surname) }}
                                         </div>
                                         <div class="col-lg-6">

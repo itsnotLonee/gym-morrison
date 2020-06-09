@@ -63,30 +63,20 @@ class ProfileController extends AbstractController
     {
         if ($request->isXmlHttpRequest()) {
             $em = $this->getDoctrine()->getManager();
-            $str = $request->request->get('str');
-            $type = $request->request->get('type');
+            $u = $request->request->get('user');
 
-            $u = $this->getUser();
-            $user = $em->getRepository(User::class)->find($u);
+            $user = $this->getUser();
+            $user->setName($u['name']);
+            $user->setSurname($u['surname']);
+            $user->setEmail($u['email']);
+            $user->setPhone($u['phone']);
 
-            if ($type == 'name') {
-                $user->setName($str);
-            } elseif ($type == 'surname') {
-                $user->setSurname($str);
-            } elseif ($type == 'email') {
-                $user->setEmail($str);
-            } elseif ($type == 'phone') {
-                $user->setPhone($str);
-            }
-            elseif ($type == 'pass') {
-                $user->setPassword($encoder->encodePassword(
-                    $u,
-                    $str
-                ));
-            }
+            // $user = $em->getRepository(User::class)->find($u);
+
 
             $em->persist($user);
             $em->flush();
+            $this->renderView('profile/index.html.twig');
         } else {
             throw new \Exception('Not allowed');
         }
